@@ -43,7 +43,7 @@ IFLAGS  = $(addprefix -I, $(LIB_INC) $(INC_DIR))
 COMPILE  = $(CC) $(GFLAGS) $(IFLAGS) $(LIB_BIN)
 # -s(silent) -f() -C(launch from another folder)
 MAKE_M  = make -sf Makefile -C
-MKDIR  = mkdir -p
+MKDIR  = mkdir -p obj
 RM   = /bin/rm -rf
 # checking if libs are up to date
 all: $(NAME)

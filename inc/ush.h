@@ -18,7 +18,7 @@
 #include <time.h>
 #include <pwd.h>
 
-
+void check_leaks();
 
 
 

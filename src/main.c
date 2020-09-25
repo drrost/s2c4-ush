@@ -22,8 +22,8 @@ int main(int argc, const char *argv[]) {
     char *line = mx_strnew(128);
     int i = 0;
 
+    char ch = 0;
     while (true) {
-        char ch;
         if (ch == '\n') {
             print_prompt();
             line[i] = 0;
@@ -40,5 +40,8 @@ int main(int argc, const char *argv[]) {
     mx_strdel(&line);
 
     check_leaks();
+
+    argc++;
+    argv++;
     return 0;
 }

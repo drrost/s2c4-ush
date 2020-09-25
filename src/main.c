@@ -34,7 +34,8 @@ int main(int argc, const char *argv[]) {
             break;
         if (strstr(line, "pwd") != 0)
             mx_pwd(line);
-        //printf("%c", ch);
+        else
+            printf("%c", ch);
         line[i] = ch;
         i++;
     }

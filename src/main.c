@@ -32,13 +32,13 @@ int main(int argc, const char *argv[]) {
         scanf("%c", &ch);
         if (strcmp(line, "exit\n") == 0 || strcmp(line, "exit") == 0)
             break;
-        printf("%c", ch);
+        if (strstr(line, "pwd") != 0)
+            mx_pwd(line);
+        //printf("%c", ch);
         line[i] = ch;
         i++;
     }
-
     mx_strdel(&line);
-
     check_leaks();
 
     argc++;

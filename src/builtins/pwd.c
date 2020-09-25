@@ -10,8 +10,7 @@
 static void pwd_default(void) {
     char *pwd = mx_strdup(getenv("PWD"));
 
-    mx_printstr(pwd);
-    mx_printstr("\n");
+    printf("%s\n", pwd);
     mx_strdel(&pwd);
 }
 
@@ -23,22 +22,19 @@ bool contains(char *line, char symbol) {
 
 static void pwd_p(void) {
     char *pwd = mx_strdup(getenv("PWD"));
-    char line[1024];
+    char line[4096];
     struct stat buf;
 
-    if (!lstat(line, &buf)) {
+    if ((lstat(pwd, &buf)) == 0) {
         if (MX_ISLNK(buf.st_mode)) {
             char *res = realpath(pwd, line);
-            if (res) {
-                mx_printstr(line);
-                mx_printstr("\n");
-            }
+            if (res)
+                printf("%s\n", line);
         }
         else {
-            mx_printstr(pwd);
-            mx_printstr("\n");
+            printf("%s\n", pwd);
         }
-        mx_strdel(&pwd);
+    	mx_strdel(&pwd);
     }
 }
 
@@ -51,6 +47,8 @@ static char check_pwd(char *line, bool *error) {
             start = true;
             continue;
         }
+        if (line[i] == 10)
+        	continue;
         if (line[i] != 'P' && line[i] != 'L' && start) {
             mx_printerr("ush: ");
             if (!isatty(0))
@@ -74,9 +72,14 @@ void mx_pwd(char *line) {
         if (error)
             return;
     }
+    else {
+    	mx_printerr("pwd: too many arguments\n");
+    	return;
+    }
     if (flag == 'L')
         pwd_default();
-    if (flag == 'P')
+    if (flag == 'P') {
         pwd_p();
+    }
     return;
 }

@@ -28,17 +28,21 @@ int main(int argc, const char *argv[]) {
             print_prompt();
             line[i] = 0;
             i = 0;
+
+            if (strstr(line, "pwd") != NULL) {
+                mx_pwd(line);
+            }
         }
         scanf("%c", &ch);
+
         if (strcmp(line, "exit\n") == 0 || strcmp(line, "exit") == 0)
             break;
-        if (strstr(line, "pwd") != 0)
-            mx_pwd(line);
-        else
-            printf("%c", ch);
+
+        //printf("%c", ch);
         line[i] = ch;
         i++;
     }
+
     mx_strdel(&line);
     check_leaks();
 

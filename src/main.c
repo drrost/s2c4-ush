@@ -38,7 +38,6 @@ int main(int argc, const char *argv[]) {
         if (strcmp(line, "exit\n") == 0 || strcmp(line, "exit") == 0)
             break;
 
-        //printf("%c", ch);
         line[i] = ch;
         i++;
     }

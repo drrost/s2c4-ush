@@ -3,7 +3,6 @@
 //
 
 #include <ush.h>
-#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -15,9 +14,9 @@ static void pwd_default(void) {
 }
 
 bool contains(char *line, char symbol) {
-	if ((mx_get_char_index(line, symbol)) != -1)
-		return true;
-	return false;
+    if ((mx_get_char_index(line, symbol)) != -1)
+        return true;
+    return false;
 }
 
 static void pwd_p(void) {
@@ -34,7 +33,7 @@ static void pwd_p(void) {
         else {
             printf("%s\n", pwd);
         }
-    	mx_strdel(&pwd);
+        mx_strdel(&pwd);
     }
 }
 
@@ -48,7 +47,7 @@ static char check_pwd(char *line, bool *error) {
             continue;
         }
         if (line[i] == 10)
-        	continue;
+            continue;
         if (line[i] != 'P' && line[i] != 'L' && start) {
             mx_printerr("ush: ");
             if (!isatty(0))
@@ -65,7 +64,7 @@ static char check_pwd(char *line, bool *error) {
 
 void mx_pwd(char *line) {
     char flag = 'L'; //default
-    
+
     if (line && contains(line, '-')) { //TO DO: add check on "--"
         bool error = false;
         flag = check_pwd(line, &error);
@@ -73,13 +72,12 @@ void mx_pwd(char *line) {
             return;
     }
     else {
-    	mx_printerr("pwd: too many arguments\n");
-    	return;
+        mx_printerr("pwd: too many arguments\n");
+        return;
     }
     if (flag == 'L')
         pwd_default();
-    if (flag == 'P') {
+    if (flag == 'P')
         pwd_p();
-    }
     return;
 }

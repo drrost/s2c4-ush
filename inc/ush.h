@@ -3,7 +3,11 @@
 
 #include <libmx.h>
 
-//File types
+// System headers
+
+#include <stdlib.h>
+
+// File types
 
 #define MX_IFMT 0170000 // Mask of file type
 #define MX_IFIFO 0010000 // Named pipe(fifo)
@@ -25,10 +29,18 @@
 
 void check_leaks();
 
-//BUILT_IN
+// Algorithm
+typedef struct {
+    char *command;
+} t_input;
+
+t_input *mx_input_new();
+void mx_input_delete(t_input **instance);
+
+t_input *mx_parse_input(const char *input);
 void mx_pwd(char *line);
 
-//UTILS
+// UTILS
 void mx_printerr(const char *str);
 
 #endif

@@ -5,7 +5,7 @@
 #include <ush.h>
 
 void mx_input_delete(t_input **instance) {
-    mx_strdel((*instance)->command);
+    mx_strdel(&((*instance)->command));
     free(*instance);
     *instance = 0;
 }

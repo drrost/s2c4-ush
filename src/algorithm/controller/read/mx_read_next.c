@@ -6,6 +6,7 @@
 
 char *mx_read_next() {
     char *line = mx_strnew(128);
-    scanf("%s", line);
+    char ch;
+    scanf("%2000[^\n]%c", line, &ch);
     return line;
 }

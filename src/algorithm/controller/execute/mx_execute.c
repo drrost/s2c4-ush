@@ -5,7 +5,8 @@
 #include <ush.h>
 
 int mx_execute(t_input *input) {
-    mx_print_debug("Executing command", input->command);
+    mx_log_d("Executing command", input->command);
+
     if (mx_strcmp(input->command, "exit") == 0)
         return MX_SHOULD_EXIT;
     if (mx_strcmp(input->command, "pwd") == 0)

@@ -50,6 +50,6 @@ void mx_pwd(char *line);
 
 // UTILS
 void mx_printerr(const char *str);
-void mx_print_debug(const char *subject, const char *details);
+void mx_log_d(const char *subject, const char *details);
 
 #endif

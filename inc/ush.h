@@ -37,6 +37,12 @@ typedef struct {
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);
 
+char *mx_read_next();
+
+#define MX_SHOULD_EXIT -3
+#define MX_SHOULD_NEXT 0
+int mx_execute(t_input *input);
+
 t_input *mx_parse_input(const char *input);
 void mx_pwd(char *line);
 

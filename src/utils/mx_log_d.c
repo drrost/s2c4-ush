@@ -34,25 +34,21 @@ char *current_time() {
     return mx_strdup(time_str);
 }
 
+static void str_appdend(char **s, const char *to_add) {
+    char *old = *s;
+    *s = mx_strjoin(*s, to_add);
+    mx_strdel(&old);
+}
+
 void mx_log_d(const char *subject, const char *details) {
     char *to_print = current_time();
-    char *old = 0;
 
-    old = to_print;
-    to_print = mx_strjoin(to_print, " ");
-    mx_strdel(&old);
-
-    old = to_print;
-    to_print = mx_strjoin(to_print, subject);
-    mx_strdel(&old);
+    str_appdend(&to_print, " DEBUG ");
+    str_appdend(&to_print, subject);
 
     if (mx_strlen(details)) {
-        old = to_print;
-        to_print = mx_strjoin(to_print, " - ");
-        mx_strdel(&old);
-
-        to_print = mx_strjoin(to_print, details);
-        mx_strdel(&old);
+        str_appdend(&to_print, " - ");
+        str_appdend(&to_print, details);
     }
 
     print_debug(to_print);

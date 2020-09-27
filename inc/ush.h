@@ -53,6 +53,7 @@ void mx_printerr(const char *str);
 
 enum e_log_level {
     LOG_ALL,
+    LOG_TRACE,
     LOG_DEBUG,
     LOG_INFO,
     LOG_WARN,
@@ -62,6 +63,7 @@ enum e_log_level {
 };
 
 void mx_log(const char *subject, const char *details, int level);
+void mx_log_t(const char *subject, const char *details);
 void mx_log_d(const char *subject, const char *details);
 void mx_log_i(const char *subject, const char *details);
 void mx_log_e(const char *subject, const char *details);

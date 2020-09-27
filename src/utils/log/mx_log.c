@@ -28,6 +28,9 @@ char *current_time() {
 
 static void append_level(char **where, int level) {
     switch (level) {
+        case LOG_TRACE:
+            mx_str_append(where, " TRACE ");
+            break;
         case LOG_DEBUG:
             mx_str_append(where, " DEBUG ");
             break;

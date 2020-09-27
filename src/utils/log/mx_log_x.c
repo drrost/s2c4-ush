@@ -4,6 +4,10 @@
 
 #include <ush.h>
 
+void mx_log_t(const char *subject, const char *details) {
+    mx_log(subject, details, LOG_TRACE);
+}
+
 void mx_log_d(const char *subject, const char *details) {
     mx_log(subject, details, LOG_DEBUG);
 }

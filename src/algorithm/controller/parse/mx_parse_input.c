@@ -5,7 +5,7 @@
 #include <ush.h>
 
 t_input *mx_parse_input(const char *input) {
-    mx_log_d("Parsing input", input);
+    mx_log_t("Parsing input", input);
 
     t_input *instance = mx_input_new();
     instance->command = mx_strdup(input);

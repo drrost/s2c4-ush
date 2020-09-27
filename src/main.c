@@ -3,46 +3,9 @@
 //
 
 #include <ush.h>
-#include <string.h>
-
-static void print_prompt() {
-    printf("u$l> ");
-}
 
 int main(int argc, const char *argv[]) {
-    print_prompt();
-
-    // begin a loop | till `exit`
-    //
-    // read a line
-    // parse the line
-    // execute the line
-    // next
-
-    char *line = mx_strnew(128);
-    int i = 0;
-
-    char ch = 0;
-    while (true) {
-        if (ch == '\n') {
-            print_prompt();
-            line[i] = 0;
-            i = 0;
-
-            if (strstr(line, "pwd") != NULL) {
-                mx_pwd(line);
-            }
-        }
-        scanf("%c", &ch);
-
-        if (strcmp(line, "exit\n") == 0 || strcmp(line, "exit") == 0)
-            break;
-
-        line[i] = ch;
-        i++;
-    }
-
-    mx_strdel(&line);
+    mx_run_algorithm();
     check_leaks();
 
     argc++;

@@ -4,15 +4,26 @@
 
 #include <ush.h>
 
+static void print_prompt() {
+    printf("u$l> ");
+}
+
 void mx_run_algorithm() {
     while (true) {
-        // read next line
+        // Read
+        print_prompt();
         char *line = mx_read_next();
 
-        // parse the line
+        // Parse
         t_input *input = mx_parse_input(line);
+        mx_strdel(&line);
 
-        // execute
-        mx_execute(input);
+        // Execute
+        int result = mx_execute(input);
+
+        // Next
+        mx_input_delete(&input);
+        if (result == MX_SHOULD_EXIT)
+            break;
     }
 }

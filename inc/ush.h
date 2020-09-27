@@ -37,6 +37,7 @@ typedef struct {
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);
 
+void mx_run_algorithm();
 char *mx_read_next();
 
 #define MX_SHOULD_EXIT -3

@@ -6,5 +6,6 @@
 #include <unistd.h>
 
 void mx_printerr(const char *str) {
-    write(2, str, mx_strlen(str));
+    mx_log_e("", str);
+    write(STDERR_FILENO, str, mx_strlen(str));
 }

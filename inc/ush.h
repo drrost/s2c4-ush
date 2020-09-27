@@ -50,6 +50,20 @@ void mx_pwd(char *line);
 
 // UTILS
 void mx_printerr(const char *str);
+
+enum e_log_level {
+    LOG_ALL,
+    LOG_DEBUG,
+    LOG_INFO,
+    LOG_WARN,
+    LOG_ERROR,
+    LOG_FATAL,
+    LOG_OFF
+};
+
+void mx_log(const char *subject, const char *details, int level);
 void mx_log_d(const char *subject, const char *details);
+void mx_log_i(const char *subject, const char *details);
+void mx_log_e(const char *subject, const char *details);
 
 #endif

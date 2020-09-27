@@ -6,6 +6,7 @@
 // System headers
 
 #include <stdlib.h>
+#include <fcntl.h>
 
 // File types
 
@@ -49,5 +50,6 @@ void mx_pwd(char *line);
 
 // UTILS
 void mx_printerr(const char *str);
+void mx_print_debug(const char *subject, const char *details);
 
 #endif

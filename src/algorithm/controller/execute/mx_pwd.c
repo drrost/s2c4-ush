@@ -58,7 +58,10 @@ static char check_pwd(char *line, bool *error, t_env *environment) {
             mx_env_replace(&environment, "?=1");
             *error = true;
         }
-        flag = line[i];
+        if (line[i + 1] == '\0' && !start)
+            flag = 'L';
+        else 
+            flag = line[i];
     }
     return flag;
 }
@@ -66,7 +69,7 @@ static char check_pwd(char *line, bool *error, t_env *environment) {
 void mx_pwd(char *line, t_env *environment) {
     char flag = 'L'; //default
 
-    if (line && contains(line, '-')) { //TO DO: add check on "--"
+    if ((line && contains(line, '-')) || (strcmp(line, "pwd") == 0)) { //TO DO: add check on "--"
         bool error = false;
         flag = check_pwd(line, &error, environment);
         if (error)

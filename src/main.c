@@ -4,10 +4,10 @@
 
 #include <ush.h>
 
-int main(int argc, const char *argv[]) {
+int main(int argc, const char *argv[], char *env[]) {
     mx_log_t("Entering ULS", "");
 
-    mx_run_algorithm();
+    mx_run_algorithm(env);
     check_leaks();
 
     argc++;

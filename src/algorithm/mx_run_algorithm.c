@@ -8,7 +8,10 @@ static void print_prompt() {
     printf("u$l> ");
 }
 
-void mx_run_algorithm() {
+
+void mx_run_algorithm(char *env[]) {
+    t_env *environment = fill_env(env);
+
     while (true) {
         // Read
         print_prompt();
@@ -19,7 +22,7 @@ void mx_run_algorithm() {
         mx_strdel(&line);
 
         // Execute
-        int result = mx_execute(input);
+        int result = mx_execute(input, environment);
 
         // Next
         mx_input_delete(&input);

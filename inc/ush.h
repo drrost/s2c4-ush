@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 
 // File types
 
@@ -46,7 +47,10 @@ char *mx_read_next();
 int mx_execute(t_input *input);
 
 t_input *mx_parse_input(const char *input);
+
+//BUILT_IN
 void mx_pwd(char *line);
+void mx_exit(char *line);
 
 // UTILS
 void mx_printerr(const char *str);

@@ -8,7 +8,6 @@ static void print_prompt() {
     printf("u$l> ");
 }
 
-
 void mx_run_algorithm(char *env[]) {
     t_env *environment = fill_env(env);
 

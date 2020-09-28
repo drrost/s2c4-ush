@@ -36,11 +36,11 @@ typedef struct {
     char *command;
 } t_input;
 
-typedef struct s_env {
-	char *name;
-	char *value;
-	struct s_env *next;
-}              t_env;
+typedef struct {
+    char *name;
+    char *value;
+    struct s_env *next;
+} t_env;
 
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);
@@ -58,11 +58,8 @@ t_input *mx_parse_input(const char *input);
 void mx_pwd(char *line, t_env *environment);
 void mx_exit(char *line, t_env *environment);
 
-
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);
-
-
 
 // UTILS
 void mx_printerr(const char *str);

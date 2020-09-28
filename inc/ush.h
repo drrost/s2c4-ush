@@ -36,11 +36,11 @@ typedef struct {
     char *command;
 } t_input;
 
-typedef struct {
+typedef struct s_env {
     char *name;
     char *value;
     struct s_env *next;
-} t_env;
+}              t_env;
 
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);

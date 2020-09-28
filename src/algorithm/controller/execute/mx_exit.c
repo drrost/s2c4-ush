@@ -3,10 +3,20 @@
 //
 
 #include <ush.h>
+#include <ctype.h>
 //#include <stdlib.h>
 #include <unistd.h>
 
-//static int question() //to set up environment status
+static int question(t_env *env) {
+	t_env *head = env;
+
+	while (head) {
+		if (head->name[0] == '?' && head->name[1] == '\0')
+			return atoi(head->value);
+		head = head->next;
+	}
+	return 0;
+}
 
 static void exit_err(char *line, int flag) {
 	switch(flag) {
@@ -31,9 +41,9 @@ static void exit_err(char *line, int flag) {
 	}
 }
 
-static int exit_status(char *line, int count, bool *error) {
-	//if (count == 1)
-	//	return question();
+static int exit_status(char *line, int count, bool *error, t_env *environment) {
+	if (count == 1)
+		return question(environment);
 	if (count != 1) {
 		for (int i = 0; line[i]; i++) {
 			if (line[0] == '+' || line[0] == '-')
@@ -50,15 +60,16 @@ static int exit_status(char *line, int count, bool *error) {
 		return 1;
 }
 
-void mx_exit(char *line) {
+void mx_exit(char *line, t_env *environment) {
 	bool error = false;
 	int count = 0;
 
 	while (line[count])
 		count++;
-	int i = exit_status(line, count, &error);
+	int i = exit_status(line, count, &error, environment);
 
 	if (count != 1 && error && i != -1) {
+		mx_env_replace(&environment, "?=1");
 		exit_err(line, 1);
 		return;
 	}

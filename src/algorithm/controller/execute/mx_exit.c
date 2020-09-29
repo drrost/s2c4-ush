@@ -60,7 +60,9 @@ exit_status(char *line, int count, bool *error, t_env *environment) {
     return 1;
 }
 
-void mx_exit(char *line, t_env *environment) {
+int mx_exit(char *line, t_env *environment) {
+    return MX_SHOULD_EXIT;
+
     bool error = false;
     int count = 0;
 
@@ -71,13 +73,14 @@ void mx_exit(char *line, t_env *environment) {
     if (count != 1 && error && i != -1) {
         mx_env_replace(&environment, "?=1");
         exit_err(line, 1);
-        return;
+        return 0;
     }
     if (i == -1 && error) {
         exit_err(line, 2);
-        exit(-1);
+        return -1;
     }
     if (isatty(0))
         mx_printstr("exit\n");
-    exit(i);
+
+    return i;
 }

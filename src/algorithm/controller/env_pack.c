@@ -5,7 +5,6 @@
 #include <ush.h>
 #include <pwd.h>
 #include <unistd.h>
-#include <sys/types.h>
 
 void mx_env_add(t_env **env, char *data) {
     t_env *buf = NULL;

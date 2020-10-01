@@ -37,7 +37,7 @@ static void pwd_p(void) {
     }
 }
 
-static char check_pwd(char *line, bool *error, t_env *environment) {
+static char check_pwd(char *line, bool *error) {
     char flag = 'L';
     bool start = false;
 
@@ -55,7 +55,7 @@ static char check_pwd(char *line, bool *error, t_env *environment) {
             mx_printerr("pwd: -");
             write(2, &line[i], 1);
             mx_printerr(": invalid option\npwd: usage: pwd [-LP]\n");
-            mx_env_replace(&environment, "?=1");
+//            mx_env_replace(&environment, "?=1");
             *error = true;
         }
         if (line[i + 1] == '\0' && !start)
@@ -66,12 +66,12 @@ static char check_pwd(char *line, bool *error, t_env *environment) {
     return flag;
 }
 
-void mx_pwd(char *line, t_env *environment) {
+void mx_pwd(char *line) {
     char flag = 'L'; //default
 
     if ((line && contains(line, '-')) || (strcmp(line, "pwd") == 0)) { //TO DO: add check on "--"
         bool error = false;
-        flag = check_pwd(line, &error, environment);
+        flag = check_pwd(line, &error);
         if (error)
             return;
     }
@@ -83,6 +83,6 @@ void mx_pwd(char *line, t_env *environment) {
         pwd_default();
     if (flag == 'P')
         pwd_p();
-    mx_env_replace(&environment, "?=0");
+//    mx_env_replace(&environment, "?=0");
     return;
 }

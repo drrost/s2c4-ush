@@ -22,9 +22,8 @@ void mx_env_add(t_env **env, char *data) {
         *env = buf;
         return;
     }
-    while (head->next) {
+    while (head->next)
         head = head->next;
-    }
     head->next = buf;
 }
 
@@ -135,7 +134,7 @@ t_env *fill_env_el(void) {
 
 t_env *fill_env(char *env[]) {
     t_env *environment = fill_env_el();
-    
+
     for ( int i = 0; env[i]; i++) {
         mx_env_add(&environment, env[i]);
     }

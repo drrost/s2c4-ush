@@ -9,7 +9,8 @@ static void print_prompt() {
 }
 
 void mx_run_algorithm(char *env[]) {
-    t_env *environment = fill_env(env);
+//    t_env *environment = fill_env(env);
+    env++;
 
     while (true) {
         // Read
@@ -21,7 +22,7 @@ void mx_run_algorithm(char *env[]) {
         mx_strdel(&line);
 
         // Execute
-        int result = mx_execute(input, environment);
+        int result = mx_execute(input);
 
         // Next
         mx_input_delete(&input);

@@ -10,9 +10,13 @@ int mx_execute(t_input *input) {
     if (mx_strcmp(input->command, "exit") == 0 ||
         strstr(input->command, "exit") != 0)
         return mx_exit(input->command);
+
     if (mx_strcmp(input->command, "pwd") == 0 ||
         strstr(input->command, "pwd") != 0)
         mx_pwd(input->command);
+
+    if (mx_streq(input->command, "env"))
+        mx_env("");
 
     return MX_SHOULD_NEXT;
 }

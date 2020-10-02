@@ -53,6 +53,7 @@ char *mx_strndup(const char *str, size_t n);
 char *mx_strcpy(char *dst, const char *src);
 char *mx_strncpy(char *dst, const char *src, int len);
 int mx_strcmp(const char *s1, const char *s2);
+bool mx_streq(const char *s1, const char *s2);
 int mx_strncmp(const char *s1, const char *s2, size_t n);
 char *mx_strcat(char *restrict s1, const char *restrict s2);
 int mx_count_substr(const char *str, const char *sub);

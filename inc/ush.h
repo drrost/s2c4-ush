@@ -48,6 +48,7 @@ t_input *mx_parse_input(const char *input);
 // BUILT_IN
 void mx_pwd(char *line);
 int mx_exit(char *line);
+void mx_env(const char *args);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);

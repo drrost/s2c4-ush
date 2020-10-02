@@ -4,7 +4,10 @@
 
 #include <ush.h>
 
+extern char **environ;
+
 void mx_env(const char *args) {
     args++;
-    mx_printline("TODO: env");
+    for (char **env = environ; *env; ++env)
+        mx_printline(*env);
 }

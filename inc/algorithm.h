@@ -42,4 +42,14 @@ typedef struct s_env {
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);
 
+// Terminal state
+//
+typedef struct {
+    int pos;
+    char *line;
+} t_termstate;
+
+t_termstate *mx_termstate_new();
+void mx_termstate_del(t_termstate **state);
+
 #endif //INC_04_USH_ALGORITHM_H

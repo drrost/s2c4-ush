@@ -4,8 +4,10 @@
 
 #include <ush.h>
 
-static void handle_key(const char c) {
+static void handle_key(const char c, t_termstate *state) {
     putchar(c);
+    state->line[state->pos] = c;
+    state->pos++;
 
     char *s = mx_itoa(c);
     mx_log_t("Key: ", s);
@@ -17,18 +19,21 @@ char *mx_read_next() {
     struct termios raw;
     tcgetattr(STDIN_FILENO, &save);
     tcgetattr(STDIN_FILENO, &raw);
-
     cfmakeraw(&raw);
     tcsetattr(STDIN_FILENO, 0, &raw);
 
+    t_termstate *state = mx_termstate_new();
     int c;
-    while ((c = getchar()) != '.') {
+    while ((c = getchar()) != 13) {
         if (c == 3 || c == 24 || c == 26)
             break;
-        handle_key(c);
+        handle_key(c, state);
     }
 
     tcsetattr(STDIN_FILENO, 0, &save);
+    putchar('\n');
 
-    return mx_strdup("exit");
+    char *line = mx_strdup(state->line);
+    mx_termstate_del(&state);
+    return line;
 }

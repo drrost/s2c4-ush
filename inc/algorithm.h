@@ -21,6 +21,8 @@ typedef struct {
 
 t_command *mx_command_new();
 void mx_command_delete(t_command **command);
+char *substr(const char *src, int start, int end);
+int get_logic_operator_index (const char *str, char operator);
 
 // Input
 //

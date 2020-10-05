@@ -25,7 +25,7 @@ void mx_command_delete(t_command **command);
 // Input
 //
 typedef struct {
-    char *command;
+    char *command; // TODO: remove will not used
     t_list *commands;
 } t_input;
 

@@ -14,7 +14,10 @@ static void handle_key(const char c, t_termstate *state) {
     mx_strdel(&s);
 }
 
-char *mx_read_next() {
+char * mx_read_next() {
+    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
+    return mx_strdup(str);
+
     struct termios save;
     struct termios raw;
     tcgetattr(STDIN_FILENO, &save);

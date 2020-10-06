@@ -20,43 +20,38 @@ static bool is_arrow_left(const char *s) {
     return s[0] == 27 && s[1] == 91 && s[2] == 68;
 }
 
+static void log_esc_sequence(const char *input_buff) {
+    if (is_arrow_up(input_buff))
+        mx_log_t("up arrow", "");
+    else if (is_arrow_down(input_buff))
+        mx_log_t("down arrow", "");
+    else if (is_arrow_right(input_buff))
+        mx_log_t("right arrow", "");
+    else if (is_arrow_left(input_buff))
+        mx_log_t("left arrow", "");
+    else
+        mx_log_t("unknown sequence", "");
+}
+
 static bool is_esc_sequence_part(char c, char **complete) {
     static char input_buff[4];
     static int buff_idx = 0;
     if (buff_idx == 0)
         mx_memset(input_buff, 0, 4);
-
-    if (buff_idx == 0 && c == 27) {
-        input_buff[buff_idx] = c;
-        buff_idx++;
-        return true;
-    }
-    else if (buff_idx == 1 && c == 91) {
+    if ((buff_idx == 0 && c == 27) ||
+        (buff_idx == 1 && c == 91)) {
         input_buff[buff_idx] = c;
         buff_idx++;
         return true;
     }
     else if (buff_idx == 2) {
         input_buff[buff_idx] = c;
-        buff_idx++;
-        if (is_arrow_up(input_buff))
-            mx_log_t("up arrow", "");
-        else if (is_arrow_down(input_buff))
-            mx_log_t("down arrow", "");
-        else if (is_arrow_right(input_buff))
-            mx_log_t("right arrow", "");
-        else if (is_arrow_left(input_buff))
-            mx_log_t("left arrow", "");
-        else
-            mx_log_t("unknown sequence", "");
         buff_idx = 0;
-        *complete = (char *)input_buff;
+        *complete = input_buff;
         return false;
     }
-    else {
+    else
         buff_idx = 0;
-    }
-
     return false;
 }
 
@@ -65,8 +60,10 @@ static void handle_key(const char c, t_termstate *state) {
     if (is_esc_sequence_part(c, &complete))
         return;
 
-    if (complete)
+    if (complete) {
+        log_esc_sequence(complete);
         return;
+    }
 
     putchar(c);
     state->line[state->pos] = c;
@@ -77,7 +74,7 @@ static void handle_key(const char c, t_termstate *state) {
     mx_strdel(&s);
 }
 
-char * mx_read_next() {
+char *mx_read_next() {
 //    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
 //    return mx_strdup(str);
 

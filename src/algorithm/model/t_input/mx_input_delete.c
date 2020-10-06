@@ -5,7 +5,6 @@
 #include <ush.h>
 
 void mx_input_delete(t_input **instance) {
-    mx_strdel(&((*instance)->command));
     t_list *commands = (*instance)->commands;
     while (commands) {
         t_command *command = (t_command *)commands->data;

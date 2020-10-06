@@ -27,7 +27,6 @@ int get_logic_operator_index (const char *str, char operator);
 // Input
 //
 typedef struct {
-    char *command; // TODO: remove will not used
     t_list *commands;
 } t_input;
 

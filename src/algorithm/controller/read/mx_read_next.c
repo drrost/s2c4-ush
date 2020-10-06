@@ -78,6 +78,8 @@ char *mx_read_next() {
 //    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
 //    return mx_strdup(str);
 
+    static t_list *history = 0;
+
     struct termios save;
     struct termios raw;
     tcgetattr(STDIN_FILENO, &save);
@@ -100,5 +102,16 @@ char *mx_read_next() {
 
     char *line = mx_strdup(state->line);
     mx_termstate_del(&state);
+
+    if (mx_streq("exit", line) == false) {
+        mx_push_back(&history, mx_strdup(line));
+    }
+    else {
+        while (history) {
+            mx_strdel(history->data);
+            mx_pop_front(&history);
+        }
+    }
+
     return line;
 }

@@ -88,8 +88,10 @@ char *mx_read_next() {
     t_termstate *state = mx_termstate_new();
     int c;
     while ((c = getchar()) != 13) {
-        if (c == 3 || c == 24 || c == 26)
+        if (c == 3 || c == 24 || c == 26) {
+            mx_strcpy(state->line, "exit");
             break;
+        }
         handle_key(c, state);
     }
 

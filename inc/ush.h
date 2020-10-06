@@ -36,7 +36,7 @@ void check_leaks();
 
 // Algorithm
 
-void mx_run_algorithm(char *env[]);
+void mx_run_algorithm();
 char *mx_read_next();
 
 #define MX_SHOULD_EXIT -3

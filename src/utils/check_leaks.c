@@ -166,5 +166,6 @@ void free(void *p) {
 
     remove_call((long)p);
     real_free(p);
-    malloc_counter--;
+    if (p)
+        malloc_counter--;
 }

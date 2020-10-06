@@ -44,6 +44,7 @@ char *mx_read_next();
 int mx_execute(t_input *input);
 
 t_input *mx_parse_input(const char *input);
+t_input *mx_parse_input_simple(const char *str);
 
 // BUILT_IN
 void mx_pwd(char *line);

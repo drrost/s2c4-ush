@@ -5,17 +5,21 @@
 #include <ush.h>
 
 int mx_execute(t_input *input) {
-    mx_log_t("Executing command", input->command);
+    if (!input->commands)
+        return 0;
 
-    if (mx_strcmp(input->command, "exit") == 0 ||
-        strstr(input->command, "exit") != 0)
-        return mx_exit(input->command);
+    t_command *command = (t_command *)input->commands->data;
+    mx_log_t("Executing command", command->name);
 
-    if (mx_strcmp(input->command, "pwd") == 0 ||
-        strstr(input->command, "pwd") != 0)
-        mx_pwd(input->command);
+    if (mx_strcmp(command->name, "exit") == 0 ||
+        strstr(command->name, "exit") != 0)
+        return mx_exit(command->name);
 
-    if (mx_streq(input->command, "env"))
+    if (mx_strcmp(command->name, "pwd") == 0 ||
+        strstr(command->name, "pwd") != 0)
+        mx_pwd(command->name);
+
+    if (mx_streq(command->name, "env"))
         mx_env("");
 
     return MX_SHOULD_NEXT;

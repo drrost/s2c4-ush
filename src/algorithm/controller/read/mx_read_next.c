@@ -12,6 +12,14 @@ static bool is_arrow_down(const char *s) {
     return s[0] == 27 && s[1] == 91 && s[2] == 66;
 }
 
+static bool is_arrow_right(const char *s) {
+    return s[0] == 27 && s[1] == 91 && s[2] == 67;
+}
+
+static bool is_arrow_left(const char *s) {
+    return s[0] == 27 && s[1] == 91 && s[2] == 68;
+}
+
 static void handle_key(const char c, t_termstate *state) {
     static char input_buff[4];
     static int buff_idx = 0;
@@ -33,8 +41,14 @@ static void handle_key(const char c, t_termstate *state) {
         buff_idx++;
         if (is_arrow_up(input_buff))
             mx_log_t("up arrow", "");
-        if (is_arrow_down(input_buff))
+        else if (is_arrow_down(input_buff))
             mx_log_t("down arrow", "");
+        else if (is_arrow_right(input_buff))
+            mx_log_t("right arrow", "");
+        else if (is_arrow_left(input_buff))
+            mx_log_t("left arrow", "");
+        else
+            mx_log_t("unknown sequence", "");
         buff_idx = 0;
         return;
     }
@@ -52,28 +66,28 @@ static void handle_key(const char c, t_termstate *state) {
 }
 
 char * mx_read_next() {
-    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
-    return mx_strdup(str);
+//    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
+//    return mx_strdup(str);
 
-//    struct termios save;
-//    struct termios raw;
-//    tcgetattr(STDIN_FILENO, &save);
-//    tcgetattr(STDIN_FILENO, &raw);
-//    cfmakeraw(&raw);
-//    tcsetattr(STDIN_FILENO, 0, &raw);
-//
-//    t_termstate *state = mx_termstate_new();
-//    int c;
-//    while ((c = getchar()) != 13) {
-//        if (c == 3 || c == 24 || c == 26)
-//            break;
-//        handle_key(c, state);
-//    }
-//
-//    tcsetattr(STDIN_FILENO, 0, &save);
-//    putchar('\n');
-//
-//    char *line = mx_strdup(state->line);
-//    mx_termstate_del(&state);
-//    return line;
+    struct termios save;
+    struct termios raw;
+    tcgetattr(STDIN_FILENO, &save);
+    tcgetattr(STDIN_FILENO, &raw);
+    cfmakeraw(&raw);
+    tcsetattr(STDIN_FILENO, 0, &raw);
+
+    t_termstate *state = mx_termstate_new();
+    int c;
+    while ((c = getchar()) != 13) {
+        if (c == 3 || c == 24 || c == 26)
+            break;
+        handle_key(c, state);
+    }
+
+    tcsetattr(STDIN_FILENO, 0, &save);
+    putchar('\n');
+
+    char *line = mx_strdup(state->line);
+    mx_termstate_del(&state);
+    return line;
 }

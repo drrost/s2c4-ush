@@ -20,7 +20,7 @@ static bool is_arrow_left(const char *s) {
     return s[0] == 27 && s[1] == 91 && s[2] == 68;
 }
 
-static void handle_key(const char c, t_termstate *state) {
+static bool is_esc_sequence_part(char c, char **complete) {
     static char input_buff[4];
     static int buff_idx = 0;
     if (buff_idx == 0)
@@ -29,12 +29,12 @@ static void handle_key(const char c, t_termstate *state) {
     if (buff_idx == 0 && c == 27) {
         input_buff[buff_idx] = c;
         buff_idx++;
-        return;
+        return true;
     }
     else if (buff_idx == 1 && c == 91) {
         input_buff[buff_idx] = c;
         buff_idx++;
-        return;
+        return true;
     }
     else if (buff_idx == 2) {
         input_buff[buff_idx] = c;
@@ -50,11 +50,23 @@ static void handle_key(const char c, t_termstate *state) {
         else
             mx_log_t("unknown sequence", "");
         buff_idx = 0;
-        return;
+        *complete = (char *)input_buff;
+        return false;
     }
     else {
         buff_idx = 0;
     }
+
+    return false;
+}
+
+static void handle_key(const char c, t_termstate *state) {
+    char *complete = 0;
+    if (is_esc_sequence_part(c, &complete))
+        return;
+
+    if (complete)
+        return;
 
     putchar(c);
     state->line[state->pos] = c;

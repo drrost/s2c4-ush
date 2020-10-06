@@ -53,4 +53,10 @@ typedef struct {
 t_termstate *mx_termstate_new();
 void mx_termstate_del(t_termstate **state);
 
+// History
+//
+t_list **mx_get_history();
+void mx_history_add(char *line);
+void mx_history_delete();
+
 #endif //INC_04_USH_ALGORITHM_H

@@ -13,7 +13,7 @@ OBJ=obj
 BINARY = ush
 
 CFILES = $(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) \
-		 $(wildcard src/*/*/*/*.c)
+		 $(wildcard src/*/*/*/*.c) $(wildcard src/*/*/*/*/*.c)
 OBJ_DIR = obj
 
 ###############################################################################

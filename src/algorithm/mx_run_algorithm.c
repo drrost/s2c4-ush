@@ -5,16 +5,6 @@
 #include <ush.h>
 
 static void print_prompt() {
-    t_map *map = mx_map_str_str();
-    map->set(map, "pwd", "/usr/local/bin");
-    map->set(map, "TMPDIR",
-             "/var/folders/1q/6yl13mjx38g2jgfhx6072t180000gn/T/");
-    char *pwd = map->get(map, "pwd");
-    pwd++;
-
-    mx_map_print(map);
-    mx_map_delete(&map);
-
     printf("u$l> ");
 }
 

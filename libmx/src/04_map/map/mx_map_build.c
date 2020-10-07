@@ -4,7 +4,7 @@
 
 #include <mx_map.h>
 
-t_map *mx_map_str_str() {
+t_map *mx_map_build() {
     t_map *instance = mx_map_new();
 
     instance->get = mx_map_get;

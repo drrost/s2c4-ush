@@ -33,12 +33,9 @@ typedef struct s_map {
     void (*print)(struct s_map *);
 } t_map;
 
-t_map *mx_map_new();
+t_map *mx_map_build();
 void mx_map_delete(t_map **map);
 
-t_map *mx_map_build();
-
-t_pair *mx_map_get_pair(t_map *this, char *key);
 char *mx_map_get(t_map *this, char *key);
 void mx_map_set(t_map *this, char *key, char *value);
 void mx_map_remove(t_map *this, char *key);

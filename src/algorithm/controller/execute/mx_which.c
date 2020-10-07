@@ -36,7 +36,7 @@ static void mx_not_found(char *str) {
 }
 
 static int flag_parse(char **command, bool *flag) {
-    int i = 1;
+    int i = 0;
 
 
     for (; command[i]; i++) {
@@ -47,9 +47,11 @@ static int flag_parse(char **command, bool *flag) {
                 else if (command[i][j] == 's')
                     flag[1] = 1;
                 else {
-                    mx_printerr("which: bad option: -");
+                    mx_printerr("ush: which: -");
                     write(2, &command[i][j], 1);
-                    mx_printerr("\n");
+                    mx_printerr(" invalid option\n");
+                    mx_printerr("which: usage: which [-as] program ...\n");
+                    return -1;
                     //exit code = 1
                 }
         }
@@ -87,7 +89,6 @@ static bool find_in_path(char **ways, char *command, bool *flag) {
             char *path = mx_strjoin(ways[i], "/");
             mx_str_append(&path, command);
             a = mx_is_command(path, flag, 0);
-            //free(buf);
         }
         if (a == 1) {
             if (!flag[0])
@@ -101,32 +102,35 @@ static bool find_in_path(char **ways, char *command, bool *flag) {
     return a;
 }
 
-
-
 int mx_which(char *arguments) {
-    char *path = mx_getenv("PATH");
-    bool *flag = (bool *)malloc(sizeof(bool) * 2);
-    char **ways = mx_strsplit(path, ':');
-    char **arr = mx_strsplit(arguments, ' ');
-    int i = flag_parse(arr, flag);
-
-    
     if (mx_strlen(arguments) > 0) {
-        for (; arr[i];) {
-            if (mx_is_built_in(arr[i]) && !flag[i])
-                printf("%s: shell built-in command\n", arr[i]);
-            if ((!mx_is_built_in(arr[i]) || (mx_is_built_in(arr[i]) 
-                & flag[0])) && mx_getenv("PATH"))
-                find_in_path(ways, arr[i], flag);
-            i++;
+        char *path = mx_getenv("PATH");
+        bool *flag = (bool *)malloc(sizeof(bool) * 2);
+        char **ways = mx_strsplit(path, ':');
+        char **arr = mx_strsplit(arguments, ' ');
+        int i = flag_parse(arr, flag);
+
+        if (i == -1) {
+            return 1;
         }
+
+        for (int j = i - 1; arr[j]; j++) {
+            if (arr[j][0] != '-')
+            if (mx_is_built_in(arr[j]) && !flag[1])
+                printf("%s: shell built-in command\n", arr[j]);
+            if(arr[j][0] != '-') {
+                if (!mx_is_built_in(arr[j]) || (mx_is_built_in(arr[j]) 
+                    && flag[0]))
+                    find_in_path(ways, arr[j], flag);
+            }
+        }
+        free(flag);
+        mx_del_strarr(&ways);
+        mx_del_strarr(&arr);
+        return 0;
     }
-    if (i < 2) {
+    else {
         mx_printerr("usage: which [-as] program ...\n");
-        //exit_code = 1;
     }
-    free(flag);
-    mx_del_strarr(&ways);
-    mx_del_strarr(&arr);
-    return 0;
+    return 1;
 }

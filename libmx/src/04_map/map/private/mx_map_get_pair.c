@@ -2,8 +2,7 @@
 // Created by Rostyslav Druzhchenko on 07.10.2020.
 //
 
-#include <mx_map.h>
-#include <libmx.h>
+#include <private/mx_map_private.h>
 
 t_pair *mx_map_get_pair(t_map *this, char *key) {
     t_list *list = this->content;

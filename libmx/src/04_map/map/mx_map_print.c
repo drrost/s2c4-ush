@@ -2,8 +2,7 @@
 // Created by Rostyslav Druzhchenko on 07.10.2020.
 //
 
-#include <mx_map.h>
-#include <libmx.h>
+#include <private/mx_map_private.h>
 
 void mx_map_print(t_map *this) {
     mx_printstr("Map 0x");

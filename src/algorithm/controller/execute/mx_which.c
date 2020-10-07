@@ -6,6 +6,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+char *mx_getenv(const char *s) {
+    return getenv(s);
+}
+
 bool mx_is_built_in(char *str) {
     if (!mx_strcmp(str, "pwd"))
         return 1;
@@ -99,8 +103,10 @@ static bool find_in_path(char **ways, char *command, bool *flag) {
     return a;
 }
 
+
+
 int mx_which(char *arguments) {
-    char *path = getenv("PATH");
+    char *path = mx_getenv("PATH");
     bool *flag = (bool *)malloc(sizeof(bool) * 2);
     char **ways = mx_strsplit(path, ':');
     char **arr = mx_strsplit(arguments, ' ');
@@ -112,7 +118,7 @@ int mx_which(char *arguments) {
             if (mx_is_built_in(arr[i]) && !flag[i])
                 printf("%s: shell built-in command\n", arr[i]);
             if ((!mx_is_built_in(arr[i]) || (mx_is_built_in(arr[i]) 
-                & flag[0])) && getenv("PATH"))
+                & flag[0])) && mx_getenv("PATH"))
                 find_in_path(ways, arr[i], flag);
             i++;
         }

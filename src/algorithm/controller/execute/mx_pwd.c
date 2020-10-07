@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 static void pwd_default(void) {
-    char *pwd = mx_strdup(getenv("PWD"));
+    char *pwd = mx_strdup(mx_getenv("PWD"));
 
     printf("%s\n", pwd);
     mx_strdel(&pwd);
@@ -20,7 +20,7 @@ bool contains(char *line, char symbol) {
 }
 
 static void pwd_p(void) {
-    char *pwd = mx_strdup(getenv("PWD"));
+    char *pwd = mx_strdup(mx_getenv("PWD"));
     char line[4096];
     struct stat buf;
 

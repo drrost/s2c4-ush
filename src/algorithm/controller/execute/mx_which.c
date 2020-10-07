@@ -3,8 +3,6 @@
 //
 
 #include <ush.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 char *mx_getenv(const char *s) {
     return getenv(s);

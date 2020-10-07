@@ -3,10 +3,6 @@
 //
 
 #include <ush.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-//flags n, e, E
 
 static int separator_error(char **parse, int *n, int separator) {
     if (separator == -1) {

@@ -3,8 +3,6 @@
 //
 
 #include <ush.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 static void pwd_default(void) {
     char *pwd = mx_strdup(mx_getenv("PWD"));

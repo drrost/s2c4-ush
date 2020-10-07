@@ -37,7 +37,7 @@ static void escape(int i, char *str, char *parse, int index) {
         parse[index] = str[i];
 }
 
-static char *fill_str(char *str, int *n, int flag) {
+static char *fill_str(char *str, int *n, int flag, bool flag_off) {
     char *parse = mx_strnew(1000);
     int separator = 1;
     int index = 0;
@@ -49,8 +49,11 @@ static char *fill_str(char *str, int *n, int flag) {
             escape(++i, str, parse, index++);
         else if (str[i] == '\\' && separator == 1)
             parse[index++] = str[++i];
-        else
+        else if (flag_off)
             parse[index++] = str[i];
+        // else {
+        //     parse[index++] = str[i];
+        // }
     }
     parse[index] = '\0';
     if (separator_error(&parse, n, separator) == -1)
@@ -80,9 +83,11 @@ static int echo_flag(char *str, int *n) {
 char *mx_parse_echo(char *line, int *n) {
     int flag = 1;
     char *str = NULL;
+    bool flag_off = true;
 
     if (line[0] == '-' && str == NULL && flag != -1) {
         flag = echo_flag(line, n);
+        flag_off = false;
     }
     if (str == NULL && mx_strcmp(line, "") != 0){
         str = mx_strdup(line);
@@ -93,7 +98,7 @@ char *mx_parse_echo(char *line, int *n) {
         mx_strcat(str, line);
     }
     if (str != NULL)
-        str = fill_str(str, n, flag);
+        str = fill_str(str, n, flag, flag_off);
     return str;
 }
 

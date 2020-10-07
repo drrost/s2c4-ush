@@ -17,7 +17,7 @@ int mx_execute(t_input *input) {
 
     if (mx_strcmp(command->name, "pwd") == 0 ||
         strstr(command->name, "pwd") != 0)
-        mx_pwd(command->name);
+        command->exit_code = mx_pwd(command->name);
 
     if (mx_streq(command->name, "env"))
         mx_env("");

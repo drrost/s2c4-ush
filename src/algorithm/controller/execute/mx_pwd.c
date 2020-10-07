@@ -66,23 +66,23 @@ static char check_pwd(char *line, bool *error) {
     return flag;
 }
 
-void mx_pwd(char *line) {
+int mx_pwd(char *line) {
     char flag = 'L'; //default
 
     if ((line && contains(line, '-')) || (strcmp(line, "pwd") == 0)) { //TO DO: add check on "--"
         bool error = false;
         flag = check_pwd(line, &error);
         if (error)
-            return;
+            return 1;
     }
     else {
         mx_printerr("pwd: too many arguments\n");
-        return;
+        return 1;
     }
     if (flag == 'L')
         pwd_default();
     if (flag == 'P')
         pwd_p();
 //    mx_env_replace(&environment, "?=0");
-    return;
+    return 0;
 }

@@ -33,7 +33,7 @@ int mx_execute(t_input *input) {
 
     if (mx_streq(command->name, "pwd") ||
         mx_strstr(command->name, "pwd") != 0)
-        command->exit_code = mx_pwd(command->name);
+        command->exit_code = mx_pwd(command->arguments);
 
     if (mx_streq(command->name, "echo") ||
         mx_strstr(command->name, "echo") != 0)

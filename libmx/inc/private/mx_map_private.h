@@ -6,6 +6,7 @@
 #define INC_04_USH_MX_MAP_PRIVATE_H
 
 #include <mx_map.h>
+#include <libmx.h>
 
 t_map *mx_map_new();
 t_pair *mx_map_get_pair(t_map *this, char *key);

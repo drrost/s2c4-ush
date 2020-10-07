@@ -2,7 +2,7 @@
 // Created by Rostyslav Druzhchenko on 07.10.2020.
 //
 
-#include <mx_map_private.h>
+#include <private/mx_map_private.h>
 
 t_map *mx_map_build() {
     t_map *instance = mx_map_new();

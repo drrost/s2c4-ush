@@ -76,6 +76,7 @@ static void handle_key(const char c, t_termstate *state) {
 
 char *mx_read_next() {
 //    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
+//    char *str = "sdf dssd";
 //    return mx_strdup(str);
 
     struct termios save;

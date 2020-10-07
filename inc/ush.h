@@ -48,6 +48,7 @@ t_input *mx_parse_input_simple(const char *str);
 
 // BUILT_IN
 int mx_pwd(char *line);
+int mx_echo(char *args);
 int mx_exit(char *line);
 void mx_env(const char *args);
 

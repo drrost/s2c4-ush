@@ -35,6 +35,10 @@ int mx_execute(t_input *input) {
         strstr(command->name, "pwd") != 0)
         command->exit_code = mx_pwd(command->name);
 
+    if (mx_strcmp(command->name, "echo") == 0 ||
+        strstr(command->name, "echo") != 0)
+        command->exit_code = mx_echo(command->arguments);
+
     if (mx_streq(command->name, "env"))
         mx_env("");
 

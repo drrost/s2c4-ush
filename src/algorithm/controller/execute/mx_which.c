@@ -4,35 +4,9 @@
 
 #include <ush.h>
 
-char *mx_getenv(const char *s) {
-    return getenv(s);
-}
-
-bool mx_is_built_in(char *str) {
-    if (!mx_strcmp(str, "pwd"))
-        return 1;
-    else if (!mx_strcmp(str, "unset"))
-        return 1;
-    else if (!mx_strcmp(str, "exit"))
-        return 1;
-    else if (!mx_strcmp(str, "env"))
-        return 1;
-    else if (!mx_strcmp(str, "false"))
-        return 1;
-    else if (!mx_strcmp(str, "true"))
-        return 1;
-    else if (!mx_strcmp(str, "which"))
-        return 1;
-    else if (!mx_strcmp(str, "echo"))
-        return 1;
-    else
-        return 0;
-}
-
 static void mx_not_found(char *str) {
     mx_printerr(str);
     mx_printerr(" not found\n");
-    //exit_code = 1;
 }
 
 static int flag_parse(char **command, bool *flag) {
@@ -52,7 +26,6 @@ static int flag_parse(char **command, bool *flag) {
                     mx_printerr(" invalid option\n");
                     mx_printerr("which: usage: which [-as] program ...\n");
                     return -1;
-                    //exit code = 1
                 }
         }
         else
@@ -113,7 +86,6 @@ int mx_which(char *arguments) {
         if (i == -1) {
             return 1;
         }
-
         for (int j = i - 1; arr[j]; j++) {
             if (arr[j][0] != '-') {
                 if (mx_is_built_in(arr[j]) && !flag[1])

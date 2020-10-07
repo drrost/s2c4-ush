@@ -37,7 +37,7 @@ int mx_execute(t_input *input) {
 
     if (mx_streq(command->name, "echo") ||
         mx_strstr(command->name, "echo") != 0)
-        command->exit_code = mx_echo(command->arguments);
+        command->exit_code = mx_echo(command->arguments, command->exit_code);
 
     if (mx_streq(command->name, "true")) {
         command->exit_code = mx_true();

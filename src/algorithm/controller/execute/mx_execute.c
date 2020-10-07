@@ -39,6 +39,9 @@ int mx_execute(t_input *input) {
         mx_strstr(command->name, "echo") != 0)
         command->exit_code = mx_echo(command->arguments);
 
+    if (mx_streq(command->name, "clear"))
+        system("clear");
+
     if (mx_streq(command->name, "env"))
         mx_env("");
 

@@ -36,7 +36,7 @@ static void mx_not_found(char *str) {
 }
 
 static int flag_parse(char **command, bool *flag) {
-    int i = 0;
+    int i = 1;
 
 
     for (; command[i]; i++) {
@@ -115,9 +115,11 @@ int mx_which(char *arguments) {
         }
 
         for (int j = i - 1; arr[j]; j++) {
-            if (arr[j][0] != '-')
-            if (mx_is_built_in(arr[j]) && !flag[1])
+            if (arr[j][0] != '-') {
+                if (mx_is_built_in(arr[j]) && !flag[1])
                 printf("%s: shell built-in command\n", arr[j]);
+            }
+            
             if(arr[j][0] != '-') {
                 if (!mx_is_built_in(arr[j]) || (mx_is_built_in(arr[j]) 
                     && flag[0]))

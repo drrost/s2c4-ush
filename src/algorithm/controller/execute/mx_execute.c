@@ -27,6 +27,9 @@ int mx_execute(t_input *input) {
     t_command *command = (t_command *)input->commands->data;
     log_command_execution(command);
 
+    if (mx_streq(command->name, "color"))
+        command->exit_code = mx_change_color(command->arguments);
+
     if (mx_streq(command->name, "exit") ||
         mx_strstr(command->name, "exit") != 0)
         return mx_exit(command->name);

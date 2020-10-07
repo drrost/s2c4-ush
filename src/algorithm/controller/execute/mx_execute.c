@@ -27,13 +27,31 @@ int mx_execute(t_input *input) {
     t_command *command = (t_command *)input->commands->data;
     log_command_execution(command);
 
-    if (mx_strcmp(command->name, "exit") == 0 ||
-        strstr(command->name, "exit") != 0)
+    if (mx_streq(command->name, "exit") ||
+        mx_strstr(command->name, "exit") != 0)
         return mx_exit(command->name);
 
-    if (mx_strcmp(command->name, "pwd") == 0 ||
-        strstr(command->name, "pwd") != 0)
-        command->exit_code = mx_pwd(command->name);
+    if (mx_streq(command->name, "pwd") ||
+        mx_strstr(command->name, "pwd") != 0)
+        command->exit_code = mx_pwd(command->arguments);
+
+    if (mx_streq(command->name, "which") ||
+        mx_strstr(command->name, "which") != 0)
+        command->exit_code = mx_which(command->arguments);
+
+    if (mx_streq(command->name, "echo") ||
+        mx_strstr(command->name, "echo") != 0)
+        command->exit_code = mx_echo(command->arguments, command->exit_code);
+
+    if (mx_streq(command->name, "true")) {
+        command->exit_code = mx_true();
+    }
+
+    if (mx_streq(command->name, "false"))
+        command->exit_code = mx_false();
+
+    if (mx_streq(command->name, "clear"))
+        system("clear");
 
     if (mx_streq(command->name, "env"))
         mx_env("");

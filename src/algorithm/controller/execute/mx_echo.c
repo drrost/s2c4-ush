@@ -85,12 +85,12 @@ char *mx_parse_echo(char *line, int *n) {
 		flag = echo_flag(line, n);
 	}
 	if (str == NULL && mx_strcmp(line, "") != 0){
-		str = strdup(line);
+		str = mx_strdup(line);
 	}
 	else if (mx_strcmp(line, "") != 0) {
-		str = realloc(str, strlen(str) + strlen(line) + 2);
-		strcat(str, "");
-		strcat(str, line);
+		str = mx_realloc(str, strlen(str) + strlen(line) + 2);
+		mx_strcat(str, "");
+		mx_strcat(str, line);
 	}
 	if (str != NULL)
 		str = fill_str(str, n, flag);

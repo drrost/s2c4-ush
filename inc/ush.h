@@ -11,7 +11,6 @@
 #include <string.h>
 #include <unistd.h>
 #include <termios.h>
-#include <malloc/malloc.h>
 
 // File types
 

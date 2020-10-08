@@ -70,9 +70,8 @@ char *mx_parse_echo(char *line, int *n) {
     if (str == NULL && mx_strcmp(line, "") != 0){
         if (mx_strstr(line, "${") != 0) {
             char *env = clear_str_of_symbols(line);
-            if (getenv(env) != NULL) {
+            if (getenv(env) != NULL)
                 str = mx_strdup(mx_getenv(env));
-            }
         }
         else
             str = mx_strdup(line);

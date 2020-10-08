@@ -28,9 +28,8 @@ char *clear_str_of_symbols(const char *line) {
 
     for ( int i = 0, j; str[i]; ++i) {
         while (!(mx_isalpha(str[i])) && !(str[i] == '\0')) {
-            for (j = i; str[j]; ++j) {
+            for (j = i; str[j]; ++j)
                 str[j] = str[j + 1];
-            }
             str[j] = '\0';
         }
     }

@@ -10,6 +10,7 @@ t_map *mx_map_build() {
     instance->get = mx_map_get;
     instance->set = mx_map_set;
     instance->remove = mx_map_remove;
+    instance->print = mx_map_print;
 
     return instance;
 }

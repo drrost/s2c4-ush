@@ -4,7 +4,6 @@
 
 #include <ush.h>
 
-
 int echo_flag(char *str, int *n) {
     int flag = 1;
 

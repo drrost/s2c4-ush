@@ -63,6 +63,7 @@ t_env *fill_env(char *env[]);
 // UTILS
 void mx_printerr(const char *str);
 bool mx_is_built_in(char *str);
+void command_not_found(const char *s);
 
 enum e_log_level {
     LOG_ALL,

@@ -5,5 +5,6 @@
 #include <ush.h>
 
 char *mx_getenv(const char *s) {
-    return getenv(s);
+    t_map *env = mx_env_get();
+    return env->get(env, (char *)s);
 }

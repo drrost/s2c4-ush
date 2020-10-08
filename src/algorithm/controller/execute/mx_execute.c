@@ -27,6 +27,10 @@ int mx_execute(t_input *input) {
     t_command *command = (t_command *)input->commands->data;
     log_command_execution(command);
 
+    if (command->name[0] == '/') {
+        execl(command->name, command->name, command->arguments, NULL); //TO DO: find out why the programm executes after calling execl
+    }
+
     if (mx_streq(command->name, "color"))
         command->exit_code = mx_change_color(command->arguments);
 

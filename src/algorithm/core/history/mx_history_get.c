@@ -4,7 +4,7 @@
 
 #include <ush.h>
 
-t_list **mx_get_history() {
+t_list **mx_history_get() {
     static t_list *history = 0;
     return &history;
 }

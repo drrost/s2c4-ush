@@ -111,9 +111,8 @@ int mx_change_color(char *command) {
                 set_background_color("default");
         }
     }
-    else {
-        color_default();  
-    }
+    else
+        color_default();
     mx_del_strarr(&arr);
     return 0;
 }

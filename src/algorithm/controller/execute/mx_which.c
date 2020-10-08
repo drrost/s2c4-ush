@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <mx_core.h>
 
 static void mx_not_found(char *str) {
     mx_printerr(str);
@@ -91,9 +92,9 @@ int mx_which(char *arguments) {
                 if (mx_is_built_in(arr[j]) && !flag[1])
                 printf("%s: shell built-in command\n", arr[j]);
             }
-            
+
             if(arr[j][0] != '-') {
-                if (!mx_is_built_in(arr[j]) || (mx_is_built_in(arr[j]) 
+                if (!mx_is_built_in(arr[j]) || (mx_is_built_in(arr[j])
                     && flag[0]))
                     find_in_path(ways, arr[j], flag);
             }

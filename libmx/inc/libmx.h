@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 #include <mx_map.h>
+#include <mx_path.h>
 
 typedef struct s_fd_node {
     int fd;

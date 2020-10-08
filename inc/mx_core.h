@@ -20,4 +20,9 @@ t_list **mx_history_get();
 void mx_history_add(char *line);
 void mx_history_delete();
 
+// Core
+//
+void mx_core_init();
+void mx_core_clean();
+
 #endif //INC_04_USH_MX_CORE_H

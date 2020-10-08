@@ -28,10 +28,14 @@ int mx_execute(t_input *input) {
     log_command_execution(command);
 
     if (command->name[0] == '/') {
-        execl(command->name, command->name, command->arguments, NULL); //TO DO: find out why the programm executes after calling execl
+        char *s = mx_strjoin(" ", command->arguments);
+        char *s2 = mx_strjoin(command->name, s);
+        system(s2);
+        mx_strdel(&s);
+        mx_strdel(&s2);
     }
 
-    if (mx_streq(command->name, "color"))
+    else if (mx_streq(command->name, "color"))
         command->exit_code = mx_change_color(command->arguments);
 
     else if (mx_streq(command->name, "exit"))

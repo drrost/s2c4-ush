@@ -76,6 +76,21 @@ static int echo_flag(char *str, int *n) {
     return flag;
 }
 
+static char *change(const char *line) {
+    char *str = mx_strdup(line);
+
+    for ( int i = 0, j; str[i]; ++i) {
+        while (!(str[i] >= 'a' && str[i] <= 'z') && !(str[i] >= 'A' && str[i] <= 'Z')
+            && !(str[i] == '\0')) {
+            for (j = i; str[j]; ++j) {
+                str[j] = str[j + 1];
+            }
+            str[j] = '\0';
+        }
+    }
+    return str;
+}
+
 char *mx_parse_echo(char *line, int *n) {
     int flag = 1;
     char *str = NULL;
@@ -86,7 +101,14 @@ char *mx_parse_echo(char *line, int *n) {
         flag_off = false;
     }
     if (str == NULL && mx_strcmp(line, "") != 0){
-        str = mx_strdup(line);
+        if (mx_strstr(line, "${") != 0) {
+            char *env = change(line);
+            if (getenv(env) != NULL) {
+                str = mx_strdup(mx_getenv(env));
+            }
+        }
+        else
+            str = mx_strdup(line);
     }
     else if (mx_strcmp(line, "") != 0) {
         str = mx_realloc(str, strlen(str) + strlen(line) + 2);

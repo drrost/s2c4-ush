@@ -72,7 +72,7 @@ int mx_pwd(char *line) {
                 return 1;
         }
         else {
-            mx_printerr("pwd: too many arguments\n");
+            mx_printerr("ush: pwd: too many arguments\n");
             return 1;
         }
         if (flag == 'L')

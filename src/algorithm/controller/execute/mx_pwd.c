@@ -62,20 +62,28 @@ static char check_pwd(char *line, bool *error) {
 
 int mx_pwd(char *line) {
     char flag = 'L'; 
+    if (mx_strlen(line) > 0) {
+        char **arr = mx_strsplit(line, ' ');
 
-    if ((line && contains(line, '-'))) { //TO DO: add check on "--"
-        bool error = false;
-        flag = check_pwd(line, &error);
-        if (error)
+        if ((arr[0] && !arr[1] && contains(arr[0], '-'))) { //TO DO: add check on "--"
+            bool error = false;
+            flag = check_pwd(line, &error);
+            if (error)
+                return 1;
+        }
+        else {
+            mx_printerr("pwd: too many arguments\n");
             return 1;
+        }
+        if (flag == 'L')
+            pwd_default();
+        if (flag == 'P')
+            pwd_p();
+        mx_del_strarr(&arr);
+        return 0;
     }
-    else if (mx_strlen(line) > 0) {
-        mx_printerr("pwd: too many arguments\n");
-        return 1;
-    }
-    if (flag == 'L')
+    else {
         pwd_default();
-    if (flag == 'P')
-        pwd_p();
-    return 0;
+        return 0;
+    }
 }

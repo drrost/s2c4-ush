@@ -30,34 +30,32 @@ int mx_execute(t_input *input) {
     if (mx_streq(command->name, "color"))
         command->exit_code = mx_change_color(command->arguments);
 
-    if (mx_streq(command->name, "exit") ||
-        mx_strstr(command->name, "exit") != 0)
+    else if (mx_streq(command->name, "exit"))
         return mx_exit(command->name);
 
-    if (mx_streq(command->name, "pwd") ||
-        mx_strstr(command->name, "pwd") != 0)
+    else if (mx_streq(command->name, "pwd"))
         command->exit_code = mx_pwd(command->arguments);
 
-    if (mx_streq(command->name, "which") ||
-        mx_strstr(command->name, "which") != 0)
+    else if (mx_streq(command->name, "which"))
         command->exit_code = mx_which(command->arguments);
 
-    if (mx_streq(command->name, "echo") ||
-        mx_strstr(command->name, "echo") != 0)
+    else if (mx_streq(command->name, "echo"))
         command->exit_code = mx_echo(command->arguments, command->exit_code);
 
-    if (mx_streq(command->name, "true")) {
+    else if (mx_streq(command->name, "true")) {
         command->exit_code = mx_true();
     }
 
-    if (mx_streq(command->name, "false"))
+    else if (mx_streq(command->name, "false"))
         command->exit_code = mx_false();
 
-    if (mx_streq(command->name, "clear"))
+    else if (mx_streq(command->name, "clear"))
         system("clear");
 
-    if (mx_streq(command->name, "env"))
+    else if (mx_streq(command->name, "env"))
         mx_env("");
+    else
+        command_not_found(command->name);
 
     return MX_SHOULD_NEXT;
 }

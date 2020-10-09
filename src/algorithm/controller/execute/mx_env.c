@@ -4,10 +4,17 @@
 
 #include <ush.h>
 
-extern char **environ;
-
 void mx_env(const char *args) {
     args++;
-    for (char **env = environ; *env; ++env)
-        mx_printline(*env);
+
+    t_map *env = mx_env_get();
+    t_list *list = env->content;
+    while (list) {
+        t_pair *pair = (t_pair *)list->data;
+        mx_printstr(pair->key);
+        mx_printstr("=");
+        mx_printstr(pair->value);
+        mx_printstr("\n");
+        list = list->next;
+    }
 }

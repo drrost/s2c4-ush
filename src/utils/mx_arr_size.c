@@ -4,7 +4,7 @@
 
 #include <ush.h>
 
-int mx_count_el(char **arr) {
+int mx_arr_size(char **arr) {
     int i = 0;
 
     if (arr != NULL) {

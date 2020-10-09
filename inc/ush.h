@@ -69,7 +69,7 @@ int command_not_found(const char *s);
 int echo_flag(char *str, int *n);
 char *clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
-int mx_count_el(char **arr);
+int mx_arr_size(char **arr);
 
 enum e_log_level {
     LOG_ALL,

@@ -7,7 +7,7 @@
 int mx_unset(char *arguments) {
     if (mx_strlen(arguments)) {
         char **arr = mx_strsplit(arguments, ' ');
-        for (int i = 0; i < mx_count_el(arr); i++) {
+        for (int i = 0; i < mx_arr_size(arr); i++) {
             if (mx_isalpha(arr[i][0]) || arr[i][0] == '_')
                 mx_unsetenv(arr[i]);
             else if (mx_strcmp(arr[i], "-") == 0) {

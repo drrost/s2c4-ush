@@ -12,7 +12,7 @@ int mx_whoami(char *line) {
         uid = getuid();
         pw = getpwuid(uid);
         if (pw) {
-            printf("%s\n", pw->pw_name);
+            mx_printline(pw->pw_name);
             return 0;
         }
         mx_printerr("whoami: cannot find username for UID ");

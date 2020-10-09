@@ -57,6 +57,7 @@ int mx_true(void);
 int mx_which(char *arguments);
 int mx_change_color(char *command);
 int mx_unset(char *arguments);
+int mx_export(char *arguments);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);
@@ -68,6 +69,7 @@ int command_not_found(const char *s);
 int echo_flag(char *str, int *n);
 char *clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
+int mx_count_el(char **arr);
 
 enum e_log_level {
     LOG_ALL,

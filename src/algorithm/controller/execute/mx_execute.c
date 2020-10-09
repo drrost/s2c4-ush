@@ -38,6 +38,10 @@ int mx_execute(t_input *input) {
 
     else if (mx_streq(command->name, "color"))
         command->exit_code = mx_change_color(command->arguments);
+
+    else if (mx_streq(command->name, "export"))
+        command->exit_code = mx_export(command->arguments);
+    
     else if (mx_streq(command->name, "unset"))
         command->exit_code = mx_unset(command->arguments);
 

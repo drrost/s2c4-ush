@@ -4,17 +4,6 @@
 
 #include <ush.h>
 
-static int mx_count_el(char **arr) {
-    int i = 0;
-
-    if (arr != NULL) {
-        while (arr[i])
-            i++;
-        return i;
-    }
-    return 0;
-}
-
 int mx_unset(char *arguments) {
     if (mx_strlen(arguments)) {
         char **arr = mx_strsplit(arguments, ' ');

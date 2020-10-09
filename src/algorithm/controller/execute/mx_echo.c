@@ -89,7 +89,7 @@ char *mx_parse_echo(char *line, int *n) {
 int mx_echo(char *args, int exit_code) {
     int check = 0;
 
-    if (mx_strcmp(args, "$?") == 0) {
+    if (mx_strcmp(args, "$?") == 0) {//TO DO: add case echo $? HELLO WORLD
         printf("%d\n", exit_code);
         return 0;
     }
@@ -102,6 +102,6 @@ int mx_echo(char *args, int exit_code) {
         mx_printstr("\n");
     else if (check == -1)
         return 1;
-    //mx_strdel(&str);
+    mx_strdel(&str);
     return 0;
 }

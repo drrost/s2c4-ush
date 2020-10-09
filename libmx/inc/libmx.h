@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #include <mx_map.h>
 #include <mx_path.h>

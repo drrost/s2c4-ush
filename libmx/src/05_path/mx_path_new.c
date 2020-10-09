@@ -3,10 +3,11 @@
 //
 
 #include <libmx.h>
+#include <private/mx_path_private.h>
 
 static void path_append(t_path *this, char *append) {
     int this_len = mx_strlen(this->p);
-    int append_len =  mx_strlen(append);
+    int append_len = mx_strlen(append);
     int new_len = this_len + append_len + 1;
     char *new_p = mx_strnew(new_len);
 
@@ -40,6 +41,9 @@ t_path *mx_path_new(const char *path) {
     instance->append = path_append;
     instance->last_del = path_last_del;
     instance->print = path_print;
+
+    instance->is_dir = mx_path_is_dir;
+    instance->exists = mx_path_exists;
 
     return instance;
 }

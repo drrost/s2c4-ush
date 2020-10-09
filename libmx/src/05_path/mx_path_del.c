@@ -4,7 +4,7 @@
 
 #include <libmx.h>
 
-void mx_pant_del(t_path **path) {
+void mx_path_del(t_path **path) {
     mx_strdel(&((*path)->p));
     free(*path);
     *path = 0;

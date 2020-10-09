@@ -8,7 +8,8 @@
 void mx_history_delete() {
     t_list *history = *(mx_history_get());
     while (history) {
-        mx_strdel(history->data);
+        char *s = (char *)history->data;
+        mx_strdel(&s);
         mx_pop_front(&history);
     }
 }

@@ -51,6 +51,9 @@ int mx_execute(t_input *input) {
     else if (mx_streq(command->name, "bye"))
         return mx_bye(command->name);
 
+    else if (mx_streq(command->name, "cd"))
+        return mx_cd(command->arguments);
+
     else if (mx_streq(command->name, "pwd"))
         command->exit_code = mx_pwd(command->arguments);
 

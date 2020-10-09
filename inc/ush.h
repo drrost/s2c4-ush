@@ -67,6 +67,7 @@ bool mx_is_built_in(char *str);
 int command_not_found(const char *s);
 int echo_flag(char *str, int *n);
 char *clear_str_of_symbols(const char *line);
+int mx_unsetenv(const char *s);
 
 enum e_log_level {
     LOG_ALL,

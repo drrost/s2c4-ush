@@ -28,11 +28,12 @@ int mx_execute(t_input *input) {
     log_command_execution(command);
 
     if (command->name[0] == '/') {
-        char *s = mx_strjoin(" ", command->arguments);
-        char *s2 = mx_strjoin(command->name, s);
-        system(s2);
+        char *s = 0;
+        mx_str_append(&s, command->name);
+        mx_str_append(&s, " ");
+        mx_str_append(&s, command->arguments);
+        system(s);
         mx_strdel(&s);
-        mx_strdel(&s2);
     }
 
     else if (mx_streq(command->name, "color"))

@@ -20,7 +20,7 @@ int mx_unset(char *arguments) {
         char **arr = mx_strsplit(arguments, ' ');
         for (int i = 0; i < mx_count_el(arr); i++) {
             if (mx_isalpha(arr[i][0]) || arr[i][0] == '_')
-                unsetenv(arr[i]);
+                mx_unsetenv(arr[i]);
             else if (mx_strcmp(arr[i], "-") == 0) {
                 mx_printerr("unset: not enough arguments\n");
                 return 1;

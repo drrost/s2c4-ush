@@ -12,6 +12,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <termios.h>
+#include <sys/types.h>
+#include <pwd.h>
 
 // File types
 
@@ -59,6 +61,7 @@ int mx_change_color(char *command);
 int mx_unset(char *arguments);
 int mx_export(char *arguments);
 int mx_bye(char *line);
+int mx_whoami(char *line);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);

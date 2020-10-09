@@ -89,8 +89,10 @@ char *mx_parse_echo(char *line, int *n) {
 int mx_echo(char *args, int exit_code) {
     int check = 0;
 
-    if (mx_strstr(args, "$?") != 0)
-        mx_printint(exit_code);
+    if (mx_strcmp(args, "$?") == 0) {
+        printf("%d\n", exit_code);
+        return 0;
+    }
 
     char *str = mx_parse_echo(args, &check);
 

@@ -63,7 +63,7 @@ t_env *fill_env(char *env[]);
 // UTILS
 void mx_printerr(const char *str);
 bool mx_is_built_in(char *str);
-void command_not_found(const char *s);
+int command_not_found(const char *s);
 int echo_flag(char *str, int *n);
 char *clear_str_of_symbols(const char *line);
 

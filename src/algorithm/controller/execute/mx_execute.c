@@ -63,7 +63,7 @@ int mx_execute(t_input *input) {
     else if (mx_streq(command->name, "env"))
         mx_env("");
     else
-        command_not_found(command->name);
+        command->exit_code = command_not_found(command->name);
 
     return MX_SHOULD_NEXT;
 }

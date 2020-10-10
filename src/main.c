@@ -8,7 +8,7 @@ int main(int argc, const char *argv[], char *env[]) {
     mx_log_t("Entering ULS", "");
 
     mx_run_algorithm(env);
-    check_leaks();
+//    check_leaks();
 
     argc++;
     argv++;

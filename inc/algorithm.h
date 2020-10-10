@@ -9,20 +9,27 @@
 #include <stdlib.h>
 #include <libmx.h>
 
-// Command
-//
+#define MX_DELIM_NO_PAIR "ush: symbol not found: \" "
+#define MX_DELIM_NO_PAIR2 "ush: symbol not found: ` "
+#define MX_DELIM_NO_PAIR3 "ush: symbol not found: ( "
+#define MX_DELIM_NO_PAIR4 "ush: symbol not found: ) "
+
 typedef struct {
     char *name;
     char *arguments;
     int exit_code;
     char *output;
     bool stop_on_fail;
+    bool get_input_from_prev;
 } t_command;
 
 t_command *mx_command_new();
-void mx_command_delete(t_command **command);
-char *substr(const char *src, int start, int end);
-int get_logic_operator_index (const char *str, char operator);
+void mx_error_pair(char *str);
+bool get_subst(const char *str);
+char *mx_get_command(char *str);
+char *mx_get_args(char *str);
+char *mx_substr(const char *src, int start, int end);
+int mx_get_logic_operator_index (const char *str, char operator);
 
 // Input
 //

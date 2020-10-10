@@ -19,7 +19,7 @@ char **mx_strsplit(const char *s, char c) {
         }
         char *word_start = (char *)s;
         int word_len = 0;
-        while (*s != c) {
+        while (*s != c && *s != '\0') {
             word_len++;
             s++;
         }

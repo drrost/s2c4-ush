@@ -1,6 +1,6 @@
 #include "../inc/ush.h"
 
- char *substr(const char *src, int start, int end) {
+ char *mx_substr(const char *src, int start, int end) {
     char *result = (char *) malloc(end - start + 1);
     int iter = 0;
 

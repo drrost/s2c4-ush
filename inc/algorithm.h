@@ -51,6 +51,7 @@ typedef struct s_env {
 
 t_input *mx_input_new();
 void mx_input_delete(t_input **instance);
+void mx_command_delete(t_command **command);
 
 // Terminal state
 //

@@ -18,17 +18,33 @@ static void print_env(void) {
     }
 }
 
-void env_i(char **arr, int i) {
-    for (int j = i + 1; arr[j]; j++) {
-        mx_printline(arr[j]);
-    }
-}
-
 int env_not_found(const char *s) {
     mx_printerr("env: ");
     mx_printerr(s);
     mx_printerr(": No such file or directory\n");
     return 127;
+}
+
+static int find_equal_sign(char **arr, int i) {
+    for (int j = i + 1; arr[j]; j++) {
+        if (mx_get_char_index(arr[j], '=') == -1)
+            return j;
+    }
+    return 0;
+}
+
+int env_i(char **arr, int i) {
+    int status = 0;
+    int index = 0;
+    for (int j = i + 1; arr[j]; j++) {
+        if ((index = find_equal_sign(arr, i)) == 0)
+            mx_printline(arr[j]);
+        else {
+            status = env_not_found(arr[index]);
+            break;
+        }
+    }
+    return status;
 }
 
 int env_u(char **arr, int i) {
@@ -61,8 +77,7 @@ static int env_flags(char **args) {
                     if (!args[i + 1] && !args[i][2])
                         return env_option_required(args[i][1]);
                 if (args[i][1] == 'i') {
-                    env_i(args, i);
-                    return 0;
+                    return env_i(args, i);
                 }
                 if (args[i][1] == 'u') {
                     if (!args[i + 1] && !args[i][2])

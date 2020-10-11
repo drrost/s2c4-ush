@@ -26,9 +26,16 @@ static int env_flags(char **args) {
             if (args[i][0] == '-') {
                 if (!args[i][1] && args[i + 1])
                     return env_not_found(args[i + 1]);
-                if (args[i][1] == 'P')
+                if (args[i][1] == 'P') {
                     if (!args[i + 1] && !args[i][2])
                         return env_option_required(args[i][1]);
+                    if (args[i + 2])
+                        return env_not_found(args[i + 2]);
+                    else {
+                        print_env(); //TO DO: add error case with several arguments
+                        return 0;
+                    }
+                }
                 if (args[i][1] == 'i') {
                     return env_i(args, i);
                 }

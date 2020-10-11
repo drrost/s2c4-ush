@@ -26,7 +26,6 @@ typedef struct {
 // Input
 //
 typedef struct {
-    char *command; // TODO: remove will not used
     t_list *commands;
 } t_input;
 

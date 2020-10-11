@@ -5,7 +5,7 @@
 #include <ush.h>
 
 static void print_debug(const char *line) {
-    FILE *file = fopen("./uls.log", "a+");
+    FILE *file = fopen("./ush.log", "a+");
     fprintf(file, "%s\n", line);
     fclose(file);
 }

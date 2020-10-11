@@ -3,6 +3,7 @@
 
 #include <libmx.h>
 #include <algorithm.h>
+#include <mx_core.h>
 
 // System headers
 
@@ -11,32 +12,15 @@
 #include <string.h>
 #include <unistd.h>
 #include <termios.h>
+#include <sys/types.h>
+#include <pwd.h>
 
-// File types
-
-#define MX_IFMT 0170000 // Mask of file type
-#define MX_IFIFO 0010000 // Named pipe(fifo)
-#define MX_IFCHR 0020000 //character device
-#define MX_IFDIR 0040000 //directory file
-#define MX_IFBLK 0060000 //Block device
-#define MX_IFREG 0100000 //regular file
-#define MX_IFLNK 0120000 //symbolic link
-#define MX_IFSOCK 0140000 //UNIX domain socket
-
-#define MX_ISBLK(m) (((m) & MX_IFMT) == MX_IFBLK)
-#define MX_ISCHR(m) (((m) & MX_IFMT) == MX_IFCHR)
-#define MX_ISDIR(m) (((m) & MX_IFMT) == MX_IFDIR)
-#define MX_ISFIFO(m) (((m) & MX_IFMT) == MX_IFIFO)
-#define MX_ISREG(m) (((m) & MX_IFMT) == MX_IFREG)
-#define MX_ISLNK(m) (((m) & MX_IFMT) == MX_IFLNK)
-#define MX_ISXEC(m) ((m) & MX_IXUSR)
-#define MX_ISSOCK(m) (((m) & MX_IFMT) == MX_IFSOCK)
 
 void check_leaks();
 
 // Algorithm
 
-void mx_run_algorithm(char *env[]);
+void mx_run_algorithm();
 char *mx_read_next();
 
 #define MX_SHOULD_EXIT -3
@@ -44,17 +28,40 @@ char *mx_read_next();
 int mx_execute(t_input *input);
 
 t_input *mx_parse_input(const char *input);
+t_input *mx_parse_input_simple(const char *str);
 
 // BUILT_IN
-void mx_pwd(char *line);
+int mx_pwd(char *line);
+int mx_echo(char *args, int exit_code);
 int mx_exit(char *line);
-void mx_env(const char *args);
+int mx_env(const char *args);
+int mx_false(void);
+int mx_true(void);
+int mx_which(char *arguments);
+int mx_change_color(char *command);
+int mx_unset(char *arguments);
+int mx_export(char *arguments);
+int mx_bye(char *line);
+int mx_whoami(char *line);
+int mx_cd(const char *line);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);
 
 // UTILS
 void mx_printerr(const char *str);
+bool mx_is_built_in(char *str);
+int mx_command_not_found(const char *s);
+int mx_echo_flag(char *str, int *n);
+char *mx_clear_str_of_symbols(const char *line);
+int mx_unsetenv(const char *s);
+int mx_arr_size(char **arr);
+int mx_print_not_found(const char *s);
+int mx_env_i(char **arr, int i);
+int mx_env_u(char **arr, int i);
+int mx_print_option_required(char c);
+void mx_print_env(void);
+void mx_printerr_char(char c);
 
 enum e_log_level {
     LOG_ALL,

@@ -5,11 +5,11 @@
 #include <wchar.h>
 #include <dirent.h>
 #include <sys/stat.h>
+#include <stdlib.h>
+#include <errno.h>
 
-typedef struct s_list {
-    void *data;
-    struct s_list *next;
-}              t_list;
+#include <mx_map.h>
+#include <mx_path.h>
 
 typedef struct s_fd_node {
     int fd;

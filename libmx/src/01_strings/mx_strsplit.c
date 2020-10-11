@@ -14,9 +14,8 @@ char **mx_strsplit(const char *s, char c) {
 
     // Spit string
     for (int i = 0; i < arr_size; i++) {
-        while (*s == c) {
+        while (*s == c)
             s++;
-        }
         char *word_start = (char *)s;
         int word_len = 0;
         while (*s != c && *s != '\0') {

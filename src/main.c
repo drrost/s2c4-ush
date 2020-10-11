@@ -4,16 +4,20 @@
 
 #include <ush.h>
 
-int main(int argc, const char *argv[], char *env[]) {
+int main(int argc, const char *argv[]) {
     mx_log_t("Entering ULS", "");
 
-    mx_run_algorithm(env);
-//    check_leaks();
+    mx_core_init();
+
+    mx_run_algorithm();
+    mx_core_clean();
+
+    check_leaks();
 
     argc++;
     argv++;
 
-    mx_log_t("Exitign ULS", "");
+    mx_log_t("Exiting ULS", "");
 
     return 0;
 }

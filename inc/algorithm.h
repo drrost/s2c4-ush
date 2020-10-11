@@ -23,7 +23,15 @@ typedef struct {
     bool get_input_from_prev;
 } t_command;
 
+// Input
+//
+typedef struct {
+    char *command; // TODO: remove will not used
+    t_list *commands;
+} t_input;
+
 t_command *mx_command_new();
+void create_comm_and_arg(t_input *inp, int end, char *strend, int start);
 void mx_error_pair(char *str);
 bool get_subst(const char *str);
 char *mx_get_command(char *str);
@@ -31,12 +39,6 @@ char *mx_get_args(char *str);
 char *mx_substr(const char *src, int start, int end);
 int mx_get_logic_operator_index (const char *str, char operator);
 
-// Input
-//
-typedef struct {
-    char *command; // TODO: remove will not used
-    t_list *commands;
-} t_input;
 
 // Env
 //

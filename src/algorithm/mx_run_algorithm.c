@@ -24,6 +24,7 @@
 //        mx_printstr("\n");
 //        mx_printstr("===============================================\n");
 //        main->commands = main->commands->next;
+//        system ("leaks -q ush");
 //    }
 //}
 
@@ -44,8 +45,10 @@ void mx_run_algorithm(char *env[]) {
 
         t_input *input = mx_parse_input(line);
         mx_error_pair(line);
-//        mx_strdel(&line);
+        mx_strdel(&line);
 //        print_input(input);
+        system ("leaks -q ush");
+
         break;
 
         // Execute

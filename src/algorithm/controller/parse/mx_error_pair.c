@@ -2,7 +2,6 @@
 
 static int fiend_count(char *str, char c) {
     int result = 0;
-
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == c)
             result++;
@@ -10,8 +9,7 @@ static int fiend_count(char *str, char c) {
     return result;
 }
 
-
-void mx_error_pair( char *str) {
+void mx_error_pair(char *str) {
     if ((fiend_count(str, '"') % 2) != 0) {
         mx_printerr(MX_DELIM_NO_PAIR);
         mx_printerr("\n");

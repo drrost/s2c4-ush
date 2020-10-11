@@ -54,7 +54,7 @@ static int env_flags(char **args) { //TO DO: add several flags case
                 }
                 else {
                     mx_printerr("env: illegal option -- ");
-                    write(2, &args[i][1], 1);
+                    mx_printerr_char(args[i][1]);
                     mx_printerr("\n");
                     return 0;
                 }

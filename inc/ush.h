@@ -61,6 +61,7 @@ int mx_env_i(char **arr, int i);
 int mx_env_u(char **arr, int i);
 int mx_print_option_required(char c);
 void mx_print_env(void);
+void mx_printerr_char(char c);
 
 enum e_log_level {
     LOG_ALL,

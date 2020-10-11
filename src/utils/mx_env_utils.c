@@ -46,7 +46,7 @@ int mx_env_u(char **arr, int i) {
 
 int mx_print_option_required(char c) {
     mx_printerr("env: option requires an argument -- ");
-    write(2, &c, 1);
+    mx_printerr_char(c);
     mx_printerr("\n");
     return 1;
 }

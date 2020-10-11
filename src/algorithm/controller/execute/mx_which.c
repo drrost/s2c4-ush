@@ -23,7 +23,7 @@ static int flag_parse(char **command, bool *flag) {
                     flag[1] = 1;
                 else {
                     mx_printerr("ush: which: -");
-                    write(2, &command[i][j], 1);
+                    mx_printerr_char(command[i][j]);
                     mx_printerr(" invalid option\n");
                     mx_printerr("which: usage: which [-as] program ...\n");
                     return -1;

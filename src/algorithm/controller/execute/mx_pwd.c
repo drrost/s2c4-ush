@@ -47,7 +47,7 @@ static char check_pwd(char *line, bool *error) {
             if (!isatty(0))
                 mx_printerr("line 1: ");
             mx_printerr("pwd: -");
-            write(2, &line[i], 1);
+            mx_printerr_char(line[i]);
             mx_printerr(": invalid option\npwd: usage: pwd [-LP]\n");
             *error = true;
             break;

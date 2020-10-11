@@ -16,7 +16,7 @@ int mx_unset(char *arguments) {
             }
             else {
                 mx_printerr("unset: bad option: -");
-                write(2, &arr[i][1], 1);
+                mx_printerr_char(arr[i][1]);
                 mx_printerr("\n");
                 return 1;
             }

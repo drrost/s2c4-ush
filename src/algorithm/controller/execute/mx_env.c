@@ -42,30 +42,31 @@ int env_u(char **arr, int i) {
     return status;
 }
 
+int env_option_required(char c) {
+    mx_printerr("env: option requires an argument -- ");
+    write(2, &c, 1);
+    mx_printerr("\n");
+    return 1;
+}
+
 static int env_flags(char **args) {
     int i = 0;
 
     for (; args[i]; i++)
         for (int j = 0; args[i][j]; j++)
             if (args[i][0] == '-') {
-                if (!args[i][1] && args[i + 1]) {
+                if (!args[i][1] && args[i + 1])
                     return env_not_found(args[i + 1]);
-                }
-                if (args[i][1] == 'P') {
-                    if (!args[i + 1] && !args[i][2]) {
-                        mx_printerr("env: option requires an argument -- P\n");
-                        return 0;
-                    }
-                }
+                if (args[i][1] == 'P')
+                    if (!args[i + 1] && !args[i][2])
+                        return env_option_required(args[i][1]);
                 if (args[i][1] == 'i') {
                     env_i(args, i);
                     return 0;
                 }
                 if (args[i][1] == 'u') {
-                    if (!args[i + 1] && !args[i][2]) {
-                        mx_printerr("env: option requires an argument -- u\n");
-                        return 0;
-                    }
+                    if (!args[i + 1] && !args[i][2])
+                        return env_option_required(args[i][1]);
                     else
                         return env_u(args, i);
                 }

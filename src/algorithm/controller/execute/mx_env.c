@@ -18,7 +18,7 @@ void print_env(void) {
     }
 }
 
-static int env_flags(char **args) {
+static int env_flags(char **args) { //TO DO: add several flags case
     int i = 0;
 
     for (; args[i]; i++)
@@ -32,7 +32,7 @@ static int env_flags(char **args) {
                     if (args[i + 2])
                         return env_not_found(args[i + 2]);
                     else {
-                        print_env(); //TO DO: add error case with several arguments
+                        print_env();
                         return 0;
                     }
                 }

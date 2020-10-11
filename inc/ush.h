@@ -51,16 +51,16 @@ t_env *fill_env(char *env[]);
 // UTILS
 void mx_printerr(const char *str);
 bool mx_is_built_in(char *str);
-int command_not_found(const char *s);
-int echo_flag(char *str, int *n);
-char *clear_str_of_symbols(const char *line);
+int mx_command_not_found(const char *s);
+int mx_echo_flag(char *str, int *n);
+char *mx_clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
 int mx_arr_size(char **arr);
-int env_not_found(const char *s);
-int env_i(char **arr, int i);
-int env_u(char **arr, int i);
-int env_option_required(char c);
-void print_env(void);
+int mx_print_not_found(const char *s);
+int mx_env_i(char **arr, int i);
+int mx_env_u(char **arr, int i);
+int mx_print_option_required(char c);
+void mx_print_env(void);
 
 enum e_log_level {
     LOG_ALL,

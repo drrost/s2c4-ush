@@ -64,12 +64,12 @@ char *mx_parse_echo(char *line, int *n) {
     bool flag_off = true;
 
     if (line[0] == '-' && str == NULL && flag != -1) {
-        flag = echo_flag(line, n);
+        flag = mx_echo_flag(line, n);
         flag_off = false;
     }
     if (str == NULL && mx_strcmp(line, "") != 0){
         if (mx_strstr(line, "${") != 0) {
-            char *env = clear_str_of_symbols(line);
+            char *env = mx_clear_str_of_symbols(line);
             if (getenv(env) != NULL)
                 str = mx_strdup(mx_getenv(env));
         }

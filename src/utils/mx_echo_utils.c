@@ -4,7 +4,7 @@
 
 #include <ush.h>
 
-int echo_flag(char *str, int *n) {
+int mx_echo_flag(char *str, int *n) {
     int flag = 1;
 
     for (int i = 1; i < mx_strlen(str); i++) {
@@ -22,7 +22,7 @@ int echo_flag(char *str, int *n) {
     return flag;
 }
 
-char *clear_str_of_symbols(const char *line) {
+char *mx_clear_str_of_symbols(const char *line) {
     char *str = mx_strdup(line);
 
     for ( int i = 0, j; str[i]; ++i) {

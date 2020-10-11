@@ -4,7 +4,7 @@
 
 #include <ush.h>
 
-void print_env(void) {
+void mx_print_env(void) {
 
     t_map *env = mx_env_get();
     t_list *list = env->content;
@@ -25,19 +25,19 @@ static int env_flags(char **args) { //TO DO: add several flags case
         for (int j = 0; args[i][j]; j++)
             if (args[i][0] == '-') {
                 if (!args[i][1] && args[i + 1])
-                    return env_not_found(args[i + 1]);
+                    return mx_print_not_found(args[i + 1]);
                 if (args[i][1] == 'P') {
                     if (!args[i + 1] && !args[i][2])
-                        return env_option_required(args[i][1]);
+                        return mx_print_option_required(args[i][1]);
                     if (args[i + 2])
-                        return env_not_found(args[i + 2]);
+                        return mx_print_not_found(args[i + 2]);
                     else {
-                        print_env();
+                        mx_print_env();
                         return 0;
                     }
                 }
                 if (args[i][1] == 'i') {
-                    return env_i(args, i);
+                    return mx_env_i(args, i);
                 }
                 if (args[i][1] == 'u') {
                     if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") == 0)) {
@@ -45,12 +45,12 @@ static int env_flags(char **args) { //TO DO: add several flags case
                         return 1;
                     }
                     else if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") != 0)) {
-                        return env_not_found(args[i + 2]);
+                        return mx_print_not_found(args[i + 2]);
                     }
                     if (!args[i + 1] && !args[i][2])
-                        return env_option_required(args[i][1]);
+                        return mx_print_option_required(args[i][1]);
                     else
-                        return env_u(args, i);
+                        return mx_env_u(args, i);
                 }
                 else {
                     mx_printerr("env: illegal option -- ");
@@ -60,7 +60,7 @@ static int env_flags(char **args) { //TO DO: add several flags case
                 }
             }
             else
-                return env_not_found(args[i]);
+                return mx_print_not_found(args[i]);
 
     return 0;
 } 
@@ -68,7 +68,7 @@ static int env_flags(char **args) { //TO DO: add several flags case
 int mx_env(const char *args) {
     int status = 0;
     if (mx_strlen(args) == 0) {
-        print_env();
+        mx_print_env();
         return 0;
     }
     else {

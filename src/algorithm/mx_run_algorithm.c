@@ -15,7 +15,7 @@ void mx_run_algorithm() {
         char *line = mx_read_next();
 
         // Parse
-        t_input *input = mx_parse_input_simple(line);
+        t_input *input = mx_parse_input(line);
         mx_strdel(&line);
 
         // Execute

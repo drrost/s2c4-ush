@@ -56,6 +56,11 @@ int echo_flag(char *str, int *n);
 char *clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
 int mx_arr_size(char **arr);
+int env_not_found(const char *s);
+int env_i(char **arr, int i);
+int env_u(char **arr, int i);
+int env_option_required(char c);
+void print_env(void);
 
 enum e_log_level {
     LOG_ALL,

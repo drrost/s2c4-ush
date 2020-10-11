@@ -34,7 +34,7 @@ t_input *mx_parse_input_simple(const char *str);
 int mx_pwd(char *line);
 int mx_echo(char *args, int exit_code);
 int mx_exit(char *line);
-void mx_env(const char *args);
+int mx_env(const char *args);
 int mx_false(void);
 int mx_true(void);
 int mx_which(char *arguments);

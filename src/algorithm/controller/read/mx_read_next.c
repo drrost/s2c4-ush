@@ -104,8 +104,6 @@ char *mx_read_next() {
 
     if (mx_streq("exit", line) == false)
         mx_history_add(mx_strdup(line));
-    else
-        mx_history_delete();
 
     return line;
 }

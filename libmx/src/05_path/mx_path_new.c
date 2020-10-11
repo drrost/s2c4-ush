@@ -45,5 +45,7 @@ t_path *mx_path_new(const char *path) {
     instance->is_dir = mx_path_is_dir;
     instance->exists = mx_path_exists;
 
+    instance->reslolve = mx_path_resolve;
+
     return instance;
 }

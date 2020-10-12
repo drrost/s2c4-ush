@@ -4,104 +4,100 @@
 
 #include <ush.h>
 
-static int separator_error(char **parse, int *n, int separator) {
-    if (separator == -1) {
-        *n = -1;
-        mx_strdel(parse);
-        mx_printerr("Odd number of quotes.\n");
-        return -1;
-    }
-    return 0;
-}
 
-static void escape(int i, char *str, char *parse, int index) {
-    if (str[i] == 'a')
-        parse[index] = '\a';
-    else if (str[i] == 'b')
-        parse[index] = '\b';
-    else if (str[i] == 't')
-        parse[index] = '\t';
-    else if (str[i] == 'n')
-        parse[index] = '\n';
-    else if (str[i] == 'v')
-        parse[index] = '\v';
-    else if (str[i] == 'f')
-        parse[index] = '\f';
-    else if (str[i] == 'r')
-        parse[index] = '\r';
-    else
-        parse[index] = str[i];
-}
-
-static char *fill_str(char *str, int *n, int flag, bool flag_off) {
-    char *parse = mx_strnew(1000);
-    int separator = 1;
-    int index = 0;
+static int print_echo_e(char *str) {
+    char buf;
 
     for (int i = 0; str[i] != '\0'; i++) {
-        if (str[i] == '\"' || str[i] == '\'')
-            separator *= -1;
-        else if (flag == 1 && str[i] == '\\' && separator == -1)
-            escape(++i, str, parse, index++);
-        else if (str[i] == '\\' && separator == 1)
-            parse[index++] = str[++i];
-        else if (flag_off)
-            parse[index++] = str[i];
-        // else {
-        //     parse[index++] = str[i];
-        // }
+        if (str[i] == '\\' && mx_regex(str + i + 1, "^(x[0-9a-fA-F]{2}.*)|(0[0-7]{2,3}.*)$")) {
+            buf = mx_hex(str, &i);
+        }
+        else if (str[i] == '\\' && str[i + 1] == '\\')
+            buf = '\\';
+        else if (str[i] == '\\' && str[i + 1] == '0' && ++i > 0)
+            buf = '\0';
+        else if ((buf = mx_print_echo_d(&str[i], &i)) != -1);
+        else if (str[i] == '\\' && str[i + 1] == 'c' && ++i > 0)
+            return 0;
+        else
+            buf = str[i];
+        // if (buf == 34) //TO DO: may be needed to rethink the fix (case echo -n "\a")
+        //     continue;
+        // else
+            write(1, &buf, 1);
     }
-    parse[index] = '\0';
-    if (separator_error(&parse, n, separator) == -1)
-        *n = -1;
-    //mx_strdel(&str);
-    return parse;
+    return 1;
 }
 
-char *mx_parse_echo(char *line, int *n) {
-    int flag = 1;
-    char *str = NULL;
-    bool flag_off = true;
-
-    if (line[0] == '-' && str == NULL && flag != -1) {
-        flag = mx_echo_flag(line, n);
-        flag_off = false;
-    }
-    if (str == NULL && mx_strcmp(line, "") != 0){
-        if (mx_strstr(line, "${") != 0) {
-            char *env = mx_clear_str_of_symbols(line);
-            if (getenv(env) != NULL)
-                str = mx_strdup(mx_getenv(env));
+bool print_env_var(char *s) {
+    bool done = false;
+    char *str = 0;
+    if (mx_strstr(s, "${") != 0) {
+        char *env = mx_clear_str_of_symbols(s);
+        if (mx_getenv(env) != NULL) {
+            str = mx_strdup(mx_getenv(env));
+            mx_printstr(str);
+            done = true;
+            mx_strdel(&str);
         }
+        mx_strdel(&env);
+    }
+    return done;
+}
+
+
+static void print_e(int i, char *flags, char **arr, int exit_code) {
+    int err = 1;
+
+    for (i = i + 1; arr[i]; i++) {
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+            err = print_echo_e(arr[i]);
+        if (arr[i + 1] && err)
+            write(1, " ", 1);
+    }
+    if (flags[0] != 'n' && err)
+        write(1, "\n", 1);
+}
+
+static void print_no_args(char **arr, int exit_code) {
+    int err = 1;
+
+    for (int i = 0; arr[i]; i++) {
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+            err = print_echo_e(arr[i]);
+        if (arr[i + 1] && err) 
+            write(1, " ", 1);
         else
-            str = mx_strdup(line);
+            write(1, "\n", 1);
     }
-    else if (mx_strcmp(line, "") != 0) {
-        str = mx_realloc(str, strlen(str) + strlen(line) + 2);
-        mx_strcat(str, "");
-        mx_strcat(str, line);
-    }
-    if (str != NULL)
-        str = fill_str(str, n, flag, flag_off);
-    return str;
 }
 
 int mx_echo(char *args, int exit_code) {
-    int check = 0;
+    if (mx_strlen(args) > 0) {
+        int i = 0;
+        char **arr = mx_strsplit(args, ' ');
+        char *flags = mx_checkflags_echo(arr, &i);
 
-    if (mx_strcmp(args, "$?") == 0) {//TO DO: add case echo $? HELLO WORLD
-        printf("%d\n", exit_code);
+        if (flags[1] == 'E') {
+            for (i = i + 1; arr[i]; i++) {
+                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+                    write(1, arr[i], mx_strlen(arr[i]));
+                if (arr[i + 1])
+                    write(1, " ", 1);
+            }
+            if (flags[0] != 'n')
+                write(1, "\n", 1);
+        }
+        else if(arr[0][0] != '-')
+            print_no_args(arr, exit_code);
+        else {
+            print_e(i, flags, arr, exit_code);
+        }
+        free(flags);
+        mx_del_strarr(&arr);
         return 0;
     }
-
-    char *str = mx_parse_echo(args, &check);
-
-    if (str != NULL)
-        mx_printstr(str);
-    if (check == 0)
+    else
         mx_printstr("\n");
-    else if (check == -1)
-        return 1;
-    mx_strdel(&str);
     return 0;
 }

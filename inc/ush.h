@@ -15,6 +15,7 @@
 #include <sys/types.h>
 #include <pwd.h>
 #include <sys/ioctl.h>
+#include <regex.h>
 
 
 void check_leaks();
@@ -53,7 +54,6 @@ t_env *fill_env(char *env[]);
 void mx_printerr(const char *str);
 bool mx_is_built_in(char *str);
 int mx_command_not_found(const char *s);
-int mx_echo_flag(char *str, int *n);
 char *mx_clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
 int mx_arr_size(char **arr);
@@ -64,6 +64,12 @@ int mx_print_option_required(char c);
 void mx_print_env(void);
 void mx_printerr_char(char c);
 int mx_get_window_width();
+bool mx_regex(char *str, char *regular);
+int mx_get_hex_and_oct(char *buf, char *str, int *i);
+bool mx_print_exit_code(int exit_code, char *s);
+int mx_hex(char *str, int *i);
+char *mx_checkflags_echo(char **arr, int *counter);
+int mx_print_echo_d(char *str, int *i);
 
 enum e_log_level {
     LOG_ALL,

@@ -55,6 +55,34 @@ static bool is_esc_sequence_part(char c, char **complete) {
     return false;
 }
 
+static void clear_current_line() {
+    putchar('\r');
+    int win_width = mx_get_window_width();
+    for (int i = 0; i < win_width; i++)
+        putchar(' ');
+    putchar('\r');
+}
+
+static void print_tricky_str(char *s) {
+    int len = mx_strlen(s);
+    for (int i = 0; i < len; i++) {
+        putchar(s[i]);
+    }
+}
+
+static void print_prompt() {
+    print_tricky_str("u$l> ");
+}
+
+static void handle_backspace(t_termstate *state) {
+    state->line[state->pos - 1] = 0;
+    clear_current_line();
+    print_prompt();
+    print_tricky_str(state->line);
+
+    state->pos--;
+}
+
 static void handle_key(const char c, t_termstate *state) {
     char *complete = 0;
     if (is_esc_sequence_part(c, &complete))
@@ -62,6 +90,11 @@ static void handle_key(const char c, t_termstate *state) {
 
     if (complete) {
         log_esc_sequence(complete);
+        return;
+    }
+
+    if (c == 127) {
+        handle_backspace(state);
         return;
     }
 
@@ -75,9 +108,10 @@ static void handle_key(const char c, t_termstate *state) {
 }
 
 char *mx_read_next() {
+    print_prompt();
 //    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
-//    char *str = "pwd";
-//    return mx_strdup(str);
+//    static int count = 0;
+//    char *str_1 = 0;
 
     struct termios save;
     struct termios raw;

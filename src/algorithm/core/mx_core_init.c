@@ -19,16 +19,20 @@ static void init_env() {
 }
 
 char *mx_history_file() {
-    return 0;
-}
-
-static void init_history() {
     static char *history_file_name = ".ush_history";
     char *home_dir = mx_getenv("HOME");
     t_path *path = mx_path_new(home_dir);
     path->append(path, history_file_name);
-    int fd = open(path->p, O_RDONLY);
+
+    char *result = mx_strdup(path->p);
     mx_path_del(&path);
+    return result;
+}
+
+static void init_history() {
+    char *file_name = mx_history_file();
+    int fd = open(file_name, O_RDONLY);
+    mx_strdel(&file_name);
 
     char *line = 0;
     while (mx_read_line(&line, 1000, '\n', fd) > 0) {

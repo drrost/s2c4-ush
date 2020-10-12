@@ -4,30 +4,14 @@
 
 #include <ush.h>
 
-static bool is_arrow_up(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 65;
-}
-
-static bool is_arrow_down(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 66;
-}
-
-static bool is_arrow_right(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 67;
-}
-
-static bool is_arrow_left(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 68;
-}
-
 static void log_esc_sequence(const char *input_buff) {
-    if (is_arrow_up(input_buff))
+    if (mx_is_arrow_up(input_buff))
         mx_log_t("up arrow", "");
-    else if (is_arrow_down(input_buff))
+    else if (mx_is_arrow_down(input_buff))
         mx_log_t("down arrow", "");
-    else if (is_arrow_right(input_buff))
+    else if (mx_is_arrow_right(input_buff))
         mx_log_t("right arrow", "");
-    else if (is_arrow_left(input_buff))
+    else if (mx_is_arrow_left(input_buff))
         mx_log_t("left arrow", "");
     else
         mx_log_t("unknown sequence", "");

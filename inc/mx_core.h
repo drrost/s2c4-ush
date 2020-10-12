@@ -17,8 +17,10 @@ void mx_setenv(const char *key, const char *value);
 // History
 //
 t_list **mx_history_get();
-void mx_history_add(char *line);
+void mx_history_add_to_list(char *line);
+void mx_history_add_to_file(char *line);
 void mx_history_delete();
+char *mx_history_file();
 
 // Core
 //

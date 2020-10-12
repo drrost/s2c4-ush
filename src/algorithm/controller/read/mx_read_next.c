@@ -4,30 +4,14 @@
 
 #include <ush.h>
 
-static bool is_arrow_up(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 65;
-}
-
-static bool is_arrow_down(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 66;
-}
-
-static bool is_arrow_right(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 67;
-}
-
-static bool is_arrow_left(const char *s) {
-    return s[0] == 27 && s[1] == 91 && s[2] == 68;
-}
-
 static void log_esc_sequence(const char *input_buff) {
-    if (is_arrow_up(input_buff))
+    if (mx_is_arrow_up(input_buff))
         mx_log_t("up arrow", "");
-    else if (is_arrow_down(input_buff))
+    else if (mx_is_arrow_down(input_buff))
         mx_log_t("down arrow", "");
-    else if (is_arrow_right(input_buff))
+    else if (mx_is_arrow_right(input_buff))
         mx_log_t("right arrow", "");
-    else if (is_arrow_left(input_buff))
+    else if (mx_is_arrow_left(input_buff))
         mx_log_t("left arrow", "");
     else
         mx_log_t("unknown sequence", "");
@@ -75,12 +59,12 @@ static void print_prompt() {
 }
 
 static void handle_backspace(t_termstate *state) {
-    state->line[state->pos - 1] = 0;
+    state->line[state->cursor_pos - 1] = 0;
     clear_current_line();
     print_prompt();
     print_tricky_str(state->line);
 
-    state->pos--;
+    state->cursor_pos--;
 }
 
 static void handle_key(const char c, t_termstate *state) {
@@ -99,8 +83,8 @@ static void handle_key(const char c, t_termstate *state) {
     }
 
     putchar(c);
-    state->line[state->pos] = c;
-    state->pos++;
+    state->line[state->cursor_pos] = c;
+    state->cursor_pos++;
 
     char *s = mx_itoa(c);
     mx_log_t("Key: ", s);
@@ -136,8 +120,8 @@ char *mx_read_next() {
     char *line = mx_strdup(state->line);
     mx_termstate_del(&state);
 
-    if (mx_streq("exit", line) == false)
-        mx_history_add(mx_strdup(line));
+    mx_history_add_to_list(mx_strdup(line));
+    mx_history_add_to_file(line);
 
     return line;
 }

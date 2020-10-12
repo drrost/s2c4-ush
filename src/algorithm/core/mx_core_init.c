@@ -3,9 +3,9 @@
 //
 
 #include <mx_core.h>
-#include <libmx.h>
+#include <ush.h>
 
-void mx_core_init() {
+static void init_env() {
     extern char **environ;
     char *s = *environ;
     int i = 1;
@@ -16,4 +16,21 @@ void mx_core_init() {
         mx_del_strarr(&split_arr);
         s = *(environ + i);
     }
+}
+
+static void init_history() {
+    char *file_name = mx_history_file();
+    int fd = open(file_name, O_RDONLY);
+    mx_strdel(&file_name);
+
+    char *line = 0;
+    while (mx_read_line(&line, 1000, '\n', fd) > 0)
+        mx_history_add_to_list(line);
+
+    close(fd);
+}
+
+void mx_core_init() {
+    init_env();
+    init_history();
 }

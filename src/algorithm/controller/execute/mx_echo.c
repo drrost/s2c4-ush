@@ -21,9 +21,9 @@ static int print_echo_e(char *str) {
             return 0;
         else
             buf = str[i];
-        // if (buf == 34) //TO DO: may be needed to rethink the fix (case echo -n "\a")
-        //     continue;
-        // else
+        if (buf == 34) //TO DO: may be needed to rethink the fix (case echo -n "\a")
+            continue;
+        else
             write(1, &buf, 1);
     }
     return 1;

@@ -6,7 +6,7 @@
 #include <private/mx_cd_private.h>
 
 void mx_cd_do(char flag, const char *dir) {
-    flag++; // TODO: Add path handling.
+    flag++; // TODO: Add flags handling.
 
     char *pwd = mx_cd_resolve_path(dir);
     mx_setenv("PWD", pwd);

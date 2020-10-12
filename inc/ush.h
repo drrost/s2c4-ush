@@ -14,6 +14,7 @@
 #include <termios.h>
 #include <sys/types.h>
 #include <pwd.h>
+#include <sys/ioctl.h>
 
 
 void check_leaks();

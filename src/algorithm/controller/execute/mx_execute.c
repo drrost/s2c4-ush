@@ -78,7 +78,7 @@ int mx_execute(t_input *input) {
 
     else if (mx_streq(command->name, "env"))
         command->exit_code = mx_env(command->arguments);
-    else
+    else if (mx_strlen(command->name))
         command->exit_code = mx_command_not_found(command->name);
 
     return MX_SHOULD_NEXT;

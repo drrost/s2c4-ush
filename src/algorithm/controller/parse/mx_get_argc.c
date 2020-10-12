@@ -12,6 +12,6 @@
         args = (char*)malloc(sizeof(char) * (mx_strlen(pointer) + 1));
         return mx_strncpy(args, pointer, mx_strlen(pointer) + 1);
     } else {
-        return NULL;
+        return mx_strdup("");
     }
 }

@@ -136,8 +136,8 @@ char *mx_read_next() {
     char *line = mx_strdup(state->line);
     mx_termstate_del(&state);
 
-    if (mx_streq("exit", line) == false)
-        mx_history_add(mx_strdup(line));
+    mx_history_add_to_list(mx_strdup(line));
+    mx_history_add_to_file(line);
 
     return line;
 }

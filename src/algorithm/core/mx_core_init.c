@@ -18,17 +18,6 @@ static void init_env() {
     }
 }
 
-char *mx_history_file() {
-    static char *history_file_name = ".ush_history";
-    char *home_dir = mx_getenv("HOME");
-    t_path *path = mx_path_new(home_dir);
-    path->append(path, history_file_name);
-
-    char *result = mx_strdup(path->p);
-    mx_path_del(&path);
-    return result;
-}
-
 static void init_history() {
     char *file_name = mx_history_file();
     int fd = open(file_name, O_RDONLY);
@@ -36,7 +25,9 @@ static void init_history() {
 
     char *line = 0;
     while (mx_read_line(&line, 1000, '\n', fd) > 0)
-        mx_history_add(line);
+        mx_history_add_to_list(line);
+
+    close(fd);
 }
 
 void mx_core_init() {

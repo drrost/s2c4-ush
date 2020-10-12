@@ -35,9 +35,8 @@ static void init_history() {
     mx_strdel(&file_name);
 
     char *line = 0;
-    while (mx_read_line(&line, 1000, '\n', fd) > 0) {
+    while (mx_read_line(&line, 1000, '\n', fd) > 0)
         mx_history_add(line);
-    }
 }
 
 void mx_core_init() {

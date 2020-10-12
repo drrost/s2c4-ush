@@ -75,12 +75,12 @@ static void print_prompt() {
 }
 
 static void handle_backspace(t_termstate *state) {
-    state->line[state->pos - 1] = 0;
+    state->line[state->cursor_pos - 1] = 0;
     clear_current_line();
     print_prompt();
     print_tricky_str(state->line);
 
-    state->pos--;
+    state->cursor_pos--;
 }
 
 static void handle_key(const char c, t_termstate *state) {
@@ -99,8 +99,8 @@ static void handle_key(const char c, t_termstate *state) {
     }
 
     putchar(c);
-    state->line[state->pos] = c;
-    state->pos++;
+    state->line[state->cursor_pos] = c;
+    state->cursor_pos++;
 
     char *s = mx_itoa(c);
     mx_log_t("Key: ", s);

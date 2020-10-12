@@ -36,12 +36,9 @@ bool get_subst(const char *str);
 char *mx_get_command(char *str);
 char *mx_get_args(char *str);
 char *mx_substr(const char *src, int start, int end);
-int mx_get_logic_operator_index (const char *str, char operator);
-
+int mx_get_logic_operator_index(const char *str, char operator);
 
 // Env
-//
-// TODO: Rename to t_pair
 //
 typedef struct s_env {
     char *name;
@@ -56,8 +53,9 @@ void mx_command_delete(t_command **command);
 // Terminal state
 //
 typedef struct {
-    int pos;
+    int cursor_pos;
     char *line;
+    int history_pos;
 } t_termstate;
 
 t_termstate *mx_termstate_new();

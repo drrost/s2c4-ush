@@ -4,6 +4,7 @@
 
 #include <ush.h>
 #include <private/mx_cd_private.h>
+#include <mx_log.h>
 
 static void trace_log(char flag, char *dir) {
     char log_str[1024];

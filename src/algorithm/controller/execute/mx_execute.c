@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <mx_log.h>
 
 static void log_command_execution(t_command *command) {
     char *s = 0;

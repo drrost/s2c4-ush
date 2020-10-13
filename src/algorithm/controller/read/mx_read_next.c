@@ -6,7 +6,6 @@
 #include <mx_log.h>
 #include <private/mx_read_private.h>
 
-
 static bool is_esc_sequence_part(char c, char **complete) {
     static char input_buff[4];
     static int buff_idx = 0;

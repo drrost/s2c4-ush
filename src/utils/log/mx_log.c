@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <mx_log.h>
 
 static void print_debug(const char *line) {
     FILE *file = fopen("./ush.log", "a+");

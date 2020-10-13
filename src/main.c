@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <mx_log.h>
 
 int main(int argc, const char *argv[]) {
     mx_log_t("Entering ULS", "");

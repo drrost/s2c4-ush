@@ -71,21 +71,4 @@ int mx_hex(char *str, int *i);
 char *mx_checkflags_echo(char **arr, int *counter);
 int mx_print_echo_d(char *str, int *i);
 
-enum e_log_level {
-    LOG_ALL,
-    LOG_TRACE,
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARN,
-    LOG_ERROR,
-    LOG_FATAL,
-    LOG_OFF
-};
-
-void mx_log(const char *subject, const char *details, int level);
-void mx_log_t(const char *subject, const char *details);
-void mx_log_d(const char *subject, const char *details);
-void mx_log_i(const char *subject, const char *details);
-void mx_log_e(const char *subject, const char *details);
-
 #endif

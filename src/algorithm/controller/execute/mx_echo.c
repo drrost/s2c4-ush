@@ -80,7 +80,7 @@ int mx_echo(char *args, int exit_code) {
 
         if (flags[1] == 'E') {
             for (i = i + 1; arr[i]; i++) {
-                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]) && !mx_streq(arr[i], "\"\""))
                     write(1, arr[i], mx_strlen(arr[i]));
                 if (arr[i + 1])
                     write(1, " ", 1);

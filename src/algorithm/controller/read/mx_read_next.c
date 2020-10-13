@@ -60,8 +60,13 @@ static void handle_backspace(t_termstate *state) {
     update_current_line(state->line);
 }
 
-void history_up(t_termstate *state) {
+static void history_up(t_termstate *state) {
     mx_termstate_history_up(state);
+    update_current_line(state->line);
+}
+
+static void history_down(t_termstate *state) {
+    mx_termstate_history_down(state);
     update_current_line(state->line);
 }
 
@@ -74,8 +79,8 @@ static void handle_key(const char c, t_termstate *state) {
         mx_log_esc_sequence(complete);
         if (mx_is_arrow_up(complete))
             history_up(state);
-//        if (mx_is_arrow_down())
-//            history_down();
+        if (mx_is_arrow_down(complete))
+            history_down(state);
         return;
     }
 

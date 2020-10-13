@@ -14,11 +14,12 @@ void mx_termstate_history_up(t_termstate *this) {
         this->line = 0;
     }
 
-    this->history_state.pos--;
     t_list *node = mx_list_at(this->history_state.list,
                               this->history_state.pos);
     char *s = (char *)node->data;
     mx_strdel(&(this->line));
     this->line = mx_strdup(s);
     this->cursor_pos = mx_strlen(this->line);
+
+    this->history_state.pos--;
 }

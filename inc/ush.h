@@ -16,6 +16,7 @@
 #include <pwd.h>
 #include <sys/ioctl.h>
 #include <regex.h>
+#include <errno.h>
 
 
 void check_leaks();
@@ -28,6 +29,7 @@ char *mx_read_next();
 #define MX_SHOULD_EXIT -3
 #define MX_SHOULD_NEXT 0
 int mx_execute(t_input *input);
+int mx_run_exec(char *command, char *arguments);
 
 t_input *mx_parse_input(const char *input);
 t_input *mx_parse_input_simple(const char *str);

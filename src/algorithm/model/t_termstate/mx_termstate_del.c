@@ -7,6 +7,7 @@
 void mx_termstate_del(t_termstate **state) {
     t_termstate *instance = *state;
     mx_strdel(&(instance->line));
+    mx_strdel(&(instance->backup_line));
     free(instance);
     *state = 0;
 }

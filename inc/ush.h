@@ -65,21 +65,4 @@ void mx_print_env(void);
 void mx_printerr_char(char c);
 int mx_get_window_width();
 
-enum e_log_level {
-    LOG_ALL,
-    LOG_TRACE,
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARN,
-    LOG_ERROR,
-    LOG_FATAL,
-    LOG_OFF
-};
-
-void mx_log(const char *subject, const char *details, int level);
-void mx_log_t(const char *subject, const char *details);
-void mx_log_d(const char *subject, const char *details);
-void mx_log_i(const char *subject, const char *details);
-void mx_log_e(const char *subject, const char *details);
-
 #endif

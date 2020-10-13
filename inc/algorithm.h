@@ -61,11 +61,4 @@ typedef struct {
 t_termstate *mx_termstate_new();
 void mx_termstate_del(t_termstate **state);
 
-// Read input
-//
-bool mx_is_arrow_up(const char *s);
-bool mx_is_arrow_down(const char *s);
-bool mx_is_arrow_right(const char *s);
-bool mx_is_arrow_left(const char *s);
-
 #endif //INC_04_USH_ALGORITHM_H

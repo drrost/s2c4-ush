@@ -2,7 +2,7 @@
 // Created by Rostyslav Druzhchenko on 27.09.2020.
 //
 
-#include <ush.h>
+#include <mx_log.h>
 
 void mx_log_t(const char *subject, const char *details) {
     mx_log(subject, details, LOG_TRACE);

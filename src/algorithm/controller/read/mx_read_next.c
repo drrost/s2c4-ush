@@ -3,19 +3,9 @@
 //
 
 #include <ush.h>
+#include <mx_log.h>
+#include <private/mx_read_private.h>
 
-static void log_esc_sequence(const char *input_buff) {
-    if (mx_is_arrow_up(input_buff))
-        mx_log_t("up arrow", "");
-    else if (mx_is_arrow_down(input_buff))
-        mx_log_t("down arrow", "");
-    else if (mx_is_arrow_right(input_buff))
-        mx_log_t("right arrow", "");
-    else if (mx_is_arrow_left(input_buff))
-        mx_log_t("left arrow", "");
-    else
-        mx_log_t("unknown sequence", "");
-}
 
 static bool is_esc_sequence_part(char c, char **complete) {
     static char input_buff[4];
@@ -73,7 +63,7 @@ static void handle_key(const char c, t_termstate *state) {
         return;
 
     if (complete) {
-        log_esc_sequence(complete);
+        mx_log_esc_sequence(complete);
         return;
     }
 
@@ -93,7 +83,7 @@ static void handle_key(const char c, t_termstate *state) {
 
 char *mx_read_next() {
     print_prompt();
-//    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
+//  char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
 //    static int count = 0;
 //    char *str_1 = 0;
 

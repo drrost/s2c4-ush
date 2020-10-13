@@ -95,7 +95,7 @@ static void handle_key(const char c, t_termstate *state) {
 
 char *mx_read_next() {
     print_prompt();
-//    char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
+//  char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
 //    static int count = 0;
 //    char *str_1 = 0;
 

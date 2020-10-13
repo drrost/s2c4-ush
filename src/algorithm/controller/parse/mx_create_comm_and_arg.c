@@ -1,10 +1,11 @@
 #include "../inc/ush.h"
-#include <stdlib.h>
+
 
 static t_command *get_command_node(char *trim, int pipend) {
     t_command *command = mx_command_new();
     //system ("leaks -q ush"); TODO 6 liks
     command->name = mx_get_command(trim);
+    command->name = mx_strdup(mx_strtrim(command->name));
     command->arguments = mx_get_args(trim);
     command->get_input_from_prev = get_subst(command->arguments);
     if (pipend == -1) {
@@ -39,8 +40,8 @@ void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
         char *trim = mx_strtrim(subpipe);
 
         mx_push_back(&inp->commands, get_command_node(trim, pipend));
-        free(trim);
-        free(subpipe);
+        mx_strdel(&trim);
+        mx_strdel(&subpipe);
         if (pipend == -1)
             break;
     }

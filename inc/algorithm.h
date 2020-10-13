@@ -13,12 +13,14 @@
 #define MX_DELIM_NO_PAIR2 "ush: symbol not found: ` "
 #define MX_DELIM_NO_PAIR3 "ush: symbol not found: ( "
 #define MX_DELIM_NO_PAIR4 "ush: symbol not found: ) "
+#define MX_DELIM_NO_PAIR5 "Add number of quotes."
 
 typedef struct {
     char *name;
     char *arguments;
     int exit_code;
     char *output;
+    char *error_text;
     bool stop_on_fail;
     bool get_input_from_prev;
 } t_command;

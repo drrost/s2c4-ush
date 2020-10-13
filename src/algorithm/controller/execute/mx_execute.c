@@ -63,6 +63,8 @@ int mx_execute(t_input *input) {
 
     if (mx_is_built_in(command->name))
         return mx_run_built_in(command->name, command->arguments);
+    else if (!mx_strlen(command->name))
+        return 0;
     else
         mx_run_exec(command->name, command->arguments);
 

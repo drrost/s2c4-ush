@@ -21,6 +21,20 @@ bool mx_is_built_in(char *str) {
         return 1;
     else if (!mx_strcmp(str, "echo"))
         return 1;
+    else if (!mx_strcmp(str, "bye"))
+        return 1;
+    else if (!mx_strcmp(str, "color"))
+        return 1;
+    else if (!mx_strcmp(str, "export"))
+        return 1;
+    else if (!mx_strcmp(str, "cd"))
+        return 1;
+    else if (!mx_strcmp(str, "pwd"))
+        return 1;
+    else if (!mx_strcmp(str, "true"))
+        return 1;
+    else if (!mx_strcmp(str, "false"))
+        return 1;
     else
         return 0;
 }

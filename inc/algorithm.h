@@ -52,13 +52,22 @@ void mx_command_delete(t_command **command);
 
 // Terminal state
 //
+
+typedef struct {
+    int pos;
+    int size;
+    t_list *list;
+} t_history_state;
+
 typedef struct {
     int cursor_pos;
     char *line;
-    int history_pos;
+    char *backup_line;
+    t_history_state history_state;
 } t_termstate;
 
 t_termstate *mx_termstate_new();
 void mx_termstate_del(t_termstate **state);
+void mx_termstate_history_up(t_termstate *this);
 
 #endif //INC_04_USH_ALGORITHM_H

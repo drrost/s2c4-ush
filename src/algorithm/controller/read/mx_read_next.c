@@ -47,13 +47,22 @@ static void print_prompt() {
     print_tricky_str("u$l> ");
 }
 
-static void handle_backspace(t_termstate *state) {
-    state->line[state->cursor_pos - 1] = 0;
+static void update_current_line(char *with) {
     clear_current_line();
     print_prompt();
-    print_tricky_str(state->line);
+    print_tricky_str(with);
+}
 
+static void handle_backspace(t_termstate *state) {
+    state->line[state->cursor_pos - 1] = 0;
     state->cursor_pos--;
+
+    update_current_line(state->line);
+}
+
+void history_up(t_termstate *state) {
+    mx_termstate_history_up(state);
+    update_current_line(state->line);
 }
 
 static void handle_key(const char c, t_termstate *state) {
@@ -63,6 +72,10 @@ static void handle_key(const char c, t_termstate *state) {
 
     if (complete) {
         mx_log_esc_sequence(complete);
+        if (mx_is_arrow_up(complete))
+            history_up(state);
+//        if (mx_is_arrow_down())
+//            history_down();
         return;
     }
 
@@ -93,7 +106,9 @@ char *mx_read_next() {
     cfmakeraw(&raw);
     tcsetattr(STDIN_FILENO, 0, &raw);
 
-    t_termstate *state = mx_termstate_new();
+    t_list *history = *(mx_history_get());
+    t_termstate *state = mx_termstate_new(history);
+
     int c;
     while ((c = getchar()) != 13) {
         if (c == 3 || c == 24 || c == 26) {

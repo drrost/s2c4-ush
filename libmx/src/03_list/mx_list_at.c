@@ -12,6 +12,7 @@ t_list *mx_list_at(t_list *list, int index) {
     while (list) {
         if (i == index)
             return list;
+        i++;
         list = list->next;
     }
     return 0;

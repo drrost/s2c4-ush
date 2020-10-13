@@ -12,7 +12,7 @@ void mx_run_algorithm() {
         // Parse
         t_input *input = mx_parse_input(line);
         //mx_strdel(&line);
-        mx_error_pair(line);
+        //mx_error_pair(line);
         // Execute
         int result = mx_execute(input);
 

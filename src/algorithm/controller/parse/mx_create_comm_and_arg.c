@@ -38,7 +38,9 @@ void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
         }
 
         char *trim = mx_strtrim(subpipe);
-
+        mx_printstr(trim);
+        mx_printstr("\n");
+       inp->error_text =  mx_error_pair(trim);
         mx_push_back(&inp->commands, get_command_node(trim, pipend));
         mx_strdel(&trim);
         mx_strdel(&subpipe);

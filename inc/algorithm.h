@@ -9,18 +9,17 @@
 #include <stdlib.h>
 #include <libmx.h>
 
-#define MX_DELIM_NO_PAIR "ush: symbol not found: \" "
-#define MX_DELIM_NO_PAIR2 "ush: symbol not found: ` "
-#define MX_DELIM_NO_PAIR3 "ush: symbol not found: ( "
-#define MX_DELIM_NO_PAIR4 "ush: symbol not found: ) "
-#define MX_DELIM_NO_PAIR5 "Add number of quotes."
+#define MX_DELIM_NO_PAIR "ush: symbol not found: \" \n"
+#define MX_DELIM_NO_PAIR2 "ush: symbol not found: ` \n"
+#define MX_DELIM_NO_PAIR3 "ush: symbol not found: ( \n"
+#define MX_DELIM_NO_PAIR4 "ush: symbol not found: ) \n"
+#define MX_DELIM_NO_PAIR5 "ush: Odd number of quotes. \n"
 
 typedef struct {
     char *name;
     char *arguments;
     int exit_code;
     char *output;
-    char *error_text;
     bool stop_on_fail;
     bool get_input_from_prev;
 } t_command;
@@ -28,12 +27,13 @@ typedef struct {
 // Input
 //
 typedef struct {
+    char *error_text;
     t_list *commands;
 } t_input;
 
 t_command *mx_command_new();
 void create_comm_and_arg(t_input *inp, int end, char *strend, int start);
-void mx_error_pair(char *str);
+char *mx_error_pair(char *str);
 bool get_subst(const char *str);
 char *mx_get_command(char *str);
 char *mx_get_args(char *str);

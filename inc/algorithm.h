@@ -71,5 +71,6 @@ typedef struct {
 t_termstate *mx_termstate_new(t_list *history);
 void mx_termstate_del(t_termstate **state);
 void mx_termstate_history_up(t_termstate *this);
+void mx_termstate_history_down(t_termstate *this);
 
 #endif //INC_04_USH_ALGORITHM_H

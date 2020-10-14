@@ -73,6 +73,7 @@ int mx_run_built_in(char *command, char *arguments) {
 }
 
 int mx_execute(t_input *input) {
+
     if (!input->commands)
         return 0;
 

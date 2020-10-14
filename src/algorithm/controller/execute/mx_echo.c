@@ -42,6 +42,16 @@ bool print_env_var(char *s) {
         }
         mx_strdel(&env);
     }
+    if (mx_strstr(s, "$") != 0) {
+        char *env = mx_clear_str_of_symbols(s);
+        if (mx_getenv(env) != NULL) {
+            str = mx_strdup(mx_getenv(env));
+            mx_printstr(str);
+            done = true;
+            mx_strdel(&str);
+        }
+        mx_strdel(&env);
+    }
     return done;
 }
 

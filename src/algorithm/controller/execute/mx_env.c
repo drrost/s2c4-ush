@@ -40,15 +40,15 @@ static int env_flags(char **args) { //TO DO: add several flags case
                     return mx_env_i(args, i);
                 }
                 if (args[i][1] == 'u') {
-                    if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") == 0)) {
+                    if (!args[i + 1] && !args[i][2])
+                        return mx_print_option_required(args[i][1]);
+                    else if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") == 0)) {
                         mx_printerr("Set the environment variable TERM; see `tset'.\n");
                         return 1;
                     }
                     else if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") != 0)) {
                         return mx_print_not_found(args[i + 2]);
                     }
-                    if (!args[i + 1] && !args[i][2])
-                        return mx_print_option_required(args[i][1]);
                     else
                         return mx_env_u(args, i);
                 }

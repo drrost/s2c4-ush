@@ -81,15 +81,18 @@ int mx_execute(t_input *input) {
     if (!input->commands)
         return 0;
 
-    t_command *command = (t_command *)input->commands->data;
-    log_command_execution(command);
+    while (input->commands) {
+        t_command *command = (t_command *)input->commands->data;
+        log_command_execution(command);
 
-    if (mx_is_built_in(command->name))
-        return mx_run_built_in(command->name, command->arguments);
-    else if (!mx_strlen(command->name))
-        return 0;
-    else
-        mx_run_exec(command->name, command->arguments);
+        if (mx_is_built_in(command->name))
+            return mx_run_built_in(command->name, command->arguments);
+        else if (!mx_strlen(command->name))
+            return 0;
+        else
+            mx_run_exec(command->name, command->arguments);
+        input->commands = input->commands->next;
+    }
 
     return MX_SHOULD_NEXT;
 }

@@ -88,6 +88,6 @@ int mx_run_exec(char *command, char *arguments) {
     tcsetpgrp(0, getpid());
     mx_find_status(status, command, arguments);
     mx_del_strarr(&arr);
-
+    mx_strdel(&s);
     return 0;
 }

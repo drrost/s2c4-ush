@@ -5,6 +5,17 @@
 #include <mx_core.h>
 #include <ush.h>
 
+static void update_shlvl() {
+    char *shlvl_s = mx_getenv("SHLVL");
+    int shlvl_i = atoi(shlvl_s);
+
+    shlvl_i++;
+    shlvl_s = mx_itoa(shlvl_i);
+    mx_setenv("SHLVL", shlvl_s);
+
+    mx_strdel(&shlvl_s);
+}
+
 static void init_env() {
     extern char **environ;
     char *s = *environ;
@@ -16,6 +27,8 @@ static void init_env() {
         mx_del_strarr(&split_arr);
         s = *(environ + i);
     }
+
+    update_shlvl();
 }
 
 static void init_history() {

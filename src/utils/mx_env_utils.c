@@ -25,6 +25,8 @@ int mx_env_i(char **arr, int i) {
     for (int j = i + 1; arr[j]; j++) {
         if ((index = find_equal_sign(arr, i)) == 0)
             mx_printline(arr[j]);
+        else if (mx_streq(arr[j], "env"))
+            i++;
         else {
             status = mx_print_not_found(arr[index]);
             break;

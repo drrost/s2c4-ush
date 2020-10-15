@@ -5,7 +5,7 @@
 #include <ush.h>
 
 int mx_file_exist(char *path) {
-    struct stat st; 
+    struct stat st;
     int flag = 0;
 
     if ((lstat(path, &st) != -1))
@@ -93,7 +93,7 @@ static void check_builtin(char *str, int *ret_flag, int flag) {
 }
 
 
-void check_command(char *str, int *ret_flag, int flag) {
+void mx_check_command(char *str, int *ret_flag, int flag) {
     char **path = NULL;
 
     if (is_comm_rw(str) == 1) {

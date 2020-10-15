@@ -75,7 +75,7 @@ char *mx_checkflags_echo(char **arr, int *counter);
 int mx_print_echo_d(char *str, int *i);
 int mx_tolower(int c);
 int mx_file_exist(char *path);
-void check_command(char *str, int *ret_flag, int flag);
+void mx_check_command(char *str, int *ret_flag, int flag);
 int mx_is_builtin(char *command);
 char *mx_command_in_path(char *comm, char *str_path);
 

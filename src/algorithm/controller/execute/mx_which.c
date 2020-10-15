@@ -39,7 +39,7 @@ int mx_which(char *arguments) {
                 if ((exit_code = check_flag(arr[i], &flag)) == 0)
                     continue;
             }
-            check_command(arr[i], &exit_code, flag);
+            mx_check_command(arr[i], &exit_code, flag);
             if (exit_code == 1)
                 mx_not_found(arr[i]);
         }

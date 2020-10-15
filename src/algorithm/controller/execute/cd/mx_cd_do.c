@@ -23,14 +23,19 @@ static bool is_path_has_symlinks(char *dir) {
     return result;
 }
 
+static char *resolve_all_links_in(char *dir) {
+    char *s = realpath(dir, 0);
+    return mx_strdup(s);
+}
+
 void mx_cd_do(char flag, const char *dir) {
     if (flag == '-')
         dir = mx_getenv("OLDPWD");
 
-    char *pwd = mx_cd_resolve_path(dir);
+    char *resolved_dir = mx_cd_resolve_path(dir);
 
     if (flag == 's') {
-        if (is_path_has_symlinks(pwd)) {
+        if (is_path_has_symlinks(resolved_dir)) {
             mx_printerr("cd: not a directory: ");
             mx_printerr(dir);
             mx_printerr("\n");
@@ -38,9 +43,15 @@ void mx_cd_do(char flag, const char *dir) {
         }
     }
 
+    if (flag == 'P') {
+        char *old_value = resolved_dir;
+        resolved_dir = resolve_all_links_in(old_value);
+        mx_strdel(&old_value);
+    }
+
     char *current_pwd = mx_getenv("PWD");
     mx_setenv("OLDPWD", current_pwd);
 
-    mx_setenv("PWD", pwd);
-    mx_strdel(&pwd);
+    mx_setenv("PWD", resolved_dir);
+    mx_strdel(&resolved_dir);
 }

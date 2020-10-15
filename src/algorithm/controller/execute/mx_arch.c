@@ -5,9 +5,8 @@
 #include <ush.h>
 
 int mx_arch(char *args) {
-	if (!mx_strlen(args)) {
+	if (!mx_strlen(args))
 		mx_printline("i386");
-	}
 	else {
 		char **arr = mx_strsplit(args, ' ');
 		mx_printerr("arch: Can't find ");

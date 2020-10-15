@@ -7,6 +7,8 @@
 
 static void update_shlvl() {
     char *shlvl_s = mx_getenv("SHLVL");
+    if (shlvl_s == 0)
+        shlvl_s = "0";
     int shlvl_i = atoi(shlvl_s);
 
     shlvl_i++;

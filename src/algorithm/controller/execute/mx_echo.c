@@ -78,8 +78,9 @@ static void print_no_args(char **arr, int exit_code) {
     for (int i = 0; arr[i]; i++) {
         if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
             err = print_echo_e(arr[i]);
-        if (arr[i + 1] && err) {
-            write(1, " ", 1);
+        if (arr[i + 1]) {
+            if (err)
+                write(1, " ", 1);
         }   
         else {
             write(1, "\n", 1);

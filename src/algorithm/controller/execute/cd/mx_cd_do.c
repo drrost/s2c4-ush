@@ -6,8 +6,9 @@
 #include <private/mx_cd_private.h>
 
 void mx_cd_do(char flag, const char *dir) {
-    flag++; // TODO: Add flags handling.
-
+    if (flag == '-')
+        dir = mx_getenv("OLDPWD");
+    
     char *current_pwd = mx_getenv("PWD");
     mx_setenv("OLDPWD", current_pwd);
 

@@ -55,7 +55,8 @@ static void update_current_line(char *with) {
 
 static void handle_backspace(t_termstate *state) {
     state->line[state->cursor_pos - 1] = 0;
-    state->cursor_pos--;
+    if (state->cursor_pos > 0)
+        state->cursor_pos--;
 
     update_current_line(state->line);
 }

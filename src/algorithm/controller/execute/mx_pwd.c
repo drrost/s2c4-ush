@@ -57,18 +57,19 @@ static char check_pwd(char *line, bool *error) {
         }
         if (line[i + 1] == '\0')
             flag = 'L';
-        else 
+        else
             flag = line[i];
     }
     return flag;
 }
 
 int mx_pwd(char *line) {
-    char flag = 'L'; 
+    char flag = 'L';
     if (mx_strlen(line) > 0) {
         char **arr = mx_strsplit(line, ' ');
 
-        if ((arr[0] && !arr[1] && contains(arr[0], '-'))) { //TO DO: add check on "--"
+        if ((arr[0] && !arr[1] &&
+             contains(arr[0], '-'))) { //TO DO: add check on "--"
             bool error = false;
             flag = check_pwd(line, &error);
             if (error)

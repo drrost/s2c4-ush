@@ -87,7 +87,7 @@ int mx_execute(t_input *input) {
     t_list *list = input->commands;
     while (list) {
         t_command *command = (t_command *)input->commands->data;
-//        mx_resolve_envvars_in(command);
+        mx_resolve_envvars_in(command);
         log_command_execution(command);
 
         if (mx_is_built_in(command->name))

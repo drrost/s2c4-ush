@@ -5,6 +5,14 @@
 #include <ush.h>
 #include <private/mx_cd_private.h>
 
+static bool has_permission_to_execute(t_path *path) {
+    DIR *dir = opendir(path->p);
+    if (dir == 0)
+        return false;
+    closedir(dir);
+    return true;
+}
+
 int mx_cd_validate_input(char flag, const char *dir) {
 
     t_path *path = mx_path_new(dir);
@@ -19,10 +27,6 @@ int mx_cd_validate_input(char flag, const char *dir) {
         mx_printerr("\n");
     }
 
-    // cd Makefile -> cd: not a directory: Makefile
-    // cd ddd - > cd: no such file or directory: ddd
-    // cd /.fseventsd -> cd: permission denied: /.fseventsd
-
     // cd . . -> cd: string not in pwd:
 
     int exit_code = 0;
@@ -32,8 +36,15 @@ int mx_cd_validate_input(char flag, const char *dir) {
         mx_printerr(dir);
         mx_printerr("\n");
         exit_code = 1;
-    } else if (path->is_dir(path) == false) {
+    }
+    else if (path->is_dir(path) == false) {
         mx_printerr("cd: not a directory: ");
+        mx_printerr(dir);
+        mx_printerr("\n");
+        exit_code = 1;
+    }
+    else if (has_permission_to_execute(path) == false) {
+        mx_printerr("cd: permission denied: ");
         mx_printerr(dir);
         mx_printerr("\n");
         exit_code = 1;

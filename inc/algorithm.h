@@ -21,6 +21,7 @@ typedef struct {
     int exit_code;
     char *output;
     bool stop_on_fail;
+    bool pass_out_to_next;
     bool get_input_from_prev;
 } t_command;
 

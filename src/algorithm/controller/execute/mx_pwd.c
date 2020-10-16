@@ -5,10 +5,13 @@
 #include <ush.h>
 
 static void pwd_default(void) {
-    char *pwd = mx_strdup(mx_getenv("PWD"));
+    char *buf = mx_strnew(1024);
+    char *pwd = mx_strdup(getcwd(buf, 1024));
 
-    printf("%s\n", pwd);
+    
+    mx_printline(pwd);
     mx_strdel(&pwd);
+    mx_strdel(&buf);
 }
 
 bool contains(char *line, char symbol) {

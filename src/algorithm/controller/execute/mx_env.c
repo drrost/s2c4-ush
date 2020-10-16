@@ -18,63 +18,169 @@ void mx_print_env(void) {
     }
 }
 
-static int env_flags(char **args) { //TO DO: add several flags case
-    int i = 0;
+void env_print_err(char a, int flag) {
+    if (flag == 1) {
+        mx_printerr("env: illegal option -- ");
+        mx_printerr_char(a);
+        mx_printerr("\nusage: env [-i] [-P utilpath] [-u name]\n");
+        mx_printerr("           [name=value ...] [utility [argument ...]]\n");
+        exit(EXIT_FAILURE);
+    }
+    if (flag == 2) {
+        mx_printerr("env: option requires an argument -- P");
+        mx_printerr("\nusage: env [-i] [-P utilpath] [-u name]\n");
+        mx_printerr("           [name=value ...] [utility [argument ...]]\n");
+        exit(EXIT_FAILURE);
+    }
+}
 
-    for (; args[i]; i++)
-        for (int j = 0; args[i][j]; j++)
-            if (args[i][0] == '-') {
-                if (!args[i][1] && args[i + 1])
-                    return mx_print_not_found(args[i + 1]);
-                if (args[i][1] == 'P') {
-                    if (!args[i + 1] && !args[i][2])
-                        return mx_print_option_required(args[i][1]);
-                    if (args[i + 2])
-                        return mx_print_not_found(args[i + 2]);
-                    else {
-                        mx_print_env();
-                        return 0;
-                    }
-                }
-                if (args[i][1] == 'i') {
-                    return mx_env_i(args, i);
-                }
-                if (args[i][1] == 'u') {
-                    if (!args[i + 1] && !args[i][2])
-                        return mx_print_option_required(args[i][1]);
-                    else if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") == 0)) {
-                        mx_printerr("Set the environment variable TERM; see `tset'.\n");
-                        return 1;
-                    }
-                    else if ((mx_strcmp(args[i + 1], "TERM") == 0) && (mx_strcmp(args[i + 2], "emacs") != 0)) {
-                        return mx_print_not_found(args[i + 2]);
-                    }
-                    else
-                        return mx_env_u(args, i);
-                }
-                else {
-                    mx_printerr("env: illegal option -- ");
-                    mx_printerr_char(args[i][1]);
-                    mx_printerr("\n");
-                    return 0;
-                }
+static void get_command(char **com, char *args) {
+    char *bin[] = {"env", "export", "unset", "pwd", "exit", "cd",
+                   "which", "echo", "true", "false", "arch", NULL};
+    int (*bin_f[])() = {&mx_env, &mx_export, &mx_unset, &mx_pwd, &mx_exit,
+                        &mx_cd, &mx_which, &mx_echo, &mx_true, &mx_false,
+                        &mx_arch};
+
+    for (int i = 0; bin[i]; i++) {
+        if (!mx_strcmp(com[0], bin[i])) {
+            char *sub = mx_strstr(args, com[0]);
+            int comlen = mx_strlen(com[0]);
+            while (comlen > 0) {
+                sub++;
+                comlen--;
+            }
+            if (sub == NULL) {
+                (*bin_f[i])("");
             }
             else
-                return mx_print_not_found(args[i]);
+                (*bin_f[i])(sub);
+            return;
+        }
+    }
+    mx_run_exec(com[0], args);
+}
 
-    return 0;
-} 
+void env_mode(char *args, int *pos) {
+    char **arr = mx_strsplit(args, ' ');
+    int com_count = 0;
+    char **com_new = NULL;
 
-int mx_env(const char *args) {
-    int status = 0;
+    if (!arr[(*pos)]) {
+        mx_print_env();
+        return;
+    }
+
+    for (;arr[(*pos)]; (*pos)++, com_count++);
+    (*pos) -= com_count;
+    com_new = malloc(sizeof(char *) * com_count);
+    for (int i = 0; i < com_count; i++, (*pos)++)
+        com_new[i] = mx_strdup(arr[(*pos)]);
+    com_new[com_count] = NULL;
+    get_command(com_new, args);
+    mx_del_strarr(&com_new);
+    mx_del_strarr(&arr);
+}
+
+void env_flags_equal(char *args, int *pos) {
+    char **arr = mx_strsplit(args, ' ');
+
+    for (int i = 0; arr[i] && i <= (*pos); i++) {
+        if (mx_get_char_index(arr[i], '=') > 0) {
+            (*pos) = i + 1;
+            mx_setenv(mx_strndup(arr[i], mx_get_char_index(arr[i], '=')),
+                   arr[i] + mx_get_char_index(arr[i], '=') + 1);
+        }
+    }
+    mx_del_strarr(&arr);
+}
+
+void env_p(char *args, int *pos) {
+    char **arr = mx_strsplit(args, ' ');
+
+    for (int i = 0; arr[i]; i++) {
+        if (mx_strcmp(arr[i], "-P") == 0) {
+            if (!arr[i + 1])
+                env_print_err('a', 2);
+            mx_setenv("PATH", arr[i + 1]);
+            if ((*pos) < i + 1)
+                (*pos) = i + 2;
+        }
+    }
+    mx_del_strarr(&arr);
+}
+
+void env_u(char *args, int *pos) {
+    char **arr = mx_strsplit(args, ' ');
+    
+    for  (int i = 0; arr[i]; i++) {
+        if (mx_strcmp(arr[i], "-u") == 0) {
+            if ((*pos) <= i)
+                (*pos) = i + 1;
+            for (int j = i + 1; arr[j]; j++) {
+                if (!mx_getenv(arr[j]))
+                    break;
+                (*pos) = j + 1;
+
+            }
+        } 
+    }
+    mx_del_strarr(&arr);
+}
+
+void env_i(char *args, int *pos) { //not finished flag
+    char **arr = mx_strsplit(args, ' ');
+
+    for (int i = 0; arr[i]; i++) {
+        if (mx_strcmp(arr[i], "-i") == 0) {
+            t_map *env = mx_env_get();
+            t_list *list = env->content;
+            while (list) {
+                t_pair *pair = (t_pair *)list->data;
+                mx_unsetenv(pair->key);
+                list = list->next;
+             }
+             (*pos) = i + 1;
+        }
+    }
+    mx_del_strarr(&arr);
+}
+
+void env_handle_error(char *args) {
+    char **arr = mx_strsplit(args, ' ');
+    for (int i = 0; arr[i] && mx_strcmp(arr[i], "--") != 0; i++)
+        if (arr[i][0] == '-' && !mx_is_built_in(arr[i + 1]))
+            for (int j = 1; arr[i][j]; j++)
+                if (arr[i][j] != 'i' && arr[i][j] != 'u' && arr[i][j] != 'P') {
+                    env_print_err(arr[i][j], 1);
+                }
+    mx_del_strarr(&arr);
+}
+
+int mx_env(char *args) {
     if (mx_strlen(args) == 0) {
         mx_print_env();
         return 0;
     }
     else {
-        char **arr = mx_strsplit(args, ' ');
-        status = env_flags(arr);
-        mx_del_strarr(&arr);
+        pid_t pid;
+        pid_t wpid;
+        int status;
+        int pos = 1;
+
+        pid = fork();
+        if (pid == 0) {
+            env_handle_error(args);
+            env_i(args, &pos);
+            env_u(args, &pos);
+            env_p(args, &pos);
+            env_flags_equal(args, &pos);
+            env_mode(args, &pos);
+            exit(errno);
+        }
+        wpid = waitpid(pid, &status, WUNTRACED);
+        if (WEXITSTATUS(status) == 22 || WEXITSTATUS(status) == 0)
+            return 0;
+        else
+            return 1;
     }
-    return status;
 }

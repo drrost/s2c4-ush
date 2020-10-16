@@ -31,11 +31,11 @@ static char *resolve_envars(char *s) {
         if (envvar == 0)
             break;
 
-        if (mx_getenv(envvar) != NULL) {
-            value = mx_strdup(mx_getenv(envvar));
-        }
+        value = mx_getenv(envvar);
+        if (value != NULL)
+            value = mx_strdup(value);
         else
-            return mx_strdup("");
+            value = mx_strdup("");
         char *buff = mx_strnew(mx_strlen(envvar) + 3);
         sprintf(buff, "${%s}", envvar);
         char *old_s = s;

@@ -19,7 +19,7 @@ int mx_cd_validate_input(char flag, const char *dir) {
         mx_printerr("\n");
     }
 
-    // cd Makefile cd: not a directory: Makefile
+    // cd Makefile -> cd: not a directory: Makefile
     // cd ddd - > cd: no such file or directory: ddd
     // cd /.fseventsd -> cd: permission denied: /.fseventsd
 
@@ -29,6 +29,11 @@ int mx_cd_validate_input(char flag, const char *dir) {
 
     if (path->exists(path) == false) {
         mx_printerr("cd: no such file or directory: ");
+        mx_printerr(dir);
+        mx_printerr("\n");
+        exit_code = 1;
+    } else if (path->is_dir(path) == false) {
+        mx_printerr("cd: not a directory: ");
         mx_printerr(dir);
         mx_printerr("\n");
         exit_code = 1;

@@ -49,7 +49,7 @@ int mx_run_built_in(char *command, char *arguments) {
     else if (mx_streq(command, "unset"))
         exit_code = mx_unset(arguments);
     else if (mx_streq(command, "exit"))
-        return mx_exit(command);
+        return mx_exit(arguments);
     else if (mx_streq(command, "bye"))
         return mx_bye(command);
     else if (mx_streq(command, "cd"))

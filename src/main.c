@@ -5,12 +5,18 @@
 #include <ush.h>
 #include <mx_log.h>
 
+static int exit_code() {
+    char *code_s = mx_getenv("EXIT_CODE");
+    return atoi(code_s);
+}
+
 int main(int argc, const char *argv[]) {
     mx_log_t("Entering ULS", "");
 
     mx_core_init();
 
     mx_run_algorithm();
+    int code = exit_code();
     mx_core_clean();
 
     check_leaks();
@@ -20,5 +26,5 @@ int main(int argc, const char *argv[]) {
 
     mx_log_t("Exiting ULS", "");
 
-    return 0;
+    return code;
 }

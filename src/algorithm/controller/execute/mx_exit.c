@@ -59,7 +59,9 @@
 //}
 
 int mx_exit(char *line) {
-    line++;
+    if (mx_strlen(line) > 0)
+        mx_setenv("EXIT_CODE", line);
+
     return MX_SHOULD_EXIT;
 
 //    bool error = false;

@@ -79,6 +79,23 @@ static void print_no_args(char **arr, int exit_code) {
     }
 }
 
+char *replace_str(char *s) {
+    int len = mx_strlen(s);
+    int j = 0;
+    for (int i = 0; i < len; i ++) {
+        if (s[i] != '"' && s[i] != '\\') { 
+            s[j++] = s[i];
+        } else if (s[i+1] == '"' && s[i] == '\\') { 
+            s[j++] = '"';
+        } else if (s[i+1] != '"' && s[i] == '\\') { 
+            s[j++] = '\\';
+        }
+    }
+    if(j > 0) 
+        s[j] = 0;
+    return s;
+}
+
 int mx_echo(char *args, int exit_code) {
     if (mx_strlen(args) > 0) {
         int i = 0;
@@ -87,8 +104,11 @@ int mx_echo(char *args, int exit_code) {
 
         if (flags[1] == 'E') {
             for (i = i + 1; arr[i]; i++) {
-                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]) && !mx_streq(arr[i], "\"\""))
-                    write(1, arr[i], mx_strlen(arr[i]));
+                arr[i] = replace_str(arr[i]);
+                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i])) {
+                    if (mx_streq(arr[i], """"))
+                        write(1, arr[i], mx_strlen(arr[i]));
+                }
                 if (arr[i + 1])
                     write(1, " ", 1);
             }

@@ -32,10 +32,10 @@ static char *resolve_envars(char *s) {
             break;
 
         if (mx_getenv(envvar) != NULL) {
-            value = mx_getenv(envvar);
+            value = mx_strdup(mx_getenv(envvar));
         }
         else
-            return s;
+            return mx_strdup("");
         char *buff = mx_strnew(mx_strlen(envvar) + 3);
         sprintf(buff, "${%s}", envvar);
         char *old_s = s;
@@ -43,6 +43,7 @@ static char *resolve_envars(char *s) {
         mx_strdel(&old_s);
         mx_strdel(&buff);
         mx_strdel(&envvar);
+        mx_strdel(&value);
     }
 
     return s;

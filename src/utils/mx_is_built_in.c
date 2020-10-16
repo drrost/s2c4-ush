@@ -39,8 +39,6 @@ bool mx_is_built_in(char *str) {
         return 1;
     else if (!mx_strcmp(str, "fg"))
         return 1;
-    // else if (mx_strstr(str, "${") != NULL)
-    //     return 1;
     else
         return 0;
 }

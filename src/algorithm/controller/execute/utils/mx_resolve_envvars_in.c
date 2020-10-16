@@ -5,17 +5,19 @@
 #include <ush.h>
 
 static char *next_envvar(char *s) {
+    const char *prefix = "${";
+    int prefix_len = mx_strlen(prefix);
+    char *begin = mx_strstr(s, prefix);
 
-    // TODO: implement a REAL search of env variables.
-    //       It's most likely we should use regexs here.
-    //
+    if (begin == 0)
+        return 0;
 
-    s++;
-    static int count = 0;
-    count++;
-    if (count == 2)
-        return mx_strdup("PWD");
-    return 0;
+    char *end = mx_strstr(s, "}");
+    if (end == 0)
+        return 0;
+
+    int result_len = end - begin - prefix_len;
+    return mx_strndup(begin + prefix_len, result_len);
 }
 
 static char *resolve_envars(char *s) {

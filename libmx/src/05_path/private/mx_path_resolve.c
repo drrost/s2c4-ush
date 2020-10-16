@@ -35,5 +35,9 @@ char *mx_path_resolve(t_path *this, const char *home_dir, const char *pwd) {
     result = mx_strdup(path->p);
     mx_path_del(&path);
 
-    return result;
+    char *resolved_path = mx_strnew(mx_strlen(result) * 2);
+    realpath(result, resolved_path);
+    mx_strdel(&result);
+
+    return resolved_path;
 }

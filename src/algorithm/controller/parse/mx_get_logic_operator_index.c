@@ -1,4 +1,4 @@
-#include "../inc/ush.h"
+#include <ush.h>
 
 int mx_get_logic_operator_index(const char *str, char operator) {
     if (mx_strlen(str)) {

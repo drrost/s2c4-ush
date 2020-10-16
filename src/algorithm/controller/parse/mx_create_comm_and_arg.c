@@ -1,4 +1,4 @@
-#include "../inc/ush.h"
+#include <ush.h>
 
 // static char *remove_sym_from_arg(const char *str) {
 //     char *arg = mx_strdup(str);
@@ -23,19 +23,20 @@ static t_command *get_command_node(char *trim, int pipend) {
     // command->name = mx_strdup(mx_strtrim(command->name));
     //char *arg = mx_get_args(trim);
 
-        if ((s = mx_strstr(trim, " ")) != 0) {
-            command->arguments = mx_strdup(s + 1);
-            arg_len = mx_strlen(s);
-            command_len = trim_len - arg_len;
-        }
-        else
-            command->arguments = mx_strdup("");
+    if ((s = mx_strstr(trim, " ")) != 0) {
+        command->arguments = mx_strdup(s + 1);
+        arg_len = mx_strlen(s);
+        command_len = trim_len - arg_len;
+    }
+    else
+        command->arguments = mx_strdup("");
 
-        command->name = mx_strndup(trim, command_len);
-        command->get_input_from_prev = get_subst(command->arguments);
+    command->name = mx_strndup(trim, command_len);
+    command->get_input_from_prev = get_subst(command->arguments);
     if (pipend == -1) {
         command->stop_on_fail = true;
-    } else {
+    }
+    else {
         command->stop_on_fail = false;
     }
     return command;
@@ -46,7 +47,8 @@ void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
 
     if (end == -1) {
         sub = mx_substr(strend, start, mx_strlen(strend) + 1);
-    } else {
+    }
+    else {
         sub = mx_substr(strend, start, end);
     }
     char *strpipe = sub;
@@ -58,7 +60,8 @@ void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
         char *subpipe;
         if (pipend == -1) {
             subpipe = mx_substr(strpipe, start, mx_strlen(strpipe) + 1);
-        } else {
+        }
+        else {
             subpipe = mx_substr(strpipe, start, pipend);
         }
 

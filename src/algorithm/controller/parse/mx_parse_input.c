@@ -18,5 +18,7 @@ t_input *mx_parse_input(const char *str) {
                 break;
         }
     }
+    mx_del_strarr(&strnew);
+
     return inp;
 }

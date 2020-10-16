@@ -7,7 +7,7 @@
 
 static int exit_code() {
     char *code_s = mx_getenv("EXIT_CODE");
-    return atoi(code_s);
+    return code_s ? atoi(code_s) : 0;
 }
 
 int main(int argc, const char *argv[]) {

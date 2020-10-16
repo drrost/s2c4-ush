@@ -84,9 +84,10 @@ int mx_execute(t_input *input) {
 
     int exit_code = MX_SHOULD_NEXT;
 
-    while (input->commands) {
+    t_list *list = input->commands;
+    while (list) {
         t_command *command = (t_command *)input->commands->data;
-        mx_resolve_envvars_in(command);
+//        mx_resolve_envvars_in(command);
         log_command_execution(command);
 
         if (mx_is_built_in(command->name))
@@ -97,7 +98,7 @@ int mx_execute(t_input *input) {
             exit_code = mx_run_exec(command->name, command->arguments);
         command->exit_code = exit_code;
 
-        input->commands = input->commands->next;
+        list = list->next;
     }
 
     return exit_code;

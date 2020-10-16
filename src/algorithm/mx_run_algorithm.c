@@ -25,7 +25,6 @@
 //     }
 // }
 
-
 void mx_run_algorithm() {
     while (true) {
         // Read

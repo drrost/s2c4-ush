@@ -42,15 +42,14 @@ static t_command *get_command_node(char *trim, int pipend) {
     return command;
 }
 
-void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
+void create_comm_and_arg(t_input *input, int end, char *strend, int start) {
     char *sub;
 
-    if (end == -1) {
+    if (end == -1)
         sub = mx_substr(strend, start, mx_strlen(strend) + 1);
-    }
-    else {
+    else
         sub = mx_substr(strend, start, end);
-    }
+    
     char *strpipe = sub;
 
     while (1) {
@@ -58,16 +57,14 @@ void create_comm_and_arg(t_input *inp, int end, char *strend, int start) {
         if (pipend > 0)
             strpipe += pipend + 2;
         char *subpipe;
-        if (pipend == -1) {
+        if (pipend == -1)
             subpipe = mx_substr(strpipe, start, mx_strlen(strpipe) + 1);
-        }
-        else {
+        else
             subpipe = mx_substr(strpipe, start, pipend);
-        }
 
         char *trim = mx_strtrim(subpipe);
-        inp->error_text = mx_error_pair(trim);
-        mx_push_back(&inp->commands, get_command_node(trim, pipend));
+        input->error_text = mx_error_pair(trim);
+        mx_push_back(&input->commands, get_command_node(trim, pipend));
         mx_strdel(&trim);
         mx_strdel(&subpipe);
         if (pipend == -1)

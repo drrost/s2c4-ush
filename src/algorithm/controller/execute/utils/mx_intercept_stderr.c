@@ -10,6 +10,7 @@ static int save_out_fd_access(int access) {
     if (access == MX_ACCESS)
         return save_out_fd;
     save_out_fd = access;
+    return save_out_fd;
 }
 
 static int out_fd_access(int access) {
@@ -17,6 +18,7 @@ static int out_fd_access(int access) {
     if (access == MX_ACCESS)
         return out_fd;
     out_fd = access;
+    return out_fd;
 }
 
 void mx_start_stdout_interception() {
@@ -48,4 +50,3 @@ char *mx_end_stdout_interception() {
 
     return result;
 }
-

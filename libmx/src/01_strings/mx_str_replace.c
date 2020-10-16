@@ -7,7 +7,12 @@
 char *
 mx_str_replace(char *target, const char *needle, const char *replacement) {
     int len = mx_strlen(target);
-    char *buffer = mx_strnew(len * 2); // Should be enough for the beginning
+    int replacement_len = mx_strlen(replacement);
+
+    // TODO: Still hardcoded length. Replace with a real calculation.
+    //
+    char *buffer = mx_strnew((len + replacement_len) * 5);
+
     char *insert_point = &buffer[0];
     const char *tmp = target;
     size_t needle_len = mx_strlen(needle);

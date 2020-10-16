@@ -23,6 +23,7 @@ static char *next_envvar(char *s) {
 static char *resolve_envars(char *s) {
     char *envvar = 0;
     s = mx_strdup(s);
+    char *value = 0;
 
     while (1) {
         envvar = next_envvar(s);
@@ -30,7 +31,11 @@ static char *resolve_envars(char *s) {
         if (envvar == 0)
             break;
 
-        char *value = mx_getenv(envvar);
+        if (mx_getenv(envvar) != NULL) {
+            value = mx_getenv(envvar);
+        }
+        else
+            return s;
         char *buff = mx_strnew(mx_strlen(envvar) + 3);
         sprintf(buff, "${%s}", envvar);
         char *old_s = s;

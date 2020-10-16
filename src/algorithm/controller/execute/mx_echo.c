@@ -35,17 +35,8 @@ static int print_echo_e(char *str) {
 bool print_env_var(char *s) {
     bool done = false;
     char *str = 0;
-    if (mx_strstr(s, "${") != 0) {
-        char *env = mx_clear_str_of_symbols(s);
-        if (mx_getenv(env) != NULL) {
-            str = mx_strdup(mx_getenv(env));
-            mx_printstr(str);
-            done = true;
-            mx_strdel(&str);
-        }
-        mx_strdel(&env);
-    }
-    else if (mx_strstr(s, "$") != 0) {
+
+    if (mx_strstr(s, "$") != 0) {
         char *env = mx_clear_str_of_symbols(s);
         if (mx_getenv(env) != NULL) {
             str = mx_strdup(mx_getenv(env));

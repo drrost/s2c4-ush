@@ -49,7 +49,7 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start) {
         sub = mx_substr(strend, start, mx_strlen(strend) + 1);
     else
         sub = mx_substr(strend, start, end);
-    
+
     char *strpipe = sub;
 
     while (1) {
@@ -70,4 +70,5 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start) {
         if (pipend == -1)
             break;
     }
+    mx_strdel(&sub);
 }

@@ -12,7 +12,6 @@
 // Environment variables
 //
 t_map *mx_env_get();
-void mx_env_delete();
 char *mx_getenv(const char *s);
 void mx_setenv(const char *key, const char *value);
 

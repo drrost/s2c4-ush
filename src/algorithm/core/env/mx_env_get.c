@@ -5,8 +5,18 @@
 #include <ush.h>
 
 t_map *mx_env_get() {
-    static t_map *env = 0;
-    if (env == 0)
-        env = mx_map_build();
+    extern char **environ;
+    char *s = *environ;
+    int i = 1;
+
+    t_map *env = mx_map_build();
+
+    for (; s; i++) {
+        char **split_arr = mx_strsplit(s, '=');
+        env->set(env, split_arr[0], split_arr[1]);
+        mx_del_strarr(&split_arr);
+        s = *(environ + i);
+    }
+
     return env;
 }

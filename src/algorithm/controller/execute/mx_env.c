@@ -5,7 +5,6 @@
 #include <ush.h>
 
 void mx_print_env(void) {
-
     t_map *env = mx_env_get();
     t_list *list = env->content;
     while (list) {
@@ -16,6 +15,7 @@ void mx_print_env(void) {
         mx_printstr("\n");
         list = list->next;
     }
+    mx_map_delete(&env);
 }
 
 void env_print_err(char a, int flag) {
@@ -140,6 +140,7 @@ void env_i(char *args, int *pos) { //not finished flag
                 list = list->next;
              }
              (*pos) = i + 1;
+            mx_map_delete(&env);
         }
     }
     mx_del_strarr(&arr);

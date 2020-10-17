@@ -19,17 +19,6 @@ static void update_shlvl() {
 }
 
 static void init_env() {
-    extern char **environ;
-    char *s = *environ;
-    int i = 1;
-
-    for (; s; i++) {
-        char **split_arr = mx_strsplit(s, '=');
-        mx_setenv(split_arr[0], split_arr[1]);
-        mx_del_strarr(&split_arr);
-        s = *(environ + i);
-    }
-
     update_shlvl();
 }
 

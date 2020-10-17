@@ -19,6 +19,7 @@ static void mx_print_export(void) {
         printf("%s=%s\n", pair->key, pair->value);
         list = list->next;
     }
+    mx_map_delete(&env);
 }
 
 static void mx_export_error(const char *s) {

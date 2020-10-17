@@ -93,7 +93,7 @@ int mx_execute(t_input *input) {
         if (mx_is_built_in(command->name))
             exit_code = mx_run_built_in(command->name, command->arguments);
         else if (!mx_strlen(command->name))
-            return 0;
+            exit_code = 0;
         else
             exit_code = mx_run_exec(command->name, command->arguments);
         command->exit_code = exit_code;

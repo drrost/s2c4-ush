@@ -6,6 +6,8 @@
 #define INC_04_USH_MX_CORE_H
 
 #include <mx_map.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 // Environment variables
 //

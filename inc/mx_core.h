@@ -9,12 +9,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-// Environment variables
-//
-t_map *mx_env_get();
-char *mx_getenv(const char *s);
-void mx_setenv(const char *key, const char *value);
-
 // History
 //
 t_list **mx_history_get();

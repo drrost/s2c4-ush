@@ -3,7 +3,6 @@
 //
 
 #include <libmx.h>
-#include <mx_core.h>
 
 char *mx_path_resolve(t_path *this) {
     char *temp;

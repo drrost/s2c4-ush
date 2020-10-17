@@ -2,7 +2,7 @@
 // Created by Rostyslav Druzhchenko on 07.10.2020.
 //
 
-#include <ush.h>
+#include <libmx.h>
 
 t_map *mx_env_get() {
     extern char **environ;

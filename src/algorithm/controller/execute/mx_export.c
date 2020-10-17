@@ -55,6 +55,7 @@ int mx_export(char *arguments) {
                 mx_setenv(key, value);
                 mx_export_del(key, value);
             }
+            mx_setenv(arr[i], "''");
         }
         mx_del_strarr(&arr);
     }

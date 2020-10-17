@@ -6,6 +6,7 @@
 #define INC_04_USH_MX_PATH_H
 
 #include <stdbool.h>
+#include <wordexp.h>
 
 // File types
 
@@ -38,7 +39,7 @@ typedef struct s_path {
     bool (*is_dir)(struct s_path *);
     bool (*exists)(struct s_path *);
 
-    char *(*reslolve)(struct s_path *, const char *, const char *);
+    char *(*reslolve)(struct s_path *);
 }              t_path;
 
 t_path *mx_path_new(const char *path);

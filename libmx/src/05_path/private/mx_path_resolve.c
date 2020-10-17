@@ -3,41 +3,31 @@
 //
 
 #include <libmx.h>
+#include <mx_core.h>
 
-char *mx_path_resolve(t_path *this, const char *home_dir, const char *pwd) {
-    char *result = 0;
-
-    if (this == 0 || this->p == 0)
-        return 0;
-
-    if (this->p[0] == '/')
-        return mx_strdup(this->p);
-
-    if (this->p[0] == '~') {
-        result = mx_strdup(home_dir);
-        mx_str_append(&result, this->p + 1);
-        return result;
+char *mx_path_resolve(t_path *this) {
+    char *temp;
+    char *dir = this->p;
+    if (dir[0] != '.' && dir[0] != '/' && dir[0] != '$' && dir[0] != '~') {
+        char *pwd = mx_getenv("PWD");
+        temp = mx_strdup(pwd);
+        mx_str_append(&temp, "/");
+        mx_str_append(&temp, dir);
     }
+    else
+        temp = mx_strdup(dir);
 
-    if (mx_streq(".", this->p))
-        return mx_strdup(pwd);
+    wordexp_t p;
+    char **w;
+    wordexp(temp, &p, 0);
+    w = p.we_wordv;
+    char *result;
+    if (p.we_wordc > 0)
+        result = mx_strdup(w[0]);
+    else
+        result = mx_strdup(temp);
+    wordfree(&p);
+    mx_strdel(&temp);
 
-    if (mx_streq("..", this->p)) {
-        t_path *temp = mx_path_new(pwd);
-        temp->last_del(temp);
-        result = mx_strdup(temp->p);
-        mx_path_del(&temp);
-        return result;
-    }
-
-    t_path *path = mx_path_new(pwd);
-    path->append(path, this->p);
-    result = mx_strdup(path->p);
-    mx_path_del(&path);
-
-    char *resolved_path = mx_strnew(mx_strlen(result) * 2);
-    realpath(result, resolved_path);
-    mx_strdel(&result);
-
-    return resolved_path;
+    return result;
 }

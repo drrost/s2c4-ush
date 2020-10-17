@@ -12,6 +12,6 @@
 bool mx_path_is_dir(t_path *this);
 bool mx_path_exists(t_path *this);
 
-char *mx_path_resolve(t_path *this, const char *home_dir, const char *pwd);
+char *mx_path_resolve(t_path *this);
 
 #endif //INC_04_USH_MX_PATH_PRIVATE_H

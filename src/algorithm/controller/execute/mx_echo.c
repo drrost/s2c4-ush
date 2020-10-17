@@ -24,7 +24,7 @@ static int print_echo_e(char *str) {
             return 0;
         else
             buf = str[i];
-        if (buf == 34) //TO DO: may be needed to rethink the fix (case echo -n "\a")
+        if (buf == 34 || buf == 39) //TO DO: may be needed to rethink the fix (case echo -n "\a")
             continue;
         else
             write(1, &buf, 1);
@@ -54,7 +54,7 @@ static void print_e(int i, char *flags, char **arr, int exit_code) {
     int err = 1;
 
     for (i = i + 1; arr[i]; i++) {
-        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]) && arr[i][0] != '\'')
             err = print_echo_e(arr[i]);
         if (arr[i + 1] && err)
             write(1, " ", 1);

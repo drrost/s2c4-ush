@@ -18,7 +18,7 @@
 #include <sys/ioctl.h>
 #include <regex.h>
 #include <errno.h>
-
+#include <wordexp.h>
 
 void check_leaks();
 

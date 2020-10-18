@@ -30,6 +30,7 @@ static void init_history() {
     char *line = 0;
     while (mx_read_line(&line, 1000, '\n', fd) > 0) {
         mx_history_add_to_list(line);
+        mx_strdel(&line);
         line = 0;
     }
 

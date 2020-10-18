@@ -117,10 +117,12 @@ char *mx_read_next() {
 
     int c;
     while ((c = getchar()) != 13) {
-        if (c == 3 || c == 24 || c == 26) {
+        if (c == 24 || c == 26) {
             mx_strcpy(state->line, "exit");
             break;
         }
+        if (c == -1)
+            break;
         handle_key(c, state);
     }
 
@@ -130,7 +132,7 @@ char *mx_read_next() {
     char *line = mx_strdup(state->line);
     mx_termstate_del(&state);
 
-    mx_history_add_to_list(mx_strdup(line));
+    mx_history_add_to_list(line);
     mx_history_add_to_file(line);
 
     return line;

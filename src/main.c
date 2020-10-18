@@ -21,10 +21,10 @@ int main(int argc, const char *argv[]) {
 
     check_leaks();
 
+    mx_log_t("Exiting ULS", "");
+
     argc++;
     argv++;
-
-    mx_log_t("Exiting ULS", "");
 
     return code;
 }

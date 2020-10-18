@@ -26,6 +26,8 @@
 // }
 
 void mx_run_algorithm() {
+    bool is_tty = isatty(fileno(stdin));
+
     while (true) {
         // Read
         char *line = mx_read_next();
@@ -36,10 +38,10 @@ void mx_run_algorithm() {
 
         // Execute
         int result = mx_execute(input);
+        mx_input_delete(&input);
 
         // Next
-        mx_input_delete(&input);
-        if (result == MX_SHOULD_EXIT)
+        if (result == MX_SHOULD_EXIT || is_tty == false)
             break;
     }
 }

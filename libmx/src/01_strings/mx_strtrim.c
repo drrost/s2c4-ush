@@ -25,3 +25,24 @@ char *mx_strtrim(const char *str) {
     mx_strncpy(result, str + firstChIdx, newLength);
     return result;
 }
+
+// One more possible solution
+
+//char *ltrim(char *s) {
+//    while (isspace(*s)) s++;
+//    return s;
+//}
+//
+//char *rtrim(char *s) {
+//    char *back = s + strlen(s);
+//    while (mx_isspace(*--back));
+//    *(back + 1) = '\0';
+//    return s;
+//}
+//
+//char *mx_strtrim(char *s) {
+//    char *dup = mx_strdup(s);
+//    char * trimmed = rtrim(ltrim(dup));
+//    mx_strtrim(&dup);
+//    return mx_strdup(trimmed);
+//}

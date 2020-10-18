@@ -48,15 +48,21 @@ static void append_level(char **where, int level) {
 
 void mx_log(const char *subject, const char *details, int level) {
     char *to_print = current_time();
+    char *in_details = 0;
+    if (details == 0)
+        in_details = mx_strdup("<NULL>");
+    else
+        in_details = mx_strdup(details);
 
     append_level(&to_print, level);
     mx_str_append(&to_print, subject);
 
-    if (mx_strlen(details)) {
+    if (mx_strlen(in_details)) {
         mx_str_append(&to_print, " - ");
-        mx_str_append(&to_print, details);
+        mx_str_append(&to_print, in_details);
     }
 
     print_debug(to_print);
     mx_strdel(&to_print);
+    mx_strdel(&in_details);
 }

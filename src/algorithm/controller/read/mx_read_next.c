@@ -28,18 +28,24 @@ static bool is_esc_sequence_part(char c, char **complete) {
     return false;
 }
 
+static void in_putchar(char c) {
+    if (isatty(fileno(stdin)) == false)
+        return;
+    putchar(c);
+}
+
 static void clear_current_line() {
-    putchar('\r');
+    in_putchar('\r');
     int win_width = mx_get_window_width();
     for (int i = 0; i < win_width; i++)
-        putchar(' ');
-    putchar('\r');
+        in_putchar(' ');
+    in_putchar('\r');
 }
 
 static void print_tricky_str(char *s) {
     int len = mx_strlen(s);
     for (int i = 0; i < len; i++) {
-        putchar(s[i]);
+        in_putchar(s[i]);
     }
 }
 
@@ -90,7 +96,8 @@ static void handle_key(const char c, t_termstate *state) {
         return;
     }
 
-    putchar(c);
+    in_putchar(c);
+
     state->line[state->cursor_pos] = c;
     state->cursor_pos++;
 
@@ -127,7 +134,7 @@ char *mx_read_next() {
     }
 
     tcsetattr(STDIN_FILENO, 0, &save);
-    putchar('\n');
+    in_putchar('\n');
 
     char *line = mx_strdup(state->line);
     mx_termstate_del(&state);

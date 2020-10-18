@@ -63,7 +63,6 @@ char *create_str_for_exec(char *command, char *arguments) {
     return s;
 }
 
-
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;

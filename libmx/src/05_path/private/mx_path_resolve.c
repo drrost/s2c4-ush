@@ -7,18 +7,12 @@
 char *mx_path_resolve(t_path *this) {
     char *temp;
     char *dir = this->p;
-    if (dir[0] != '.' && dir[0] != '/' && dir[0] != '$' && dir[0] != '~') {
+    if (mx_str_begins_with(dir, "..") ||
+        (dir[0] != '.' && dir[0] != '/' && dir[0] != '$' && dir[0] != '~')) {
         char *pwd = mx_getenv("PWD");
         temp = mx_strdup(pwd);
         mx_str_append(&temp, "/");
         mx_str_append(&temp, dir);
-    }
-    else if (mx_streq("..", dir)) {
-        char *pwd = mx_getenv("PWD");
-        mx_strdel(&(this->p));
-        this->p = mx_strdup(pwd);
-        this->last_del(this);
-        temp = mx_strdup(this->p);
     }
     else
         temp = mx_strdup(dir);
@@ -34,6 +28,10 @@ char *mx_path_resolve(t_path *this) {
         result = mx_strdup(temp);
     wordfree(&p);
     mx_strdel(&temp);
+
+    char *resolved = realpath(result, 0);
+    mx_strdel(&result);
+    result = mx_strdup(resolved);
 
     return result;
 }

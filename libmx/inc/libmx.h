@@ -79,6 +79,7 @@ char *mx_add_path(const char *s1, const char *s2);
 void mx_str_append(char **s, const char *to_add);
 char *
 mx_str_replace(char *target, const char *needle, const char *replacement);
+bool mx_str_begins_with(char *s, char *needle);
 
 // Memory pack
 //

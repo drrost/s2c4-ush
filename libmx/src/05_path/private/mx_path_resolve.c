@@ -13,6 +13,13 @@ char *mx_path_resolve(t_path *this) {
         mx_str_append(&temp, "/");
         mx_str_append(&temp, dir);
     }
+    else if (mx_streq("..", dir)) {
+        char *pwd = mx_getenv("PWD");
+        mx_strdel(&(this->p));
+        this->p = mx_strdup(pwd);
+        this->last_del(this);
+        temp = mx_strdup(this->p);
+    }
     else
         temp = mx_strdup(dir);
 

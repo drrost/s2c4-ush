@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <private/mx_run_exec_private.h>
 
 static int err_helper(char *buf, int status, int err) {
     errno = err;
@@ -63,36 +64,17 @@ char *create_str_for_exec(char *command, char *arguments) {
     return s;
 }
 
-static char *replace_spaces_to_magic(char *line) {
-    return mx_str_replace(line, "\\ ", MX_SPACE_SUBSTITUTION);
-}
-
-static char *replace_magic_to_spaces(char *line) {
-    return mx_str_replace(line, MX_SPACE_SUBSTITUTION, " ");
-}
-
-static void handle_spaces(char **arr) {
-    int i = 0;
-
-    while (arr[i]) {
-        char *old = arr[i];
-        arr[i] = replace_magic_to_spaces(arr[i]);
-        mx_strdel(&old);
-        i++;
-    }
-}
-
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;
     int status;
     char *s = create_str_for_exec(command, arguments);
     char *old = s;
-    s = replace_spaces_to_magic(s);
+    s = mx_replace_spaces_to_magic(s);
     mx_strdel(&old);
 
     char **arr = mx_strsplit(s, ' ');
-    handle_spaces(arr);
+    mx_handle_spaces(arr);
 
     pid = fork();
     if (pid == 0) {

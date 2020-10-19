@@ -4,29 +4,40 @@
 
 #include <libmx.h>
 
-char *mx_path_resolve(t_path *this) {
-    char *temp;
-    char *dir = this->p;
+static char *hadle_relatives(char *s) {
+    char *result;
+    char *dir = s;
     if (mx_str_begins_with(dir, "..") ||
         (dir[0] != '.' && dir[0] != '/' && dir[0] != '$' && dir[0] != '~')) {
         char *pwd = mx_getenv("PWD");
-        temp = mx_strdup(pwd);
-        mx_str_append(&temp, "/");
-        mx_str_append(&temp, dir);
+        result = mx_strdup(pwd);
+        mx_str_append(&result, "/");
+        mx_str_append(&result, dir);
     }
     else
-        temp = mx_strdup(dir);
+        result = mx_strdup(dir);
+    return result;
+}
 
+static char *resolve_relatives(char *s) {
     wordexp_t p;
     char **w;
-    wordexp(temp, &p, 0);
+    wordexp(s, &p, 0);
     w = p.we_wordv;
     char *result;
     if (p.we_wordc > 0)
         result = mx_strdup(w[0]);
     else
-        result = mx_strdup(temp);
+        result = mx_strdup(s);
     wordfree(&p);
+
+    return result;
+}
+
+char *mx_path_resolve(t_path *this) {
+    char *temp = hadle_relatives(this->p);
+    char *result = resolve_relatives(temp);
+
     mx_strdel(&temp);
 
     char *resolved = realpath(result, 0);

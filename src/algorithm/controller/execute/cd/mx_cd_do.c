@@ -49,6 +49,8 @@ void mx_cd_do(char flag, const char *dir) {
         mx_strdel(&old_value);
     }
 
+    chdir(resolved_dir);
+
     char *current_pwd = mx_getenv("PWD");
     mx_setenv("OLDPWD", current_pwd);
 

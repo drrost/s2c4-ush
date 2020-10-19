@@ -6,7 +6,7 @@
 #include <mx_log.h>
 
 static void print_debug(const char *line) {
-    FILE *file = fopen("./ush.log", "a+");
+    FILE *file = fopen("/tmp/ush.log", "a+");
     fprintf(file, "%s\n", line);
     fclose(file);
 }

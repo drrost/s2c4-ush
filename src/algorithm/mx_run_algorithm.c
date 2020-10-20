@@ -4,7 +4,7 @@
 
 #include <ush.h>
 // static void print_input(t_input *main) {
-
+//
 //     while(main->commands){
 //           mx_printstr("\n");
 //         mx_printstr("data->name: ");
@@ -17,8 +17,11 @@
 //         else
 //             mx_printstr("NULL");
 //         mx_printstr("\n");
-//         mx_printstr("data->stop_on_fail: ");
-//         mx_printint((int )((t_command *)main->commands->data)->stop_on_fail);
+//         mx_printstr("has or: ");
+//         mx_printint((int )((t_command *)main->commands->data)->has_or);
+//         mx_printstr("\n");
+//         mx_printstr("has and: ");
+//         mx_printint((int )((t_command *)main->commands->data)->has_and);
 //         mx_printstr("\n");
 //         mx_printstr("===============================================\n");
 //         main->commands = main->commands->next;
@@ -34,6 +37,8 @@ void mx_run_algorithm() {
 
         // Parse
         t_input *input = mx_parse_input(line);
+//        print_input(input);
+//        break;
         mx_strdel(&line);
 
         // Execute

@@ -73,20 +73,28 @@ void sighandler_c(int num) {
     num++;
 }
 
+static char **prepare_array(char *command, char *arguments) {
+    char *temp = mx_path_resolve_all_escapes(arguments);
+    char *s = create_str_for_exec(command, temp);
+    char *old = s;
+    s = mx_replace_spaces_to_magic(s);
+    mx_strdel(&old);
+    mx_strdel(&temp);
+
+    char **arr = mx_strsplit(s, ' ');
+    mx_handle_spaces(arr);
+    mx_strdel(&s);
+
+    return arr;
+}
+
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;
     int status;
-    char *s = create_str_for_exec(command, arguments);
-    char *old = s;
-    s = mx_replace_spaces_to_magic(s);
-    mx_strdel(&old);
-
-    char **arr = mx_strsplit(s, ' ');
-    mx_handle_spaces(arr);
+    char **arr = prepare_array(command, arguments);
 
     pid = fork();
-
     mx_log_di("!! pid", pid);
 
     if (pid == 0) { // Child process
@@ -120,7 +128,6 @@ int mx_run_exec(char *command, char *arguments) {
     mx_find_status(status, command, arguments);
 
     mx_del_strarr(&arr);
-    mx_strdel(&s);
 
     return 0;
 }

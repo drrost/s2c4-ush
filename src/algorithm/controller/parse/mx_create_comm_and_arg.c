@@ -70,8 +70,10 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool 
             subpipe = mx_substr(strpipe, start, pipend);
         }
         char *trim = mx_strtrim(subpipe);
+        mx_strdel(&(input->error_text));
         input->error_text = mx_error_pair(trim);
-        mx_push_back(&input->commands, get_command_node(trim, has_or, has_and));
+        mx_push_back(&input->commands,
+                     get_command_node(trim, has_or, has_and));
         mx_strdel(&trim);
         mx_strdel(&subpipe);
         if (pipend == -1)

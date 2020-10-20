@@ -63,6 +63,10 @@ char *create_str_for_exec(char *command, char *arguments) {
     mx_str_append(&s, arguments);
     return s;
 }
+void sighandler(int num) {
+    num++;
+    signal(SIGTSTP, sighandler);
+}
 
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
@@ -78,8 +82,8 @@ int mx_run_exec(char *command, char *arguments) {
 
     pid = fork();
     if (pid == 0) {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGTSTP, SIG_DFL);
+        signal(SIGINT, SIG_DFL); //CTRL+C
+        signal(SIGTSTP, SIG_DFL); //CTRL+Z
         if (!mx_getenv("PATH")) {
             if ((execv(command, arr)) < 0)
                 exit(errno);
@@ -89,6 +93,8 @@ int mx_run_exec(char *command, char *arguments) {
             exit(errno);
         exit(EXIT_SUCCESS);
     }
+    signal(SIGINT, SIG_DFL); //CTRL+C
+    signal(SIGTSTP, sighandler);//CTRL+Z
     wpid = waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
     mx_find_status(status, command, arguments);

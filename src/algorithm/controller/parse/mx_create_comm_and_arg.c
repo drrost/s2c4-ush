@@ -13,15 +13,13 @@
 //     return arg;
 // }
 
-static t_command *get_command_node(char *trim, int pipend) {
+static t_command *get_command_node(char *trim, bool has_or, bool has_and) {
     t_command *command = mx_command_new();
     int trim_len = mx_strlen(trim);
     int command_len = trim_len;
     int arg_len = 0;
     char *s = 0;
-    // command->name = mx_get_command(trim);
-    // command->name = mx_strdup(mx_strtrim(command->name));
-    //char *arg = mx_get_args(trim);
+
 
     if ((s = mx_strstr(trim, " ")) != 0) {
         command->arguments = mx_strdup(s + 1);
@@ -33,17 +31,24 @@ static t_command *get_command_node(char *trim, int pipend) {
 
     command->name = mx_strndup(trim, command_len);
     command->get_input_from_prev = get_subst(command->arguments);
-    if (pipend == -1) {
-        command->stop_on_fail = true;
+    if (has_or) {
+        command->has_or = has_or;
+        command->has_and = false;
+    } else {
+        command->has_and = has_and;
+        command->has_or = false;
     }
-    else {
-        command->stop_on_fail = false;
+    if (!has_and && !has_or) {
+        command->is_last_in_sequesce = true;
+    } else {
+        command->is_last_in_sequesce = false;
     }
     return command;
 }
 
-void create_comm_and_arg(t_input *input, int end, char *strend, int start) {
+void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool has_and) {
     char *sub;
+    bool has_or;
 
     if (end == -1)
         sub = mx_substr(strend, start, mx_strlen(strend) + 1);
@@ -57,14 +62,16 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start) {
         if (pipend > 0)
             strpipe += pipend + 2;
         char *subpipe;
-        if (pipend == -1)
+        if (pipend == -1) {
+            has_or = false;
             subpipe = mx_substr(strpipe, start, mx_strlen(strpipe) + 1);
-        else
+        } else {
+            has_or = true;
             subpipe = mx_substr(strpipe, start, pipend);
-
+        }
         char *trim = mx_strtrim(subpipe);
         input->error_text = mx_error_pair(trim);
-        mx_push_back(&input->commands, get_command_node(trim, pipend));
+        mx_push_back(&input->commands, get_command_node(trim, has_or, has_and));
         mx_strdel(&trim);
         mx_strdel(&subpipe);
         if (pipend == -1)

@@ -1,6 +1,6 @@
 #include <ush.h>
 
-static int fiend_count(char *str, char c) {
+static int fiend_count(const char *str, char c) {
     int result = 0;
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == c)
@@ -9,7 +9,7 @@ static int fiend_count(char *str, char c) {
     return result;
 }
 
-char *mx_error_pair(char *str) {
+char *mx_error_pair(const char *str) {
     char *err = 0;
 
     if ((fiend_count(str, '"') % 2) != 0)

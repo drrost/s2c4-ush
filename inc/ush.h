@@ -68,6 +68,7 @@ int mx_env_u(char **arr, int i);
 int mx_print_option_required(char c);
 void mx_print_env(void);
 void mx_printerr_char(char c);
+char **mx_split_array_of_a_command(char *line);
 int mx_get_window_width();
 bool mx_regex(char *str, char *regular);
 int mx_get_hex_and_oct(char *buf, char *str, int *i);

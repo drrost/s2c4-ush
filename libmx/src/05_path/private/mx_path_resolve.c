@@ -22,20 +22,25 @@ static char *hadle_relatives(char *s) {
 static char *resolve_relatives(char *s) {
     wordexp_t p;
     char **w;
-    wordexp(s, &p, 0);
+    int exit_code = wordexp(s, &p, 0);
     w = p.we_wordv;
     char *result;
-    if (p.we_wordc > 0)
+    if (exit_code == 0 && p.we_wordc > 0) {
         result = mx_strdup(w[0]);
+        wordfree(&p);
+    }
     else
         result = mx_strdup(s);
-    wordfree(&p);
 
     return result;
 }
 
 char *mx_path_resolve(t_path *this) {
-    char *temp = hadle_relatives(this->p);
+    char *temp = mx_path_resolve_all_escapes(this->p);
+    char *old = temp;
+    temp = hadle_relatives(temp);
+    mx_strdel(&old);
+
     char *result = resolve_relatives(temp);
 
     mx_strdel(&temp);

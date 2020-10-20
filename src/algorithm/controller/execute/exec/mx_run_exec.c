@@ -3,7 +3,6 @@
 //
 
 #include <ush.h>
-#include <private/mx_run_exec_private.h>
 #include <mx_log.h>
 
 static int err_helper(char *buf, int status, int err) {
@@ -76,16 +75,11 @@ void sighandler_c(int num) {
 static char **prepare_array(char *command, char *arguments) {
     char *temp = mx_path_resolve_all_escapes(arguments);
     char *s = create_str_for_exec(command, temp);
-    char *old = s;
-    s = mx_replace_spaces_to_magic(s);
-    mx_strdel(&old);
     mx_strdel(&temp);
 
-    char **arr = mx_strsplit(s, ' ');
-    mx_handle_spaces(arr);
+    char **result = mx_split_array_of_a_command(s);
     mx_strdel(&s);
-
-    return arr;
+    return result;
 }
 
 int mx_run_exec(char *command, char *arguments) {

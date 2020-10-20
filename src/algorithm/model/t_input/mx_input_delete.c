@@ -11,6 +11,7 @@ void mx_input_delete(t_input **instance) {
         mx_command_delete(&command);
         mx_pop_front(&commands);
     }
+    mx_strdel(&((*instance)->error_text));
     free(*instance);
     *instance = 0;
 }

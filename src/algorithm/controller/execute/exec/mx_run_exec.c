@@ -68,6 +68,11 @@ void sighandler(int num) {
     signal(SIGTSTP, sighandler);
 }
 
+void sighandler_c(int num) {
+    num++;
+    signal(SIGINT, sighandler);
+}
+
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;
@@ -93,7 +98,7 @@ int mx_run_exec(char *command, char *arguments) {
             exit(errno);
         exit(EXIT_SUCCESS);
     }
-    signal(SIGINT, SIG_DFL); //CTRL+C
+    signal(SIGINT, sighandler_c); //CTRL+C
     signal(SIGTSTP, sighandler);//CTRL+Z
     wpid = waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());

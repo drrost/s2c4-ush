@@ -19,20 +19,16 @@ bool contains(char *line, char symbol) {
 
 static void pwd_p(void) {
     char *pwd = mx_strdup(mx_getenv("PWD"));
-    char line[4096];
-    struct stat buf;
+    char *cur = getcwd(NULL, 256);
+    char *read_link = realpath(pwd, NULL);
 
-    if ((lstat(pwd, &buf)) == 0) {
-        if (MX_ISLNK(buf.st_mode)) {
-            char *res = realpath(pwd, line);
-            if (res)
-                printf("%s\n", line);
-        }
-        else {
-            printf("%s\n", pwd);
-        }
-        mx_strdel(&pwd);
+    if (read_link && mx_strcmp(cur, read_link) == 0){
+        mx_printline(pwd);
     }
+    else {
+        mx_printline(cur);
+    }
+    mx_strdel(&pwd);
 }
 
 static char check_pwd(char *line, bool *error) {
@@ -52,8 +48,8 @@ static char check_pwd(char *line, bool *error) {
             *error = true;
             break;
         }
-        if (line[i + 1] == '\0')
-            flag = 'L';
+        if (line[i] == 'P')
+            flag = 'P';
         else
             flag = line[i];
     }
@@ -69,11 +65,14 @@ int mx_pwd(char *line) {
              contains(arr[0], '-'))) { //TO DO: add check on "--"
             bool error = false;
             flag = check_pwd(line, &error);
-            if (error)
+            if (error) {
+                mx_del_strarr(&arr);
                 return 1;
+            }
         }
         else {
             mx_printerr("ush: pwd: too many arguments\n");
+            mx_del_strarr(&arr);
             return 1;
         }
         if (flag == 'L')

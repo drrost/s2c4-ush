@@ -5,7 +5,6 @@
 #include <ush.h>
 #include <private/mx_run_exec_private.h>
 
-
 char **mx_split_array_of_a_command(char *line) {
     char *s = mx_replace_spaces_to_magic(line);
 

@@ -65,6 +65,7 @@ char *mx_strnew(const int size);
 char *mx_strtrim(const char *str);
 char *mx_del_extra_spaces(const char *str);
 char **mx_strsplit(const char *s, char c);
+char *mx_str_joined_by(char **arr, char *delim);
 char *mx_strjoin(const char *s1, const char *s2);
 char *mx_file_to_str(const char *file);
 int mx_read_line(char **lineptr, size_t buf_size, char delim, const int fd);
@@ -80,6 +81,7 @@ void mx_str_append(char **s, const char *to_add);
 char *
 mx_str_replace(char *target, const char *needle, const char *replacement);
 bool mx_str_begins_with(char *s, char *needle);
+int mx_arr_size(char **arr);
 
 // Memory pack
 //

@@ -61,7 +61,6 @@ bool mx_is_built_in(char *str);
 int mx_command_not_found(const char *s);
 char *mx_clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
-int mx_arr_size(char **arr);
 int mx_print_not_found(const char *s);
 int mx_env_i(char **arr, int i);
 int mx_env_u(char **arr, int i);

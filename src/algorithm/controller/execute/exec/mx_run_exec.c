@@ -4,6 +4,7 @@
 
 #include <ush.h>
 #include <private/mx_run_exec_private.h>
+#include <mx_log.h>
 
 static int err_helper(char *buf, int status, int err) {
     errno = err;
@@ -63,14 +64,13 @@ char *create_str_for_exec(char *command, char *arguments) {
     mx_str_append(&s, arguments);
     return s;
 }
+
 void sighandler(int num) {
     num++;
-    signal(SIGTSTP, sighandler);
 }
 
 void sighandler_c(int num) {
     num++;
-    signal(SIGINT, sighandler);
 }
 
 int mx_run_exec(char *command, char *arguments) {
@@ -86,24 +86,41 @@ int mx_run_exec(char *command, char *arguments) {
     mx_handle_spaces(arr);
 
     pid = fork();
-    if (pid == 0) {
-        signal(SIGINT, SIG_DFL); //CTRL+C
-        signal(SIGTSTP, SIG_DFL); //CTRL+Z
+
+    mx_log_di("!! pid", pid);
+
+    if (pid == 0) { // Child process
+        // signup for shortcuts
+
         if (!mx_getenv("PATH")) {
-            if ((execv(command, arr)) < 0)
+            if ((execv(command, arr)) < 0) {
+                mx_log_d("exiting a process", 0);
                 exit(errno);
+            }
+            mx_log_d("exiting a process", 0);
             exit(EXIT_SUCCESS);
         }
-        if ((execvp(command, arr)) < 0)
+        if ((execvp(command, arr)) < 0) {
+            mx_log_d("exiting a process", 0);
             exit(errno);
+        }
+        mx_log_d("exiting a process", 0);
         exit(EXIT_SUCCESS);
     }
-    signal(SIGINT, sighandler_c); //CTRL+C
-    signal(SIGTSTP, sighandler);//CTRL+Z
+
+    // Continue the main process
+    // signup for shortcuts
+    // TODO: Move to core init
+    //
+    signal(SIGINT, sighandler_c); // CTRL+C
+    signal(SIGTSTP, sighandler); // CTRL+Z
+
     wpid = waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
     mx_find_status(status, command, arguments);
+
     mx_del_strarr(&arr);
     mx_strdel(&s);
+
     return 0;
 }

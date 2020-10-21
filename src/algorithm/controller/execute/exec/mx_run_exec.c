@@ -3,7 +3,7 @@
 //
 
 #include <ush.h>
-#include <private/mx_run_exec_private.h>
+#include <mx_log.h>
 
 static int err_helper(char *buf, int status, int err) {
     errno = err;
@@ -63,42 +63,66 @@ char *create_str_for_exec(char *command, char *arguments) {
     mx_str_append(&s, arguments);
     return s;
 }
+
 void sighandler(int num) {
     num++;
-    signal(SIGTSTP, sighandler);
+}
+
+void sighandler_c(int num) {
+    num++;
+}
+
+static char **prepare_array(char *command, char *arguments) {
+    char *temp = mx_path_resolve_all_escapes(arguments);
+    char *s = create_str_for_exec(command, temp);
+    mx_strdel(&temp);
+
+    char **result = mx_split_array_of_a_command(s);
+    mx_strdel(&s);
+    return result;
 }
 
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;
     int status;
-    char *s = create_str_for_exec(command, arguments);
-    char *old = s;
-    s = mx_replace_spaces_to_magic(s);
-    mx_strdel(&old);
-
-    char **arr = mx_strsplit(s, ' ');
-    mx_handle_spaces(arr);
+    int exit_status;
+    char **arr = prepare_array(command, arguments);
 
     pid = fork();
-    if (pid == 0) {
-        signal(SIGINT, SIG_DFL); //CTRL+C
-        signal(SIGTSTP, SIG_DFL); //CTRL+Z
+    mx_log_di("!! pid", pid);
+
+    if (pid == 0) { // Child process
+        // signup for shortcuts
+
         if (!mx_getenv("PATH")) {
-            if ((execv(command, arr)) < 0)
+            if ((execv(command, arr)) < 0) {
+                mx_log_d("exiting a process", 0);
                 exit(errno);
+            }
+            mx_log_d("exiting a process", 0);
             exit(EXIT_SUCCESS);
         }
-        if ((execvp(command, arr)) < 0)
+        if ((execvp(command, arr)) < 0) {
+            mx_log_d("exiting a process", 0);
             exit(errno);
+        }
+        mx_log_d("exiting a process", 0);
         exit(EXIT_SUCCESS);
     }
-    signal(SIGINT, SIG_DFL); //CTRL+C
-    signal(SIGTSTP, sighandler);//CTRL+Z
+
+    // Continue the main process
+    // signup for shortcuts
+    // TODO: Move to core init
+    //
+    signal(SIGINT, sighandler_c); // CTRL+C
+    signal(SIGTSTP, sighandler); // CTRL+Z
+
     wpid = waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
-    mx_find_status(status, command, arguments);
+    exit_status = mx_find_status(status, command, arguments);
+
     mx_del_strarr(&arr);
-    mx_strdel(&s);
-    return 0;
+
+    return exit_status;
 }

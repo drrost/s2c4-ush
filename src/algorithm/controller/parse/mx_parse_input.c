@@ -5,13 +5,12 @@ t_input *mx_parse_input(const char *str) {
     int i = 0;
     int start = 0;
     bool has_and;
-  char *err = mx_error_pair(str);
-  mx_printline(err);
-    if(err) {
-    input->error_text = mx_strdup(err);
-}
-
+    char *err = mx_error_pair(str);
+    if(err){
+        input->error_text = err;
+    }
     char **strnew = mx_strsplit(str, ';');
+
     for (; strnew[i] != NULL; i++) {
         char *strend = strnew[i];
         while (1) {
@@ -25,6 +24,7 @@ t_input *mx_parse_input(const char *str) {
             strend += end + 2;
             if (end == -1)
                 break;
+
         }
     }
     mx_del_strarr(&strnew);

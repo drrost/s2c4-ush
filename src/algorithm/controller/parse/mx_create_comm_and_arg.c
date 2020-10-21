@@ -1,5 +1,18 @@
 #include <ush.h>
 
+// static char *remove_sym_from_arg(const char *str) {
+//     char *arg = mx_strdup(str);
+
+//     for (int i = 0, j; arg[i] != '\0'; i++) {
+//         while (arg[i] == '22') {
+//             for (j = i; arg[j]; ++j)
+//                 arg[j] = arg[j + 1];
+//             arg[j] = '\0';
+//         }
+//     }
+//     return arg;
+// }
+
 static t_command *get_command_node(char *trim, bool has_or, bool has_and) {
     t_command *command = mx_command_new();
     int trim_len = mx_strlen(trim);
@@ -30,7 +43,6 @@ static t_command *get_command_node(char *trim, bool has_or, bool has_and) {
     } else {
         command->is_last_in_sequesce = false;
     }
-    command->error_text = mx_error_pair_for_command(trim);
     return command;
 }
 
@@ -58,7 +70,10 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool 
             subpipe = mx_substr(strpipe, start, pipend);
         }
         char *trim = mx_strtrim(subpipe);
-        mx_push_back(&input->commands, get_command_node(trim, has_or, has_and));
+        mx_strdel(&(input->error_text));
+        input->error_text = mx_error_pair(trim);
+        mx_push_back(&input->commands,
+                     get_command_node(trim, has_or, has_and));
         mx_strdel(&trim);
         mx_strdel(&subpipe);
         if (pipend == -1)

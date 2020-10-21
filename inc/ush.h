@@ -29,6 +29,8 @@ char *mx_read_next();
 #define MX_SHOULD_EXIT -3
 #define MX_SHOULD_NEXT 0
 #define MX_SPACE_SUBSTITUTION "YLTHktK7wcrFOnYm5hA2jJp1A9p71j"
+#define MX_APPOS_SUBSTITUTION "V2yJOHF1Qq20unsWnmN4TVamOLni4j"
+#define MX_SLASH_SUBSTITUTION "xpDVKjP1s7gJzVLY9KV6XgVJrrddOzf"
 int mx_execute(t_input *input);
 int mx_run_exec(char *command, char *arguments);
 
@@ -51,6 +53,7 @@ int mx_whoami(char *line);
 int mx_cd(const char *line);
 int mx_arch(char *args);
 int mx_fg(char *args);
+int mx_about(void);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);
@@ -61,13 +64,13 @@ bool mx_is_built_in(char *str);
 int mx_command_not_found(const char *s);
 char *mx_clear_str_of_symbols(const char *line);
 int mx_unsetenv(const char *s);
-int mx_arr_size(char **arr);
 int mx_print_not_found(const char *s);
 int mx_env_i(char **arr, int i);
 int mx_env_u(char **arr, int i);
 int mx_print_option_required(char c);
 void mx_print_env(void);
 void mx_printerr_char(char c);
+char **mx_split_array_of_a_command(char *line);
 int mx_get_window_width();
 bool mx_regex(char *str, char *regular);
 int mx_get_hex_and_oct(char *buf, char *str, int *i);

@@ -16,7 +16,7 @@ static void trace_log(char flag, char *dir) {
 }
 
 void mx_cd_parse_arguments(const char *line, char *flag, char **dir) {
-    char **arr = mx_strsplit(line, ' ');
+    char **arr = mx_split_array_of_a_command((char *)line);
     int size = mx_arr_size(arr);
     const char *home_dir = mx_get_home_dir();
 

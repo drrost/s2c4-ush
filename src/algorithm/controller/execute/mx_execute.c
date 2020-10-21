@@ -4,6 +4,7 @@
 
 #include <ush.h>
 #include <mx_log.h>
+#include <private/mx_run_exec_private.h>
 
 static void log_command_execution(t_command *command) {
     char *s = 0;
@@ -74,29 +75,35 @@ int mx_run_built_in(char *command, char *arguments) {
         exit_code = mx_arch(arguments);
     else if (mx_streq(command, "fg"))
         exit_code = mx_fg(arguments);
+    else if (mx_streq(command, "about"))
+        exit_code = mx_about();
 
     return MX_SHOULD_NEXT;
 }
 
-int mx_execute(t_input *input) {
-    if (!input->commands)
-        return 0;
+static void run_command(t_command *command) {
+    int exit_code = 0;
+    if (mx_is_built_in(command->name))
+        exit_code = mx_run_built_in(command->name, command->arguments);
+    else if (!mx_strlen(command->name))
+        exit_code = 0;
+    else
+        exit_code = mx_run_exec(command->name, command->arguments);
+    command->exit_code = exit_code;
+}
 
+int mx_execute(t_input *input) {
     int exit_code = MX_SHOULD_NEXT;
 
     t_list *list = input->commands;
     while (list) {
         t_command *command = (t_command *)list->data;
-        mx_resolve_envvars_in(command);
-        log_command_execution(command);
 
-        if (mx_is_built_in(command->name))
-            exit_code = mx_run_built_in(command->name, command->arguments);
-        else if (!mx_strlen(command->name))
-            exit_code = 0;
-        else
-            exit_code = mx_run_exec(command->name, command->arguments);
-        command->exit_code = exit_code;
+        mx_resolve_all(command);
+
+        log_command_execution(command);
+        run_command(command);
+        exit_code = command->exit_code;
 
         list = list->next;
     }

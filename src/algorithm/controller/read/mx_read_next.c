@@ -107,10 +107,23 @@ static void handle_key(const char c, t_termstate *state) {
 }
 
 char *mx_read_next() {
-    print_prompt();
-//  char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
 //    static int count = 0;
 //    char *str_1 = 0;
+//    if (count == 0)
+//        str_1 = mx_strdup("cd /tmp");
+//    else if (count == 1)
+//        str_1 = mx_strdup("pwd -P");
+//    else if (count == 2)
+//        str_1 = mx_strdup("exit");
+////    else if (count == 3)
+////        str_1 = mx_strdup("pwd");
+//    else
+//        str_1 = mx_strdup("exit");
+//    count++;
+//
+//    return str_1;
+
+    print_prompt();
 
     struct termios save;
     struct termios raw;

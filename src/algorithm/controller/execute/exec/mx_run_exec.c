@@ -86,6 +86,7 @@ int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
     pid_t wpid;
     int status;
+    int exit_status;
     char **arr = prepare_array(command, arguments);
 
     pid = fork();
@@ -119,9 +120,9 @@ int mx_run_exec(char *command, char *arguments) {
 
     wpid = waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
-    mx_find_status(status, command, arguments);
+    exit_status = mx_find_status(status, command, arguments);
 
     mx_del_strarr(&arr);
 
-    return 0;
+    return exit_status;
 }

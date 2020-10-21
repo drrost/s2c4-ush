@@ -98,10 +98,6 @@ int mx_execute(t_input *input) {
         t_command *command = (t_command *)list->data;
 
         mx_resolve_all(command);
-        if (errno != 0) {
-            exit_code = MX_SHOULD_EXIT;
-            break;
-        }
 
         log_command_execution(command);
         run_command(command);

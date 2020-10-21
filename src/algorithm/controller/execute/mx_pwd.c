@@ -18,7 +18,7 @@ bool contains(char *line, char symbol) {
 }
 
 static void pwd_p(void) {
-    char *cur = getcwd(NULL, 256);
+    char *cur = getcwd(NULL, 1024);
     char *read_link = realpath(cur, NULL);
     mx_printline(read_link);
 }

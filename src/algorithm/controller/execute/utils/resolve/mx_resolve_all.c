@@ -37,6 +37,11 @@ static void resolve_do(char **arr) {
 
         // resolve ${}
         private_envvar(&(arr[i]));
+
+        // resolve excapes
+        char *s = arr[i];
+        arr[i] = mx_path_resolve_all_escapes(s);
+        mx_strdel(&s);
     }
 }
 

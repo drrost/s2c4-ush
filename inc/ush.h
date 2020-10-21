@@ -53,6 +53,7 @@ int mx_whoami(char *line);
 int mx_cd(const char *line);
 int mx_arch(char *args);
 int mx_fg(char *args);
+int mx_about(void);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);

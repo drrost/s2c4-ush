@@ -4,8 +4,16 @@
 
 #include <ush.h>
 // static void print_input(t_input *main) {
+////    while(main->error_text){
+////        mx_printstr("\n");
+////        mx_printstr("error text: ");
+////        mx_printstr(((t_command *)main->commands->data)->error_text);
+////    }
 //
 //     while(main->commands){
+//         mx_printstr("\n");
+//         mx_printstr("error text: ");
+//         mx_printstr(((t_command *)main->commands->data)->error_text);
 //           mx_printstr("\n");
 //         mx_printstr("data->name: ");
 //         mx_printstr(((t_command *)main->commands->data)->name);
@@ -37,8 +45,8 @@ void mx_run_algorithm() {
 
         // Parse
         t_input *input = mx_parse_input(line);
-//        print_input(input);
-//        break;
+        //print_input(input);
+
         mx_strdel(&line);
 
         // Execute

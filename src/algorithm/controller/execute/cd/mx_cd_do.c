@@ -31,6 +31,8 @@ static char *resolve_all_links_in(char *dir) {
 void mx_cd_do(char flag, const char *dir) {
     if (flag == '-')
         dir = mx_getenv("OLDPWD");
+    else if (mx_strlen(dir) == 0)
+        dir = mx_strdup("~");
 
     char *resolved_dir = mx_cd_resolve_path(dir);
 

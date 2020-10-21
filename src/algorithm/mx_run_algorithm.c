@@ -37,8 +37,6 @@ void mx_run_algorithm() {
 
         // Parse
         t_input *input = mx_parse_input(line);
-//        print_input(input);
-//        break;
         mx_strdel(&line);
 
         // Execute

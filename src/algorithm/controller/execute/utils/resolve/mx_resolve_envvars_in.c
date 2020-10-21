@@ -20,7 +20,7 @@ static char *next_envvar(char *s) {
     return mx_strndup(begin + prefix_len, result_len);
 }
 
-static char *resolve_envars(char *s) {
+char *mx_resolve_envvars(char *s) {
     char *envvar = 0;
     s = mx_strdup(s);
     char *value = 0;
@@ -47,16 +47,4 @@ static char *resolve_envars(char *s) {
     }
 
     return s;
-}
-
-void mx_resolve_envvars_in(t_command *command) {
-    // Resolve envvars in name
-    char *new_name = resolve_envars(command->name);
-    mx_strdel(&(command->name));
-    command->name = new_name;
-
-    // Resolve envvars in arguments
-    char *new_arguments = resolve_envars(command->arguments);
-    mx_strdel(&(command->arguments));
-    command->arguments = new_arguments;
 }

@@ -120,11 +120,10 @@ char *mx_read_next() {
 //    else
 //        str_1 = mx_strdup("exit");
 //    count++;
+//
 //    return str_1;
+
     print_prompt();
-//  char *str = "cd ~;''ls -la && pwd; pwd || cd ; (hello); echo; exit";
-//    static int count = 0;
-//    char *str_1 = 0;
 
     struct termios save;
     struct termios raw;

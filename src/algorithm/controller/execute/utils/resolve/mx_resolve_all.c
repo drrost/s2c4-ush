@@ -61,9 +61,7 @@ static char **split_arguments(char *line) {
     int size = mx_arr_size(result);
 
     for (int i = 0; i < size; i++) {
-        char *old = result[i];
-        result[i] = mx_str_replace(line, MX_SPACE_SUBSTITUTION, "\\ ");
-        mx_strdel(&old);
+        mx_str_replace_p(&(result[i]), MX_SPACE_SUBSTITUTION, "\\ ");
     }
 
     return result;

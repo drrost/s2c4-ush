@@ -5,31 +5,15 @@
 #include <ush.h>
 
 static void substitute_escapes_forward(char **line) {
-    char *old = *line;
-    *line = mx_str_replace(*line, "\\ ", MX_SPACE_SUBSTITUTION);
-    mx_strdel(&old);
-
-    old = *line;
-    *line = mx_str_replace(*line, "\\'", MX_APPOS_SUBSTITUTION);
-    mx_strdel(&old);
-
-    old = *line;
-    *line = mx_str_replace(*line, "\\\\", MX_SLASH_SUBSTITUTION);
-    mx_strdel(&old);
+    mx_str_replace_p(line, "\\ ", MX_SPACE_SUBSTITUTION);
+    mx_str_replace_p(line, "\\'", MX_APPOS_SUBSTITUTION);
+    mx_str_replace_p(line, "\\\\", MX_SLASH_SUBSTITUTION);
 }
 
 static void substitute_escapes_back(char **line) {
-    char *old = *line;
-    *line = mx_str_replace(*line, MX_SPACE_SUBSTITUTION, "\\ ");
-    mx_strdel(&old);
-
-    old = *line;
-    *line = mx_str_replace(*line, MX_APPOS_SUBSTITUTION, "\\'");
-    mx_strdel(&old);
-
-    old = *line;
-    *line = mx_str_replace(*line, MX_SLASH_SUBSTITUTION, "\\\\");
-    mx_strdel(&old);
+    mx_str_replace_p(line, MX_SPACE_SUBSTITUTION, "\\ ");
+    mx_str_replace_p(line, MX_APPOS_SUBSTITUTION, "\\'");
+    mx_str_replace_p(line, MX_SLASH_SUBSTITUTION, "\\\\");
 }
 
 static void resolve_tilde(char **s) {

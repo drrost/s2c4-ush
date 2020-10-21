@@ -45,9 +45,5 @@ char *mx_path_resolve(t_path *this) {
 
     mx_strdel(&temp);
 
-    char *resolved = realpath(result, 0);
-    mx_strdel(&result);
-    result = mx_strdup(resolved);
-
     return result;
 }

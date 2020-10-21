@@ -110,11 +110,11 @@ char *mx_read_next() {
 //    static int count = 0;
 //    char *str_1 = 0;
 //    if (count == 0)
-//        str_1 = mx_strdup("PWD}");
+//        str_1 = mx_strdup("cd /tmp");
 //    else if (count == 1)
+//        str_1 = mx_strdup("pwd -P");
+//    else if (count == 2)
 //        str_1 = mx_strdup("exit");
-////    else if (count == 2)
-////        str_1 = mx_strdup("cd temp");
 ////    else if (count == 3)
 ////        str_1 = mx_strdup("pwd");
 //    else

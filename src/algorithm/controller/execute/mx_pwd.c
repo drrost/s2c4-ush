@@ -18,17 +18,9 @@ bool contains(char *line, char symbol) {
 }
 
 static void pwd_p(void) {
-    char *pwd = mx_strdup(mx_getenv("PWD"));
     char *cur = getcwd(NULL, 256);
-    char *read_link = realpath(pwd, NULL);
-
-    if (read_link && mx_strcmp(cur, read_link) == 0){
-        mx_printline(pwd);
-    }
-    else {
-        mx_printline(cur);
-    }
-    mx_strdel(&pwd);
+    char *read_link = realpath(cur, NULL);
+    mx_printline(read_link);
 }
 
 static char check_pwd(char *line, bool *error) {

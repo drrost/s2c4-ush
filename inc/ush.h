@@ -84,7 +84,7 @@ int mx_file_exist(char *path);
 void mx_check_command(char *str, int *ret_flag, int flag);
 int mx_is_builtin(char *command);
 char *mx_command_in_path(char *comm, char *str_path);
-void mx_env_exe(char **arr, int binary_index, char *path);
+int mx_env_exe(char **arr, int binary_index, char *path);
 int mx_env_flag_u(char **arr);
 int mx_env_flag_i(char **arr);
 void error_msg(char *option);

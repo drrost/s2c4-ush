@@ -17,7 +17,7 @@ char **correct_command_retriever(char **old_arr, int bin_index) {
     return new_arr;
 }
 
-void mx_env_exe(char **arr, int binary_index, char *path) {
+int mx_env_exe(char **arr, int binary_index, char *path) {
     char **new_arr = correct_command_retriever(arr, binary_index);
     int exit_code = 0;
 
@@ -31,6 +31,7 @@ void mx_env_exe(char **arr, int binary_index, char *path) {
 
     mx_del_strarr(&new_arr);
     mx_strdel(&str);
+    return exit_code;
 }
 
 char *mx_three_join(char *str1, char *str2, char *str3) {
@@ -58,16 +59,16 @@ int mx_env_flag_u(char **arr) {
     else if (mx_arr_size(arr) > 2) {
         unset_var = mx_strdup(getenv(arr[1]));
         if (unset_var == NULL) {
-            mx_env_exe(arr, 2, getenv("PATH"));
+            exit_code = mx_env_exe(arr, 2, getenv("PATH"));
         }
         else  {
             unset_var_value = mx_three_join(arr[1], "=", unset_var);
             unsetenv(arr[1]);
-            mx_env_exe(arr, 2, getenv("PATH"));
+            exit_code = mx_env_exe(arr, 2, getenv("PATH"));
             putenv(unset_var_value);
             mx_strdel(&unset_var_value);
             mx_strdel(&unset_var);
         }
     }
-    return 0;
+    return exit_code;
 }

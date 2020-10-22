@@ -95,6 +95,7 @@ static void env_restore(char **copy_env) {
 
 int mx_env_flag_i(char **arr) {
     int binary_index;
+    int exit_code = 0;
     char **copy_env = mx_arr_copy(environ);
 
     if (mx_arr_size(arr) == 1) {
@@ -105,12 +106,12 @@ int mx_env_flag_i(char **arr) {
     binary_index = mx_binary_index_finder(arr, 1);
     if (arr[binary_index]) {
         mx_specified_vars_setter(arr, 2);
-        mx_env_exe(arr, binary_index, getenv("PATH"));
+        exit_code = mx_env_exe(arr, binary_index, getenv("PATH"));
         mx_specified_vars_unset(arr, 2);
     }
     else
         print_specified_vars(arr);
     env_restore(copy_env);
     mx_del_strarr(&copy_env);
-    return 0;
+    return exit_code;
 }

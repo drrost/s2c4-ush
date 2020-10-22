@@ -38,12 +38,12 @@ static int flags_resolver(char **arr) {
 }
 
 int mx_env(char *args) {
+    int exit_code = 0;
     if (mx_strlen(args) == 0) {
         mx_print_env();
-        return 0;
+        return exit_code;
     }
     else {
-        int exit_code = 0;
         char **arr = mx_strsplit(args, ' ');
 
         if (mx_invalid_option_checker(arr))
@@ -51,5 +51,5 @@ int mx_env(char *args) {
         exit_code = flags_resolver(arr);
         mx_del_strarr(&arr);
     }
-    return 0;
+    return exit_code;
 }

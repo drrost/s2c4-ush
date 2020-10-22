@@ -60,14 +60,14 @@ void mx_specified_vars_setter(char **arr, int start) {
     }
 }
 
-static void specified_vars_unset(char **cmd, int start) {
+void mx_specified_vars_unset(char **cmd, int start) {
     char **name_value;
     int walker = start;
 
-   while (cmd[walker]
-         && mx_is_in_arr(cmd[walker], '=') 
-         && cmd[walker][mx_strlen(cmd[walker])-1] != '=' 
-         && cmd[walker][0] != '=') {
+    while (cmd[walker]
+        && mx_is_in_arr(cmd[walker], '=') 
+        && cmd[walker][mx_strlen(cmd[walker])-1] != '=' 
+        && cmd[walker][0] != '=') {
         name_value = mx_strsplit(cmd[walker], '=');
         unsetenv(name_value[0]);
         mx_del_strarr(&name_value);
@@ -104,7 +104,7 @@ int mx_env_flag_i(char **arr) {
     if (arr[binary_index]) {
         mx_specified_vars_setter(arr, 2);
         mx_env_exe(arr, binary_index, getenv("PATH"));
-        specified_vars_unset(arr, 2);
+        mx_specified_vars_unset(arr, 2);
     }
     else
         print_specified_vars(arr);

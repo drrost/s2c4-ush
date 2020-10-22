@@ -96,5 +96,11 @@ char **mx_new_strarr(int number_of_str);
 char *mx_string_copy(char *str);
 char **mx_arr_copy(char **old_arr);
 void mx_print_env(void);
+void mx_specified_vars_setter(char **arr, int start);
+int mx_binary_index_finder(char **arr, int start);
+int mx_is_in_arr(char *s, char c);
+int mx_env_flag_p(char **arr);
+int mx_env_exec(char *command, char *arguments, char *path);
+char *mx_three_join(char *str1, char *str2, char *str3);
 
 #endif

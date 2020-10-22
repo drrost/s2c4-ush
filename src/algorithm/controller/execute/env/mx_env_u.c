@@ -19,7 +19,6 @@ char **correct_command_retriever(char **old_arr, int bin_index) {
 
 void mx_env_exe(char **arr, int binary_index, char *path) {
     char **new_arr = correct_command_retriever(arr, binary_index);
-    path++;
     int exit_code = 0;
 
     char *str = mx_str_joined_by(new_arr, " ");
@@ -28,7 +27,7 @@ void mx_env_exe(char **arr, int binary_index, char *path) {
         exit_code = mx_run_built_in(new_arr[0], "");
     }
     else
-        exit_code = mx_run_exec(new_arr[0], str);
+        exit_code = mx_env_exec(new_arr[0], str, path);
 
     mx_del_strarr(&new_arr);
     mx_strdel(&str);

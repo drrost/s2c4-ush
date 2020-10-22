@@ -22,15 +22,20 @@ int mx_env_exe(char **arr, int binary_index, char *path) {
     int exit_code = 0;
 
     char *str = mx_str_joined_by(new_arr, " ");
+    char *str2 = mx_str_joined_by((new_arr + 1), " ");
 
     if (mx_is_built_in(new_arr[0])) {
-        exit_code = mx_run_built_in(new_arr[0], "");
+        if (str2 == NULL)
+            exit_code = mx_run_built_in(new_arr[0], "");
+        else
+            exit_code = mx_run_built_in(new_arr[0], str2);
     }
     else
         exit_code = mx_env_exec(new_arr[0], str, path);
 
     mx_del_strarr(&new_arr);
     mx_strdel(&str);
+    mx_strdel(&str2);
     return exit_code;
 }
 

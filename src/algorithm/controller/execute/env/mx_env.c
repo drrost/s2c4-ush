@@ -33,7 +33,7 @@ static int flags_resolver(char **arr) {
         return mx_env_flag_p(arr);
     }
     else
-         mx_env_exe(arr, 1, getenv("PATH"));
+         mx_env_exe(arr, 0, getenv("PATH"));
     return 0;
 }
 

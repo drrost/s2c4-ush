@@ -162,11 +162,11 @@ static void error_msg(char *option) {
     char *msg1 = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n";
     char *msg2 = "           [name=value ...] [utility [argument ...]]\n";
 
-    write(2, msg,    mx_strlen(msg));
-    write(2, option, mx_strlen(option));
-    write(2, "\n", 1);
-    write(2, msg1,   mx_strlen(msg1));
-    write(2, msg2,   mx_strlen(msg2));
+    mx_printerr(msg);
+    mx_printerr(option);
+    mx_printerr("\n");
+    mx_printerr(msg1);
+    mx_printerr(msg2);
 }
 
 int mx_invalid_option_checker(char **arr) {
@@ -192,11 +192,11 @@ void mx_option_requires_an_argument(char *option) {
     char *msg1 = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n";
     char *msg2 = "           [name=value ...] [utility [argument ...]]\n";
 
-    write(2, msg, mx_strlen(msg));
-    write(2, option, mx_strlen(option));
-    write(2, "\n", 1);
-    write(2, msg1, mx_strlen(msg1));
-    write(2, msg2, mx_strlen(msg2));
+    mx_printerr(msg);
+    mx_printerr(option);
+    mx_printerr("\n");
+    mx_printerr(msg1);
+    mx_printerr(msg2);
 }
 
 static int print_env_without_var(char *var_name) {
@@ -320,7 +320,7 @@ int mx_env(char *args) {
     else {
         int exit_code = 0;
         char **arr = mx_strsplit(args, ' ');
-        
+
         if (mx_invalid_option_checker(arr))
             return 1;
         exit_code = flags_resolver(arr);

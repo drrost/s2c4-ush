@@ -56,7 +56,7 @@ int mx_env_flag_u(char **arr) {
             return exit_code;
     }
     else if (mx_arr_size(arr) > 2) {
-        unset_var = getenv(arr[1]);
+        unset_var = mx_strdup(getenv(arr[1]));
         if (unset_var == NULL) {
             mx_env_exe(arr, 2, getenv("PATH"));
         }
@@ -65,7 +65,8 @@ int mx_env_flag_u(char **arr) {
             unsetenv(arr[1]);
             mx_env_exe(arr, 2, getenv("PATH"));
             putenv(unset_var_value);
-            free(unset_var_value);
+            mx_strdel(&unset_var_value);
+            mx_strdel(&unset_var);
         }
     }
     return 0;

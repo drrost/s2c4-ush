@@ -147,6 +147,7 @@ int mx_env_exec(char *command, char *arguments, char *path) {
     tcsetpgrp(0, getpid());
     exit_status = mx_find_status(status, command, arguments);
     mx_del_strarr(&arr);
+    mx_strdel(&external_path);
 
     return exit_status;
 }

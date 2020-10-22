@@ -97,8 +97,10 @@ int mx_env_flag_i(char **arr) {
     int binary_index;
     char **copy_env = mx_arr_copy(environ);
 
-    if (mx_arr_size(arr) == 1)
+    if (mx_arr_size(arr) == 1) {
+        mx_del_strarr(&copy_env);
         return 0;
+    }
     env_ignore(); //TO DO: find out why this function has to be called a couple of times to show no envvars :/
     binary_index = mx_binary_index_finder(arr, 1);
     if (arr[binary_index]) {
@@ -109,5 +111,6 @@ int mx_env_flag_i(char **arr) {
     else
         print_specified_vars(arr);
     env_restore(copy_env);
+    mx_del_strarr(&copy_env);
     return 0;
 }

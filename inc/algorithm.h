@@ -14,6 +14,8 @@
 #define MX_DELIM_NO_PAIR3 "ush: symbol not found: ( \n"
 #define MX_DELIM_NO_PAIR4 "ush: symbol not found: ) \n"
 #define MX_DELIM_NO_PAIR5 "ush: Odd number of quotes. \n"
+#define MX_BAD_SUBSTITUTION "ush: bad substitution. \n"
+#define MX_NO_SUCH_FILE "ush: no such file or directory: \n"
 
 typedef struct {
     char *name;
@@ -38,6 +40,7 @@ typedef struct {
 t_command *mx_command_new();
 void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool has_and);
 char *mx_error_pair(const char *str);
+char *mx_error_pair_for_command(const char *str);
 bool get_subst(const char *str);
 char *mx_get_command(char *str);
 char *mx_get_args(char *str);

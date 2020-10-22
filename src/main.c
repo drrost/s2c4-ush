@@ -12,6 +12,7 @@ static int exit_code() {
 
 int main(int argc, const char *argv[]) {
     mx_log_t("Entering ULS", "");
+    mx_check_input(argc, argv);
 
     mx_core_init();
 

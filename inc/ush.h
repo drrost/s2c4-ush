@@ -32,6 +32,7 @@ char *mx_read_next();
 #define MX_APPOS_SUBSTITUTION "V2yJOHF1Qq20unsWnmN4TVamOLni4j"
 #define MX_SLASH_SUBSTITUTION "xpDVKjP1s7gJzVLY9KV6XgVJrrddOzf"
 int mx_execute(t_input *input);
+int mx_run_built_in(char *command, char *arguments);
 int mx_run_exec(char *command, char *arguments);
 
 t_input *mx_parse_input(const char *input);
@@ -53,6 +54,7 @@ int mx_whoami(char *line);
 int mx_cd(const char *line);
 int mx_arch(char *args);
 int mx_fg(char *args);
+int mx_about(void);
 
 void mx_env_replace(t_env **env, char *data);
 t_env *fill_env(char *env[]);
@@ -82,5 +84,24 @@ int mx_file_exist(char *path);
 void mx_check_command(char *str, int *ret_flag, int flag);
 int mx_is_builtin(char *command);
 char *mx_command_in_path(char *comm, char *str_path);
+int mx_env_exe(char **arr, int binary_index, char *path);
+int mx_env_flag_u(char **arr);
+int mx_env_flag_i(char **arr);
+void error_msg(char *option);
+int print_env_without_var(char *var_name);
+void mx_option_requires_an_argument(char *option);
+char **correct_command_retriever(char **old_arr, int bin_index);
+char *mx_substr_retriever(char *src_str, int indx1, int indx2);
+char **mx_new_strarr(int number_of_str);
+char *mx_string_copy(char *str);
+char **mx_arr_copy(char **old_arr);
+void mx_print_env(void);
+void mx_specified_vars_setter(char **arr, int start);
+int mx_binary_index_finder(char **arr, int start);
+int mx_is_in_arr(char *s, char c);
+int mx_env_flag_p(char **arr);
+int mx_env_exec(char *command, char *arguments, char *path);
+char *mx_three_join(char *str1, char *str2, char *str3);
+void mx_check_input(int argc, const char *argv[]);
 
 #endif

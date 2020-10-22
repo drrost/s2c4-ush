@@ -75,6 +75,8 @@ int mx_run_built_in(char *command, char *arguments) {
         exit_code = mx_arch(arguments);
     else if (mx_streq(command, "fg"))
         exit_code = mx_fg(arguments);
+    else if (mx_streq(command, "about"))
+        exit_code = mx_about();
 
     return MX_SHOULD_NEXT;
 }

@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+extern char **environ;
 
 void mx_print_env(void) {
     t_map *env = mx_env_get();
@@ -157,18 +158,6 @@ void mx_print_env(void) {
 //     mx_del_strarr(&arr);
 // }
 
-static void error_msg(char *option) {
-    char *msg  = "env: illegal option "; 
-    char *msg1 = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n";
-    char *msg2 = "           [name=value ...] [utility [argument ...]]\n";
-
-    mx_printerr(msg);
-    mx_printerr(option);
-    mx_printerr("\n");
-    mx_printerr(msg1);
-    mx_printerr(msg2);
-}
-
 int mx_invalid_option_checker(char **arr) {
     if (arr[0][0] == '-') {
         if (mx_strcmp("-u", arr[0]) == 0)
@@ -187,127 +176,13 @@ int mx_invalid_option_checker(char **arr) {
     return 0;
 }
 
-void mx_option_requires_an_argument(char *option) {
-    char *msg  = "env: option requires an argument -- ";
-    char *msg1 = "usage: env [-iv] [-P utilpath] [-S string] [-u name]\n";
-    char *msg2 = "           [name=value ...] [utility [argument ...]]\n";
-
-    mx_printerr(msg);
-    mx_printerr(option);
-    mx_printerr("\n");
-    mx_printerr(msg1);
-    mx_printerr(msg2);
-}
-
-static int print_env_without_var(char *var_name) {
-    if (mx_get_char_index(var_name, '=') != -1) {
-        mx_printerr("env: unsetenv ");
-        mx_printerr(var_name);
-        mx_printerr(": Invalid argument\n");
-        return 1;
-    }
-    unsetenv(var_name);
-    mx_print_env();
-    return 0;
-}
-
-char *mx_three_join(char *str1, char *str2, char *str3) {
-    char *str1_str2 = mx_strjoin(str1, str2);
-    char *result = mx_strjoin(str1_str2, str3);
-
-    free(str1_str2);
-    return result;  
-}
-
-
-char **mx_new_strarr(int number_of_str) {
-    char **arr = (char **)malloc((number_of_str + 1) * sizeof(char *));
-
-    arr[number_of_str] = NULL;
-    return arr;
-}
-
-char *mx_string_copy(char *str) {
-    char *new_str = mx_strnew(mx_strlen(str));
-    char *pointer = new_str;
-    int i = 0;
-
-    while(str[i]) {
-        *pointer = str[i];
-        pointer++;
-        i++;
-    }
-    pointer = NULL;
-    return new_str;
-}
-
-static char **correct_command_retriever(char **old_arr, int bin_index) {
-    int len        = mx_arr_size(old_arr) - bin_index;
-    char **new_arr = mx_new_strarr(len);
-    int index = 0;
-
-    while(old_arr[bin_index]) {
-        new_arr[index] = mx_string_copy(old_arr[bin_index]);
-        index++;
-        bin_index++;
-    }
-    return new_arr;
-}
-
-void mx_env_exe(char **arr, int binary_index, char *path) {
-    char **new_arr = correct_command_retriever(arr, binary_index);
-    path++;
-    int exit_code = 0;
-
-    char *str = mx_str_joined_by(new_arr, " ");
-
-    if (mx_is_built_in(arr[0]))
-        exit_code = mx_run_built_in(arr[0], "");
-    else
-        exit_code = mx_run_exec(new_arr[0], str);
-
-    mx_del_strarr(&new_arr);
-    mx_strdel(&str);
-}
-
-int mx_env_flag_u(char **arr) {
-    int exit_code = 0;
-    char *unset_var = 0;
-    char *unset_var_value = 0;
-
-    if (mx_arr_size(arr) == 1) {
-        mx_option_requires_an_argument("u");
-        return 1;
-    }
-    else if (mx_arr_size(arr) == 2) {
-        exit_code = print_env_without_var(arr[1]);
-        if (exit_code != 0)
-            return exit_code;
-    }
-    else if (mx_arr_size(arr) > 2) {
-        unset_var = getenv(arr[1]);
-        if (unset_var == NULL) {
-            mx_env_exe(arr, 2, getenv("PATH"));
-        }
-        else  {
-            unset_var_value = mx_three_join(arr[1], "=", unset_var);
-            unsetenv(arr[1]);
-            mx_env_exe(arr, 2, getenv("PATH"));
-            putenv(unset_var_value);
-            free(unset_var_value);
-        }
-    }
-    return 0;
-}
-
 static int flags_resolver(char **arr) {
     if (mx_strcmp("-u", arr[0]) == 0) {
         return mx_env_flag_u(arr);
     }
-    // else if (mx_strcmp("-i", arr[0]) == 0 || mx_strcmp("-", arr[0]) == 0) {
-    //     mx_env_flag_i(arr);
-    //     return;
-    // }
+    else if (mx_strcmp("-i", arr[0]) == 0 || mx_strcmp("-", arr[0]) == 0) {
+        return mx_env_flag_i(arr);
+    }
     // else if (mx_strcmp("-P", arr[0]) == 0) {
     //     mx_env_flag_p(arr);
     //     return;

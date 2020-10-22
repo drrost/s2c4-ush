@@ -84,5 +84,17 @@ int mx_file_exist(char *path);
 void mx_check_command(char *str, int *ret_flag, int flag);
 int mx_is_builtin(char *command);
 char *mx_command_in_path(char *comm, char *str_path);
+void mx_env_exe(char **arr, int binary_index, char *path);
+int mx_env_flag_u(char **arr);
+int mx_env_flag_i(char **arr);
+void error_msg(char *option);
+int print_env_without_var(char *var_name);
+void mx_option_requires_an_argument(char *option);
+char **correct_command_retriever(char **old_arr, int bin_index);
+char *mx_substr_retriever(char *src_str, int indx1, int indx2);
+char **mx_new_strarr(int number_of_str);
+char *mx_string_copy(char *str);
+char **mx_arr_copy(char **old_arr);
+void mx_print_env(void);
 
 #endif

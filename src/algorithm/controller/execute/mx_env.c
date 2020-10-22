@@ -257,10 +257,15 @@ static char **correct_command_retriever(char **old_arr, int bin_index) {
 void mx_env_exe(char **arr, int binary_index, char *path) {
     char **new_arr = correct_command_retriever(arr, binary_index);
     path++;
+    int exit_code = 0;
 
     char *str = mx_str_joined_by(new_arr, " ");
 
-    mx_run_exec(new_arr[0], str);
+    if (mx_is_built_in(arr[0]))
+        exit_code = mx_run_built_in(arr[0], "");
+    else
+        exit_code = mx_run_exec(new_arr[0], str);
+
     mx_del_strarr(&new_arr);
     mx_strdel(&str);
 }
@@ -307,8 +312,8 @@ static int flags_resolver(char **arr) {
     //     mx_env_flag_p(arr);
     //     return;
     // }
-    // else
-    //     mx_env_exe(arr, 1, getenv("PATH"));
+    else
+         mx_env_exe(arr, 1, getenv("PATH"));
     return 0;
 }
 

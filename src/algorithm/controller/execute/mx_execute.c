@@ -82,6 +82,9 @@ int mx_run_built_in(char *command, char *arguments) {
 }
 
 static void run_command(t_command *command) {
+    if (command->pass_out_to_next)
+        mx_start_stdout_interception();
+
     int exit_code = 0;
     if (mx_is_built_in(command->name))
         exit_code = mx_run_built_in(command->name, command->arguments);
@@ -90,6 +93,9 @@ static void run_command(t_command *command) {
     else
         exit_code = mx_run_exec(command->name, command->arguments);
     command->exit_code = exit_code;
+
+    if (command->pass_out_to_next)
+        command->output = mx_end_stdout_interception();
 }
 
 int mx_execute(t_input *input) {

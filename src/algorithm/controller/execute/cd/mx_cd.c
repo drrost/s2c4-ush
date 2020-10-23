@@ -13,6 +13,11 @@ int mx_cd(const char *line) {
     mx_cd_parse_arguments(line, &flag, &dir);
     exit_code = mx_cd_validate_input(flag, dir);
 
+    if (exit_code != 0) {
+    	mx_strdel(&dir);
+	    return exit_code;
+    }
+
     exit_code = mx_cd_do(flag, dir);
 
     mx_strdel(&dir);

@@ -27,17 +27,17 @@ int mx_cd_validate_input(char flag, const char *dir) {
     char *full_path = mx_cd_resolve_path(dir);
     mx_strdel(&(path->p));
     path->p = full_path;
+    int exit_code = 0;
 
     const char *flags = "sP-";
     if (!(flag == 0 || mx_get_char_index(flags, flag) >= 0)) {
         mx_printerr("cd: string not in pwd: -");
         mx_printerr_char(flag);
         mx_printerr("\n");
+        exit_code = 1;
     }
 
     // cd . . -> cd: string not in pwd:
-
-    int exit_code = 0;
 
     if (path->exists(path) == false) {
         cd_print_error("no such file or directory", dir);

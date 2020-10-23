@@ -37,7 +37,7 @@ static void print_color_table(void) {
     printf("%sdefault\033[0m\t\t%sdefault\033[0m\n", MX_FRONT_DEFAULT, MX_BACK_DEFAULT);
 }
 static void set_foreground_color(char *color) {
-    if (!strcmp(color, "black"))
+    if (!mx_strcmp(color, "black"))
         printf(MX_FRONT_BLACK);
     else if (!mx_strcmp(color, "red"))
         printf(MX_FRONT_RED);

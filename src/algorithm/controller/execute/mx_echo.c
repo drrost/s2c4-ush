@@ -8,8 +8,8 @@
 static int print_echo_e(char *str) {
     char buf;
 
-    if (str[0] == '$' || (str[0] == '$' & str[1] == '{'))
-        return 0;
+    // if (str[0] == '$' || (str[0] == '$' & str[1] == '{'))
+    //     return 0;
 
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == '\\' && mx_regex(str + i + 1, "^(x[0-9a-fA-F]{2}.*)|(0[0-7]{2,3}.*)$")) {
@@ -105,10 +105,9 @@ int mx_echo(char *args, int exit_code) {
         if (flags[1] == 'E') {
             for (i = i + 1; arr[i]; i++) {
                 arr[i] = replace_str(arr[i]);
-                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i])) {
-                    if (mx_streq(arr[i], """"))
+                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+                    if (!mx_streq(arr[i], """"))
                         write(1, arr[i], mx_strlen(arr[i]));
-                }
                 if (arr[i + 1])
                     write(1, " ", 1);
             }

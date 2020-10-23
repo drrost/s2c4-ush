@@ -8,12 +8,13 @@
 int mx_cd(const char *line) {
     char flag = 0;
     char *dir = 0;
+    int exit_code = 0;
 
     mx_cd_parse_arguments(line, &flag, &dir);
-    mx_cd_validate_input(flag, dir);
+    exit_code = mx_cd_validate_input(flag, dir);
 
-    mx_cd_do(flag, dir);
+    exit_code = mx_cd_do(flag, dir);
 
     mx_strdel(&dir);
-    return 0;
+    return exit_code;
 }

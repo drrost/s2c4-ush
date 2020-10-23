@@ -28,7 +28,7 @@ static char *resolve_all_links_in(char *dir) {
     return mx_strdup(s);
 }
 
-void mx_cd_do(char flag, const char *dir) {
+int mx_cd_do(char flag, const char *dir) {
     if (flag == '-')
         dir = mx_getenv("OLDPWD");
     else if (mx_strlen(dir) == 0)
@@ -41,7 +41,7 @@ void mx_cd_do(char flag, const char *dir) {
             mx_printerr("cd: not a directory: ");
             mx_printerr(dir);
             mx_printerr("\n");
-            return;
+            return 1;
         }
     }
 
@@ -58,4 +58,5 @@ void mx_cd_do(char flag, const char *dir) {
 
     mx_setenv("PWD", resolved_dir);
     mx_strdel(&resolved_dir);
+    return 0;
 }

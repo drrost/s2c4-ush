@@ -7,7 +7,7 @@
 
 void mx_cd_parse_arguments(const char *line, char *flag, char **dir);
 int mx_cd_validate_input(char flag, const char *dir);
-void mx_cd_do(char flag, const char *dir);
+int mx_cd_do(char flag, const char *dir);
 
 const char *mx_get_home_dir();
 const char *mx_get_pwd_dir();

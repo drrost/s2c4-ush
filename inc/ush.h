@@ -31,6 +31,7 @@ char *mx_read_next();
 #define MX_SPACE_SUBSTITUTION "YLTHktK7wcrFOnYm5hA2jJp1A9p71j"
 #define MX_APPOS_SUBSTITUTION "V2yJOHF1Qq20unsWnmN4TVamOLni4j"
 #define MX_SLASH_SUBSTITUTION "xpDVKjP1s7gJzVLY9KV6XgVJrrddOzf"
+
 int mx_execute(t_input *input);
 int mx_run_built_in(char *command, char *arguments);
 int mx_run_exec(char *command, char *arguments);

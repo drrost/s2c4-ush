@@ -5,7 +5,8 @@
 #include <ush.h>
 
 static void pwd_default(void) {
-    char *pwd = mx_strdup(mx_getenv("PWD"));
+    char *env_pwd = mx_getenv("PWD");
+    char *pwd = mx_strdup(env_pwd);
 
     mx_printline(pwd);
     mx_strdel(&pwd);

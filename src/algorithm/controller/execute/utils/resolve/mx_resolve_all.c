@@ -68,7 +68,9 @@ static char **split_arguments(char *line) {
 }
 
 void mx_resolve_all(t_command *command) {
-    char **arr = split_arguments(command->arguments);
+    char *without_quotes = mx_trim_quotes(command->arguments);
+    char **arr = split_arguments(without_quotes);
+    mx_strdel(&without_quotes);
 
     resolve_do(arr);
 

@@ -65,10 +65,13 @@ char *create_str_for_exec(char *command, char *arguments) {
 }
 
 void sighandler(int num) {
+    mx_log_d("SOMETHING handled", "");
     num++;
 }
 
 void sighandler_c(int num) {
+    mx_log_d("CTRL+C handled", "");
+    mx_printline("");
     num++;
 }
 

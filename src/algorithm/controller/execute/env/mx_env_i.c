@@ -22,11 +22,21 @@ static void env_ignore() {
     while(environ[i]) {
         eq_index = mx_get_char_index(environ[i], '=');
         var_name = mx_substr_retriever(environ[i], 0, eq_index - 1);
-        if (mx_strcmp("PATH", var_name) != 0)
+        if (mx_strcmp("PATH", var_name) != 0 && mx_strcmp("LOGNAME", var_name) != 0 && mx_strcmp("SHLVL", var_name) != 0 
+            && mx_strcmp("PWD", var_name) != 0 && mx_strcmp("OLDPWD", var_name) != 0 && mx_strcmp("PATH", var_name) != 0
+            && mx_strcmp("_", var_name) != 0 && mx_strcmp("LESS", var_name) != 0 && mx_strcmp("ZSH", var_name) != 0
+            && mx_strcmp("PAGER", var_name) != 0) {
             unsetenv(var_name);
+        }
         free(var_name);
         i++;
     }
+    unsetenv("TERM");
+    unsetenv("XPC_FLAGS");
+    unsetenv("TERM_PROGRAM");
+    unsetenv("TERM_SESSION_ID");
+    unsetenv("TERM_PROGRAM_VERSION");
+
 }
 
 int mx_binary_index_finder(char **arr, int start) {
@@ -43,14 +53,7 @@ int mx_binary_index_finder(char **arr, int start) {
 
 void mx_specified_vars_setter(char **arr, int start) {
     int i = start;
-    /*
-     * While condition checks:
-     *   '=' in arr[i] 
-     *   && arr[last_elem]  != '=' 
-     *   && arr[first_elem] != '='
-     *   If condition == True
-     *       Add expression arr[walker] ("VAR=VALUE") to enviroment/
-     */
+
     while (arr[i]
          && mx_is_in_arr(arr[i], '=') 
          && arr[i][mx_strlen(arr[i]) - 1] != '=' 
@@ -60,18 +63,18 @@ void mx_specified_vars_setter(char **arr, int start) {
     }
 }
 
-void mx_specified_vars_unset(char **cmd, int start) {
+void mx_specified_vars_unset(char **arr, int start) {
     char **name_value;
-    int walker = start;
+    int i = start;
 
-    while (cmd[walker]
-        && mx_is_in_arr(cmd[walker], '=') 
-        && cmd[walker][mx_strlen(cmd[walker])-1] != '=' 
-        && cmd[walker][0] != '=') {
-        name_value = mx_strsplit(cmd[walker], '=');
+    while (arr[i]
+        && mx_is_in_arr(arr[i], '=') 
+        && arr[i][mx_strlen(arr[i]) - 1] != '=' 
+        && arr[i][0] != '=') {
+        name_value = mx_strsplit(arr[i], '=');
         unsetenv(name_value[0]);
         mx_del_strarr(&name_value);
-        walker++;
+        i++;
     }
 }
 
@@ -88,7 +91,11 @@ static void env_restore(char **copy_env) {
     int i = 0;
 
     while(copy_env[i]) {
-        putenv(copy_env[i]);
+        if (mx_strcmp("PATH", copy_env[i]) != 0 && mx_strcmp("LOGNAME", copy_env[i]) != 0 && mx_strcmp("SHLVL", copy_env[i]) != 0 
+            && mx_strcmp("PWD", copy_env[i]) != 0 && mx_strcmp("OLDPWD", copy_env[i]) != 0 && mx_strcmp("PATH", copy_env[i]) != 0
+            && mx_strcmp("_", copy_env[i]) != 0 && mx_strcmp("LESS", copy_env[i]) != 0 && mx_strcmp("ZSH", copy_env[i]) != 0
+            && mx_strcmp("PAGER", copy_env[i]) != 0)
+            putenv(copy_env[i]);
         i++;
     }
 }
@@ -102,7 +109,7 @@ int mx_env_flag_i(char **arr) {
         mx_del_strarr(&copy_env);
         return 0;
     }
-    env_ignore(); //TO DO: find out why this function has to be called a couple of times to show no envvars :/
+    env_ignore(); //TO DO: find out why this function has to be called a couple of times to show no envvars
     binary_index = mx_binary_index_finder(arr, 1);
     if (arr[binary_index]) {
         mx_specified_vars_setter(arr, 2);

@@ -32,7 +32,7 @@ void mx_cd_do(char flag, const char *dir) {
     if (flag == '-')
         dir = mx_getenv("OLDPWD");
     else if (mx_strlen(dir) == 0)
-        dir = mx_strdup("~");
+        dir = "~";
 
     char *resolved_dir = mx_cd_resolve_path(dir);
 

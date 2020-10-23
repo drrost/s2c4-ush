@@ -5,6 +5,9 @@
 #include <ush.h>
 
 void mx_history_add_to_file(char *line) {
+    if (line == 0 || mx_strlen(line) == 0)
+        return;
+
     char *trimmed = mx_strtrim(line);
     char *file_name = mx_history_file();
 

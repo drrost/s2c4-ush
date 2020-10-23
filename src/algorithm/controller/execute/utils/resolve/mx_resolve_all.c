@@ -56,6 +56,7 @@ static void resolve_do(char **arr) {
 
 static char **split_arguments(char *line) {
     char *escaped = mx_str_replace(line, "\\ ", MX_SPACE_SUBSTITUTION);
+
     char **result = mx_strsplit(escaped, ' ');
     mx_strdel(&escaped);
     int size = mx_arr_size(result);
@@ -68,12 +69,19 @@ static char **split_arguments(char *line) {
 }
 
 void mx_resolve_all(t_command *command) {
-    char **arr = split_arguments(command->arguments);
+    if (mx_streq("cd", command->name)) {
+        char **arr = split_arguments(command->arguments);
 
-    resolve_do(arr);
+        resolve_do(arr);
 
-    mx_strdel(&(command->arguments));
-    command->arguments = mx_str_joined_by(arr, " ");
+        mx_strdel(&(command->arguments));
+        command->arguments = mx_str_joined_by(arr, " ");
 
-    mx_del_strarr(&arr);
+        mx_del_strarr(&arr);
+    }
+    else {
+        char *without_quotes = mx_trim_quotes(command->arguments);
+        mx_strdel(&(command->arguments));
+        command->arguments = without_quotes;
+    }
 }

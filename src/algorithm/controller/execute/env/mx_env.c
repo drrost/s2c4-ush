@@ -46,8 +46,10 @@ int mx_env(char *args) {
     else {
         char **arr = mx_strsplit(args, ' ');
 
-        if (mx_invalid_option_checker(arr))
+        if (mx_invalid_option_checker(arr)) {
+            mx_del_strarr(&arr);
             return 1;
+        }
         exit_code = flags_resolver(arr);
         mx_del_strarr(&arr);
     }

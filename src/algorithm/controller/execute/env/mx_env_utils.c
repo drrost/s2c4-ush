@@ -19,9 +19,9 @@ char *mx_substr_retriever(char *src_str, int indx1, int indx2) {
 }
 
 char **mx_new_strarr(int number_of_str) {
-    char **arr = (char **)malloc((number_of_str + 1) * sizeof(char *));
-
-    arr[number_of_str] = NULL;
+    int size = (number_of_str + 1) * sizeof(char *);
+    char **arr = (char **)malloc(size);
+    mx_memset(arr, 0, size);
     return arr;
 }
 
@@ -40,14 +40,11 @@ char *mx_string_copy(char *str) {
 }
 
 char **mx_arr_copy(char **old_arr) {
-    int len     = mx_arr_size(old_arr);
-    char **copy = mx_new_strarr(len);
-    int i;
+    int size = mx_arr_size(old_arr);
+    char **new_arr = mx_new_strarr(size);
 
-    i = 0;
-    while(old_arr[i]) {
-        copy[i] = mx_string_copy(old_arr[i]);
-        i++;
-    }
-    return copy;
+    for (int i = 0; i < size; i++)
+        new_arr[i] = mx_strdup(old_arr[i]);
+
+    return new_arr;
 }

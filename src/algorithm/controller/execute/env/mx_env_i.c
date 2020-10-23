@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+
 extern char **environ;
 
 int mx_is_in_arr(char *s, char c) {
@@ -85,11 +86,13 @@ static void print_specified_vars(char **arr) {
 }
 
 static void env_restore(char **copy_env) {
-    int i = 0;
+    int size = mx_arr_size(copy_env);
 
-    while(copy_env[i]) {
-        putenv(copy_env[i]);
-        i++;
+    for (int i = 0; i < size; i++) {
+        char *line = copy_env[i];
+        char **kv_arr = mx_strsplit(line, '=');
+        mx_setenv(kv_arr[0], kv_arr[1]);
+        mx_del_strarr(&kv_arr);
     }
 }
 

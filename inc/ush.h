@@ -104,5 +104,6 @@ int mx_env_flag_p(char **arr);
 int mx_env_exec(char *command, char *arguments, char *path);
 char *mx_three_join(char *str1, char *str2, char *str3);
 void mx_check_input(int argc, const char *argv[]);
+void expand_tilda(t_command *command);
 
 #endif

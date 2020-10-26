@@ -32,12 +32,11 @@ static char check_pwd(char *line, bool *error) {
             continue;
         }
         if (line[i] != 'P' && line[i] != 'L') {
-            mx_printerr("ush: ");
             if (!isatty(0))
                 mx_printerr("line 1: ");
-            mx_printerr("pwd: -");
+            mx_printerr("pwd: bad option: -");
             mx_printerr_char(line[i]);
-            mx_printerr(": invalid option\npwd: usage: pwd [-LP]\n");
+            mx_printerr("\n");
             *error = true;
             break;
         }
@@ -54,8 +53,7 @@ int mx_pwd(char *line) {
     if (mx_strlen(line) > 0) {
         char **arr = mx_strsplit(line, ' ');
 
-        if ((arr[0] && !arr[1] &&
-             contains(arr[0], '-'))) { //TO DO: add check on "--"
+        if ((arr[0] && contains(arr[0], '-'))) { //TO DO: add check on "--"
             bool error = false;
             flag = check_pwd(line, &error);
             if (error) {
@@ -64,7 +62,7 @@ int mx_pwd(char *line) {
             }
         }
         else {
-            mx_printerr("ush: pwd: too many arguments\n");
+            mx_printerr("pwd: too many arguments\n");
             mx_del_strarr(&arr);
             return 1;
         }

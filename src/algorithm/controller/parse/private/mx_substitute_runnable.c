@@ -7,7 +7,8 @@
 void mx_substitute_runnable(t_list **chain, t_command *command,
                             char *from, char to) {
     int idx_start = mx_strstr_idx(command->arguments, from);
-    int idx_end = mx_get_char_index_r(command->arguments, to);
+    int idx_end = mx_get_char_index(command->arguments + idx_start + 1, to);
+    idx_end += idx_start + 1;
 
     if (idx_start >= 0 && idx_end >= 0 && idx_end > idx_start) {
 

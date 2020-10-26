@@ -17,10 +17,10 @@ static int check_flag(char *str, int *flag) {
         else if (str[y] == 'a')
             *flag = 2;
         else {
-            mx_printerr("which: illegal option -- ");
+            mx_printerr("which: bad option: -");
             mx_printerr_char(str[y]);
             mx_printerr("\n");
-            return 1;
+            return -1;
         }
     }
     return 0;
@@ -36,8 +36,12 @@ int mx_which(char *arguments) {
             if (mx_strcmp(arr[i], "--") == 0)
                 flag = 3;
             else if (arr[i][0] == '-' && flag < 3) {
-                if ((exit_code = check_flag(arr[i], &flag)) == 0)
-                    continue;
+                if ((exit_code = check_flag(arr[i], &flag)) == -1) {
+                    mx_del_strarr(&arr);
+                    return 1;
+                }
+                else if ((exit_code = check_flag(arr[i], &flag)) == 0)
+                     continue;
             }
             mx_check_command(arr[i], &exit_code, flag);
             if (exit_code == 1)
@@ -46,8 +50,5 @@ int mx_which(char *arguments) {
         mx_del_strarr(&arr);
         return exit_code;
     }
-    else
-        mx_printerr("usage: which [-as] program ...\n");
-
     return 1;
 }

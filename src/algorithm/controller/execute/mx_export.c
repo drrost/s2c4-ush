@@ -42,6 +42,11 @@ int mx_export(char *arguments) {
         char **arr = mx_strsplit(arguments, ' ');
         for (int i = 0; i < mx_arr_size(arr); i++) {
             key_length = mx_get_char_index(arr[i], '=');
+            if (mx_isdigit(arr[i][0])) {
+                    mx_export_error(arr[i]);
+                    mx_del_strarr(&arr);
+                    return 1;
+                }
             if (key_length != -1) {
                 value_length = mx_strlen(arr[i]) - key_length - 1;
                 key = mx_strnew(key_length);

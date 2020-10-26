@@ -5,13 +5,15 @@
 #include <ush.h>
 #include <mx_log.h>
 
-static int err_helper(char *buf, int status, int err) {
+static int err_helper(char *buf, int status, int err, char *command) {
     errno = err;
 
     switch (status) {
         case 1:
             mx_printerr(buf);
-            mx_printerr(": command not found\n");
+            mx_printerr("command not found: ");
+            mx_printerr(command);
+            mx_printerr("\n");
             free(buf);
             return 127;
         case 2:
@@ -28,19 +30,20 @@ static int err_helper(char *buf, int status, int err) {
 }
 
 static int mx_exec_err_out(char *command, char *arguments, int err) {
-    char *buf = mx_strjoin("ush: ", command);
+    char *buf = mx_strdup("ush: ");
     errno = err;
     DIR *dp;
 
     if (err == 2 && mx_get_char_index(arguments, '/') < 0)
-        return err_helper(buf, 1, errno);
+        return err_helper(buf, 1, errno, command);
     if (err == 2)
-        return err_helper(buf, 2, errno);
+        return err_helper(buf, 2, errno, command);
     if (err == 13 && (dp = opendir(command))) {
         closedir(dp);
-        return err_helper(buf, 3, errno);
+        return err_helper(buf, 3, errno, command);
     }
-    perror(buf);
+    mx_printerr("ush: ");
+    perror(command);
     free(buf);
     return 126;
 }

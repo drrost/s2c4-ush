@@ -12,7 +12,7 @@ t_termstate *mx_termstate_new(t_list *history) {
     instance->history_state.list = history;
     int size = mx_list_size(history);
     instance->history_state.size = size;
-    instance->history_state.pos = size - 1;
+    instance->history_state.pos = size;
 
     return instance;
 }

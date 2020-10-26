@@ -52,6 +52,15 @@ int mx_cd_do(char flag, const char *dir) {
     }
 
     chdir(resolved_dir);
+    if (flag == '-') {
+        char *old = mx_strdup(mx_getenv("OLDPWD"));
+        char *user = mx_strdup(getpwuid(getuid())->pw_dir);
+        char *print = mx_replace_substr(old, user, "~");
+        mx_printline(print);
+        mx_strdel(&old);
+        mx_strdel(&user);
+        mx_strdel(&print);
+    }
 
     char *current_pwd = mx_getenv("PWD");
     mx_setenv("OLDPWD", current_pwd);

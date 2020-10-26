@@ -35,6 +35,10 @@ static void mx_export_del(char *key, char *value) {
 
 int mx_export(char *arguments) {
     if (mx_strlen(arguments)) {
+        if (mx_strcmp("=", arguments) == 0) {
+            mx_printerr("ush: bad assignment\n");
+            return 1;
+        }
         char *key = 0;
         char *value = 0;
         int key_length = 0;

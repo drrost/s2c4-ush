@@ -35,15 +35,35 @@ static void get_command_node(t_list **chain, char *trim,
 
     if (mx_str_has_prefix(command->arguments, "$(")) {
         int idx = mx_get_char_index_r(command->arguments, ')');
-        if (idx != -1) {
+        if (idx >= 2) {
             char *new_line = mx_strndup(command->arguments + 2, idx - 2);
             get_command_node(chain, new_line, false, false);
             t_command *prev_command = (t_command *)((*chain)->data);
-            prev_command->pass_out_to_next = true;
+            prev_command->subs_set.pass_out_to_next = true;
             mx_strdel(&new_line);
 
             mx_strdel(&(command->arguments));
             command->arguments = mx_strdup("");
+        }
+    }
+    else {
+        int idx_start = mx_strstr_idx(command->arguments, "`");
+        int idx_end = mx_get_char_index_r(command->arguments, '`');
+
+        if (idx_start >= 0 && idx_end >= 0 && idx_end > idx_start) {
+
+            char *new_line = mx_strndup(
+                command->arguments + idx_start + 1, idx_end - idx_start - 1);
+            get_command_node(chain, new_line, false, false);
+            t_command *prev_command = (t_command *)((*chain)->data);
+            prev_command->subs_set.pass_out_to_next = true;
+            mx_strdel(&new_line);
+
+            char *substituted = mx_strndup(
+                command->arguments + idx_start, idx_end - idx_start + 1);
+            mx_str_replace_p(
+                &(command->arguments), substituted, MX_RUN_SUBSTITUTION);
+            mx_strdel(&substituted);
         }
     }
 }

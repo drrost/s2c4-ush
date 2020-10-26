@@ -18,15 +18,21 @@
 #define MX_NO_SUCH_FILE "ush: no such file or directory: \n"
 
 typedef struct {
+    bool pass_out_to_next;
+    int pass_out_from_idx;
+    int pass_out_to_idx;
+    char *output;
+} t_substitution_settings;
+
+typedef struct {
     char *name;
     char *arguments;
     int exit_code;
-    char *output;
     char *error_text;
     bool has_and;
     bool has_or;
     bool is_last_in_sequesce;
-    bool pass_out_to_next;
+    t_substitution_settings subs_set;
     bool get_input_from_prev;
 } t_command;
 

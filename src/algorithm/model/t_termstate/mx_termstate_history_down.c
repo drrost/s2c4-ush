@@ -4,8 +4,6 @@
 
 #include <algorithm.h>
 
-#include <mx_log.h>
-
 void mx_termstate_history_down(t_termstate *this) {
     if (this->history_state.pos < this->history_state.size)
         this->history_state.pos++;
@@ -17,6 +15,7 @@ void mx_termstate_history_down(t_termstate *this) {
         else
             this->line = mx_strdup("");
         mx_strdel(&(this->backup_line));
+        this->cursor_pos = 0;
         return;
     }
 

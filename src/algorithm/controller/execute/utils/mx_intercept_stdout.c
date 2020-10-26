@@ -46,6 +46,9 @@ char *mx_end_stdout_interception() {
     save_out_fd_access(0);
 
     char *result = mx_file_to_str(MX_STDOUT_STORE);
+    char *old = result;
+    result = mx_strtrim(result);
+    mx_strdel(&old);
     unlink(MX_STDOUT_STORE);
 
     return result;

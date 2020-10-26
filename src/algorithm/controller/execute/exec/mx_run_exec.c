@@ -101,7 +101,6 @@ int mx_run_exec(char *command, char *arguments) {
     char **arr = prepare_array(command, arguments);
 
     pid = fork();
-    mx_log_di("!! pid", pid);
 
     if (pid == 0) { // Child process
         // signup for shortcuts

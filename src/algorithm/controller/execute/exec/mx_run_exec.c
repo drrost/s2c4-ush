@@ -46,7 +46,6 @@ static int mx_exec_err_out(char *command, char *arguments, int err) {
         free(buf);
         return 146;
     }
-        
     mx_printerr("ush: ");
     perror(command);
     free(buf);

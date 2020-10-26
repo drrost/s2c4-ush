@@ -34,7 +34,7 @@ static void get_command_node(t_list **chain, char *trim,
     mx_push_front(chain, command);
 
     if (mx_str_has_prefix(command->arguments, "$(")) {
-        int idx = mx_get_char_index(command->arguments, ')');
+        int idx = mx_get_char_index_r(command->arguments, ')');
         if (idx != -1) {
             char *new_line = mx_strndup(command->arguments + 2, idx - 2);
             get_command_node(chain, new_line, false, false);

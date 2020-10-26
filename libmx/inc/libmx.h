@@ -84,6 +84,7 @@ void
 mx_str_replace_p(char **target, const char *needle, const char *replacement);
 bool mx_str_begins_with(char *s, char *needle);
 int mx_arr_size(char **arr);
+bool mx_str_has_prefix(char *s, char* prefix);
 
 // Memory pack
 //

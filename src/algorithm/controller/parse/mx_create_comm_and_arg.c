@@ -1,25 +1,11 @@
 #include <ush.h>
 
-// static char *remove_sym_from_arg(const char *str) {
-//     char *arg = mx_strdup(str);
-
-//     for (int i = 0, j; arg[i] != '\0'; i++) {
-//         while (arg[i] == '22') {
-//             for (j = i; arg[j]; ++j)
-//                 arg[j] = arg[j + 1];
-//             arg[j] = '\0';
-//         }
-//     }
-//     return arg;
-// }
-
 static t_command *get_command_node(char *trim, bool has_or, bool has_and) {
     t_command *command = mx_command_new();
     int trim_len = mx_strlen(trim);
     int command_len = trim_len;
     int arg_len = 0;
     char *s = 0;
-
 
     if ((s = mx_strstr(trim, " ")) != 0) {
         command->arguments = mx_strdup(s + 1);
@@ -34,19 +20,22 @@ static t_command *get_command_node(char *trim, bool has_or, bool has_and) {
     if (has_or) {
         command->has_or = has_or;
         command->has_and = false;
-    } else {
+    }
+    else {
         command->has_and = has_and;
         command->has_or = false;
     }
     if (!has_and && !has_or) {
         command->is_last_in_sequesce = true;
-    } else {
+    }
+    else {
         command->is_last_in_sequesce = false;
     }
     return command;
 }
 
-void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool has_and) {
+void create_comm_and_arg(t_input *input, int end, char *strend, int start,
+                         bool has_and) {
     char *sub;
     bool has_or;
 
@@ -65,7 +54,8 @@ void create_comm_and_arg(t_input *input, int end, char *strend, int start, bool 
         if (pipend == -1) {
             has_or = false;
             subpipe = mx_substr(strpipe, start, mx_strlen(strpipe) + 1);
-        } else {
+        }
+        else {
             has_or = true;
             subpipe = mx_substr(strpipe, start, pipend);
         }

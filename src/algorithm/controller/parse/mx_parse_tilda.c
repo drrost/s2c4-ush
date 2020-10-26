@@ -80,7 +80,7 @@ static void tilda_replace(char **split) {
         mx_tilda_and_username(split);
 }
 
-void expand_tilda(t_command *command) {
+void mx_expand_tilda(t_command *command) {
     char **arr = mx_strsplit(command->arguments, ' ');
     char **split;
     int i = 0;

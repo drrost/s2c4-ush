@@ -107,7 +107,7 @@ int mx_execute(t_input *input) {
 
         mx_resolve_all(command);
         if (mx_strstr(command->arguments, "~") != NULL)
-            expand_tilda(command);
+            mx_expand_tilda(command);
 
         log_command_execution(command);
         run_command(command);

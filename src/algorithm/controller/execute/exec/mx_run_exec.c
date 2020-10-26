@@ -42,6 +42,11 @@ static int mx_exec_err_out(char *command, char *arguments, int err) {
         closedir(dp);
         return err_helper(buf, 3, errno, command);
     }
+    if (err == 18) {
+        free(buf);
+        return 146;
+    }
+        
     mx_printerr("ush: ");
     perror(command);
     free(buf);

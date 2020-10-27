@@ -5,8 +5,6 @@
 #include <mx_core.h>
 #include <ush.h>
 
-// For some reason we don't need it anymore.
-//
 static void update_shlvl() {
    char *shlvl_s = mx_getenv("SHLVL");
    if (shlvl_s == 0)

@@ -72,10 +72,12 @@ char *create_str_for_exec(char *command, char *arguments) {
 }
 
 void sighandler(int num) {
+    mx_log_d("SOMETHING handled", "");
     num++;
 }
 
 void sighandler_c(int num) {
+    mx_log_d("CTRL+C handled", "");
     mx_printline("");
     num++;
 }
@@ -104,13 +106,17 @@ int mx_run_exec(char *command, char *arguments) {
 
         if (!mx_getenv("PATH")) {
             if ((execv(command, arr)) < 0) {
+                mx_log_d("exiting a process", 0);
                 exit(errno);
             }
+            mx_log_d("exiting a process", 0);
             exit(EXIT_SUCCESS);
         }
         if ((execvp(command, arr)) < 0) {
+            mx_log_d("exiting a process", 0);
             exit(errno);
         }
+        mx_log_d("exiting a process", 0);
         exit(EXIT_SUCCESS);
     }
 

@@ -27,14 +27,16 @@ static void init_history() {
     int fd = open(file_name, O_RDONLY);
     mx_strdel(&file_name);
 
-    char *line = 0;
-    while (mx_read_line(&line, 1000, '\n', fd) > 0) {
-        mx_history_add_to_list(line);
+    if (fd != -1) {
+        char *line = 0;
+        while (mx_read_line(&line, 1000, '\n', fd) > 0) {
+            mx_history_add_to_list(line);
+            mx_strdel(&line);
+            line = 0;
+        }
         mx_strdel(&line);
-        line = 0;
     }
 
-    mx_strdel(&line);
     close(fd);
 }
 

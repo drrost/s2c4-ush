@@ -12,6 +12,10 @@ static int print_echo_e(char *str) {
         return 0;
 
     for (int i = 0; str[i] != '\0'; i++) {
+        if (buf == '\\') {
+            buf = 0;
+            continue;
+        }
         if (str[i] == '\\' && mx_regex(str + i + 1, "^(x[0-9a-fA-F]{2}.*)|(0[0-7]{2,3}.*)$")) {
             buf = mx_hex(str, &i);
         }

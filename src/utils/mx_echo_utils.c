@@ -26,11 +26,11 @@ int mx_hex(char *str, int *i) {
     return res;
 }
 
-bool mx_print_exit_code(int exit_code, char *s) {
+bool mx_print_exit_code(char *s) {
     bool done = false;
     char *str = 0;
     if (mx_streq(s, "$?")) {
-        str = mx_itoa(exit_code);
+        str = mx_strdup(mx_getenv("EXIT_CODE"));
         mx_printstr(str);
         done = true;
         mx_strdel(&str);

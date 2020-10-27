@@ -8,8 +8,8 @@
 static int print_echo_e(char *str) {
     char buf;
 
-    // if (str[0] == '$' || (str[0] == '$' & str[1] == '{'))
-    //     return 0;
+    if (str[0] == '$' || (str[0] == '$' & str[1] == '{'))
+        return 0;
 
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] == '\\' && mx_regex(str + i + 1, "^(x[0-9a-fA-F]{2}.*)|(0[0-7]{2,3}.*)$")) {
@@ -50,7 +50,7 @@ bool print_env_var(char *s) {
 }
 
 
-static void print_e(int i, char *flags, char **arr, int exit_code) {
+static void print_e(int i, char *flags, char **arr) {
     int err = 1;
     int j = 0;
     
@@ -58,7 +58,7 @@ static void print_e(int i, char *flags, char **arr, int exit_code) {
         mx_printstr(arr[i]);
 
     for (i = i + 1; arr[i]; i++) {
-        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]) && arr[i][0] != '\'')
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(arr[i]) && arr[i][0] != '\'')
             err = print_echo_e(arr[i]);
         if (arr[i + 1] && err)
             write(1, " ", 1);
@@ -67,11 +67,11 @@ static void print_e(int i, char *flags, char **arr, int exit_code) {
         write(1, "\n", 1);
 }
 
-static void print_no_args(char **arr, int exit_code) {
+static void print_no_args(char **arr) {
     int err = 1;
 
     for (int i = 0; arr[i]; i++) {
-        if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(arr[i]))
             err = print_echo_e(arr[i]);
         if (arr[i + 1]) {
             if (err)
@@ -100,7 +100,7 @@ char *replace_str(char *s) {
     return s;
 }
 
-int mx_echo(char *args, int exit_code) {
+int mx_echo(char *args) {
     char *args_w = 0;
     if (mx_streq(args, "$?"))
         args_w = mx_strdup(mx_getenv("EXIT_CODE"));
@@ -115,7 +115,7 @@ int mx_echo(char *args, int exit_code) {
         if (flags[1] == 'E') {
             for (i = i + 1; arr[i]; i++) {
                 arr[i] = replace_str(arr[i]);
-                if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]))
+                if(!print_env_var(arr[i]) && !mx_print_exit_code(arr[i]))
                     if (!mx_streq(arr[i], """"))
                         write(1, arr[i], mx_strlen(arr[i]));
                 if (arr[i + 1])
@@ -125,9 +125,9 @@ int mx_echo(char *args, int exit_code) {
                 write(1, "\n", 1);
         }
         else if(arr[0][0] != '-')
-            print_no_args(arr, exit_code);
+            print_no_args(arr);
         else {
-            print_e(i, flags, arr, exit_code);
+            print_e(i, flags, arr);
         }
         free(flags);
         mx_del_strarr(&arr);

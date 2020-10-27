@@ -62,7 +62,7 @@ int mx_run_built_in(char *command, char *arguments) {
     else if (mx_streq(command, "which"))
         exit_code = mx_which(arguments);
     else if (mx_streq(command, "echo"))
-        exit_code = mx_echo(arguments, exit_code);
+        exit_code = mx_echo(arguments);
     else if (mx_streq(command, "true"))
         exit_code = mx_true();
     else if (mx_streq(command, "false"))

@@ -42,7 +42,7 @@ t_input *mx_parse_input_simple(const char *str);
 
 // BUILT_IN
 int mx_pwd(char *line);
-int mx_echo(char *args, int exit_code);
+int mx_echo(char *args);
 int mx_exit(char *line);
 int mx_env(char *args);
 int mx_false(void);
@@ -77,7 +77,7 @@ char **mx_split_array_of_a_command(char *line);
 int mx_get_window_width();
 bool mx_regex(char *str, char *regular);
 int mx_get_hex_and_oct(char *buf, char *str, int *i);
-bool mx_print_exit_code(int exit_code, char *s);
+bool mx_print_exit_code(char *s);
 int mx_hex(char *str, int *i);
 char *mx_checkflags_echo(char **arr, int *counter);
 int mx_print_echo_d(char *str, int *i);

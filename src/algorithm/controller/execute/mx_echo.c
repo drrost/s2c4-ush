@@ -101,9 +101,15 @@ char *replace_str(char *s) {
 }
 
 int mx_echo(char *args, int exit_code) {
-    if (mx_strlen(args) > 0) {
+    char *args_w = 0;
+    if (mx_streq(args, "$?"))
+        args_w = mx_strdup(mx_getenv("EXIT_CODE"));
+    else
+        args_w = mx_strdup(args);
+
+    if (mx_strlen(args_w) > 0) {
         int i = 0;
-        char **arr = mx_strsplit(args, ' ');
+        char **arr = mx_strsplit(args_w, ' ');
         char *flags = mx_checkflags_echo(arr, &i);
 
         if (flags[1] == 'E') {
@@ -125,9 +131,10 @@ int mx_echo(char *args, int exit_code) {
         }
         free(flags);
         mx_del_strarr(&arr);
-        return 0;
     }
     else
         mx_printstr("\n");
+
+    mx_strdel(&args_w);
     return 0;
 }

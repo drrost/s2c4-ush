@@ -78,7 +78,7 @@ int mx_run_built_in(char *command, char *arguments) {
     else if (mx_streq(command, "about"))
         exit_code = mx_about();
 
-    return MX_SHOULD_NEXT;
+    return exit_code;
 }
 
 static void run_command(t_command *command) {
@@ -121,6 +121,8 @@ int mx_execute(t_input *input) {
                     command->subs_set.output);
             }
         }
+
+        mx_setenv_i("EXIT_CODE", exit_code);
 
         list = list->next;
     }

@@ -113,14 +113,6 @@ int mx_execute(t_input *input) {
         run_command(command);
         exit_code = command->exit_code;
 
-        if (command->pass_out_to_next) {
-            t_command *next = (t_command *)list->next->data;
-            if (next != NULL) {
-                mx_strdel(&(next->arguments));
-                next->arguments = mx_strdup(command->output);
-            }
-        }
-
         list = list->next;
     }
 

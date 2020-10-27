@@ -6,7 +6,7 @@
 #include <mx_log.h>
 
 static int exit_code() {
-    char *code_s = mx_getenv("EXIT_CODE");
+    char *code_s = mx_getenv("GLOBAL_EXIT_CODE");
     return code_s ? atoi(code_s) : 0;
 }
 

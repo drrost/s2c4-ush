@@ -52,6 +52,10 @@ bool print_env_var(char *s) {
 
 static void print_e(int i, char *flags, char **arr, int exit_code) {
     int err = 1;
+    int j = 0;
+    
+    if (arr[j][0] == '-' && mx_strcmp(arr[j], "-E") && mx_strcmp(arr[j], "-e") && mx_strcmp(arr[j], "-n"))
+        mx_printstr(arr[i]);
 
     for (i = i + 1; arr[i]; i++) {
         if(!print_env_var(arr[i]) && !mx_print_exit_code(exit_code, arr[i]) && arr[i][0] != '\'')

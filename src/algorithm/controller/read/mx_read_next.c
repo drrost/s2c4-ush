@@ -100,6 +100,7 @@ static void handle_key(const char c, t_termstate *state) {
 
     state->line[state->cursor_pos] = c;
     state->cursor_pos++;
+    state->line[state->cursor_pos] = 0;
 
     char *s = mx_itoa(c);
     mx_log_t("Key: ", s);

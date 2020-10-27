@@ -82,7 +82,7 @@ int mx_run_built_in(char *command, char *arguments) {
 }
 
 static void run_command(t_command *command) {
-    if (command->pass_out_to_next)
+    if (command->subs_set.pass_out_to_next)
         mx_start_stdout_interception();
 
     int exit_code = 0;
@@ -94,8 +94,8 @@ static void run_command(t_command *command) {
         exit_code = mx_run_exec(command->name, command->arguments);
     command->exit_code = exit_code;
 
-    if (command->pass_out_to_next)
-        command->output = mx_end_stdout_interception();
+    if (command->subs_set.pass_out_to_next)
+        command->subs_set.output = mx_end_stdout_interception();
 }
 
 int mx_execute(t_input *input) {
@@ -112,6 +112,15 @@ int mx_execute(t_input *input) {
         log_command_execution(command);
         run_command(command);
         exit_code = command->exit_code;
+
+        if (command->subs_set.pass_out_to_next) {
+            t_command *next = (t_command *)list->next->data;
+            if (next != NULL) {
+                mx_str_replace_p(
+                    &(next->arguments), MX_RUN_SUBSTITUTION,
+                    command->subs_set.output);
+            }
+        }
 
         list = list->next;
     }

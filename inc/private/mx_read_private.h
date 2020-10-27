@@ -14,6 +14,6 @@ bool mx_is_arrow_down(const char *s);
 bool mx_is_arrow_right(const char *s);
 bool mx_is_arrow_left(const char *s);
 
-void mx_log_esc_sequence(const char *input_buff);
+//void mx_log_esc_sequence(const char *input_buff);
 
 #endif //INC_04_USH_MX_READ_PRIVATE_H

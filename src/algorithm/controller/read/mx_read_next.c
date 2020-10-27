@@ -83,7 +83,6 @@ static void handle_key(const char c, t_termstate *state) {
         return;
 
     if (complete) {
-        mx_log_esc_sequence(complete);
         if (mx_is_arrow_up(complete))
             history_up(state);
         if (mx_is_arrow_down(complete))
@@ -103,7 +102,6 @@ static void handle_key(const char c, t_termstate *state) {
     state->line[state->cursor_pos] = 0;
 
     char *s = mx_itoa(c);
-    mx_log_t("Key: ", s);
     mx_strdel(&s);
 }
 

@@ -21,7 +21,7 @@ static void update_shlvl() {
 static void force_pwd() {
     char *pwd = mx_getenv("PWD");
     if (pwd == 0) {
-        getcwd(NULL, MX_MAX_PATH);
+        pwd = getcwd(NULL, MX_MAX_PATH);
         if (pwd)
             mx_setenv("PWD", pwd);
     }

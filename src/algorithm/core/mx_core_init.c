@@ -35,9 +35,19 @@ static void force_pwd() {
     }
 }
 
+static void force_logname() {
+    char *logname = mx_getenv("LOGNAME");
+    if (logname == 0) {
+        logname = getlogin();
+        if (logname != 0)
+            mx_setenv("LOGNAME", logname);
+    }
+}
+
 static void init_env() {
     update_shlvl();
     force_pwd();
+    force_logname();
 }
 
 static void init_history() {

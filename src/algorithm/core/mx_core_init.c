@@ -6,20 +6,30 @@
 #include <ush.h>
 
 static void update_shlvl() {
-   char *shlvl_s = mx_getenv("SHLVL");
-   if (shlvl_s == 0)
-       shlvl_s = "0";
-   int shlvl_i = atoi(shlvl_s);
+    char *shlvl_s = mx_getenv("SHLVL");
+    if (shlvl_s == 0)
+        shlvl_s = "0";
+    int shlvl_i = atoi(shlvl_s);
 
-   shlvl_i++;
-   shlvl_s = mx_itoa(shlvl_i);
-   mx_setenv("SHLVL", shlvl_s);
+    shlvl_i++;
+    shlvl_s = mx_itoa(shlvl_i);
+    mx_setenv("SHLVL", shlvl_s);
 
-   mx_strdel(&shlvl_s);
+    mx_strdel(&shlvl_s);
+}
+
+static void force_pwd() {
+    char *pwd = mx_getenv("PWD");
+    if (pwd == 0) {
+        getcwd(NULL, MX_MAX_PATH);
+        if (pwd)
+            mx_setenv("PWD", pwd);
+    }
 }
 
 static void init_env() {
-   update_shlvl();
+    update_shlvl();
+    force_pwd();
 }
 
 static void init_history() {

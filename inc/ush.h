@@ -32,6 +32,7 @@ char *mx_read_next();
 #define MX_APPOS_SUBSTITUTION "V2yJOHF1Qq20unsWnmN4TVamOLni4j"
 #define MX_SLASH_SUBSTITUTION "xpDVKjP1s7gJzVLY9KV6XgVJrrddOzf"
 #define MX_RUN_SUBSTITUTION "GlGIRMAHEEE1MMMm52imCYKR2hUe48"
+#define MX_MAX_PATH 2048
 
 int mx_execute(t_input *input);
 int mx_run_built_in(char *command, char *arguments);

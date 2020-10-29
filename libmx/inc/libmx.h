@@ -65,6 +65,7 @@ int mx_count_words(const char *str, char c);
 char *mx_strnew(const int size);
 int mx_strstr_idx(const char *haystack, const char *needle);
 char *mx_strtrim(const char *str);
+char *mx_strtrim_q(const char *str);
 char *mx_del_extra_spaces(const char *str);
 char **mx_strsplit(const char *s, char c);
 char *mx_str_joined_by(char **arr, char *delim);

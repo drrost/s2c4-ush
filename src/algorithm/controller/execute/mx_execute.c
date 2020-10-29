@@ -3,8 +3,6 @@
 //
 
 #include <ush.h>
-#include <mx_log.h>
-#include <private/mx_run_exec_private.h>
 
 static void log_command_execution(t_command *command) {
     char *s = 0;
@@ -18,31 +16,12 @@ static void log_command_execution(t_command *command) {
         mx_str_append(&s, "\"");
     }
 
-    mx_log_d("Executing command", s);
     mx_strdel(&s);
 }
-
-// int mx_print_var_env_content(char *text) {
-//     char *str = 0;
-//     char *env = mx_clear_str_of_symbols(text);
-//     if (mx_getenv(env) != NULL) {
-//         str = mx_strdup(mx_getenv(env));
-//         mx_printerr("ush: permission denied: ");
-//         mx_printerr(str);
-//         mx_printerr("\n");
-//         mx_strdel(&str);
-//         mx_strdel(&env);
-//         return 126;
-//     }
-//     mx_strdel(&env);
-//     return 0;
-// }
 
 int mx_run_built_in(char *command, char *arguments) {
     int exit_code = 0;
 
-    // if (mx_strstr(command, "${") != NULL)
-    //     exit_code = mx_print_var_env_content(command);
     if (mx_streq(command, "color"))
         exit_code = mx_change_color(arguments);
     else if (mx_streq(command, "export"))

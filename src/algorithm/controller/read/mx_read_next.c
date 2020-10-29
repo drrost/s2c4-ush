@@ -3,7 +3,6 @@
 //
 
 #include <ush.h>
-#include <mx_log.h>
 #include <private/mx_read_private.h>
 
 static bool is_esc_sequence_part(char c, char **complete) {
@@ -83,7 +82,6 @@ static void handle_key(const char c, t_termstate *state) {
         return;
 
     if (complete) {
-        mx_log_esc_sequence(complete);
         if (mx_is_arrow_up(complete))
             history_up(state);
         if (mx_is_arrow_down(complete))
@@ -103,27 +101,10 @@ static void handle_key(const char c, t_termstate *state) {
     state->line[state->cursor_pos] = 0;
 
     char *s = mx_itoa(c);
-    mx_log_t("Key: ", s);
     mx_strdel(&s);
 }
 
 char *mx_read_next() {
-//    static int count = 0;
-//    char *str_1 = 0;
-//    if (count == 0)
-//        str_1 = mx_strdup("cd /tmp");
-//    else if (count == 1)
-//        str_1 = mx_strdup("pwd -P");
-//    else if (count == 2)
-//        str_1 = mx_strdup("exit");
-////    else if (count == 3)
-////        str_1 = mx_strdup("pwd");
-//    else
-//        str_1 = mx_strdup("exit");
-//    count++;
-//
-//    return str_1;
-
     print_prompt();
 
     struct termios save;

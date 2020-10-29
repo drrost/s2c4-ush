@@ -21,8 +21,9 @@ void mx_substitute_runnable(t_list **chain, t_command *command,
         prev_command->subs_set.pass_out_to_next = true;
         mx_strdel(&new_line);
 
+        int to_len = mx_strlen(to);
         char *substituted = mx_strndup(
-            command->arguments + idx_start, idx_end - idx_start + 1);
+            command->arguments + idx_start, idx_end - idx_start + to_len);
         mx_str_replace_p(
             &(command->arguments), substituted, MX_RUN_SUBSTITUTION);
         mx_strdel(&substituted);

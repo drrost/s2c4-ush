@@ -36,6 +36,6 @@ void mx_get_command_node(t_list **chain, char *trim,
 
     mx_push_front(chain, command);
 
-    mx_substitute_runnable(chain, command, "$(", ')');
-    mx_substitute_runnable(chain, command, "`", '`');
+    mx_substitute_runnable(chain, command, "$(", ")");
+    mx_substitute_runnable(chain, command, "`", "`");
 }

@@ -8,7 +8,7 @@
 #include <ush.h>
 
 void mx_substitute_runnable(t_list **chain, t_command *command,
-                            char *from, char to);
+                            char *from, char *to);
 void mx_get_command_node(t_list **chain, char *trim,
                          bool has_or, bool has_and);
 

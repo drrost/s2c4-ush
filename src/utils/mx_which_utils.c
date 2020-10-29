@@ -14,9 +14,9 @@ int mx_file_exist(char *path) {
 }
 
 static int is_comm_rw(char *str) {
-    char reserved_words[][5] = {"!", "{", "}", "time"};
+    char reserved_words[][6] = {"!", "{", "}", "time", "export"};
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         if (mx_strcmp(str, reserved_words[i]) == 0)
             return 1;
     }
@@ -77,14 +77,13 @@ static void check_builtin(char *str, int *ret_flag, int flag) {
     char *tmp = NULL;
 
     tmp = mx_command_in_path(str, mx_getenv("PATH"));
-    if (mx_is_builtin(tmp) != 0 && flag != 1) {
+    if (mx_is_builtin(tmp) != 0) {
         mx_printstr(str);
         mx_printstr(": shell built-in command\n");
         if (flag == 2 && mx_strcmp(tmp, str) != 0)
             printf("%s\n", tmp);
     }
     else if (mx_strcmp(tmp, str) != 0) {
-        if (flag != 1)
             printf("%s\n", tmp);
     }
     else

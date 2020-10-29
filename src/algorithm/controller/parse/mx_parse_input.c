@@ -6,7 +6,7 @@ t_input *mx_parse_input(const char *str) {
     int start = 0;
     bool has_and;
     char *err = mx_error_pair(str);
-    if(err)
+    if (err)
         input->error_text = err;
 
     char **strnew = mx_strsplit(str, ';');

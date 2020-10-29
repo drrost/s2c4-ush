@@ -33,7 +33,6 @@ typedef struct {
     bool has_or;
     bool is_last_in_sequesce;
     t_substitution_settings subs_set;
-    bool get_input_from_prev;
 } t_command;
 
 // Input

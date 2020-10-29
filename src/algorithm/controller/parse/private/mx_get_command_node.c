@@ -21,7 +21,6 @@ void mx_get_command_node(t_list **chain, char *trim,
         command->arguments = mx_strdup("");
 
     command->name = mx_strndup(trim, command_len);
-    command->get_input_from_prev = get_subst(command->arguments);
     if (has_or) {
         command->has_or = has_or;
         command->has_and = false;

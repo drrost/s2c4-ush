@@ -4,6 +4,7 @@
 
 #include <ush.h>
 #include <private/mx_cd_private.h>
+#include <mx_log.h>
 
 static void trace_log(char flag, char *dir) {
     char log_str[1024];
@@ -11,6 +12,7 @@ static void trace_log(char flag, char *dir) {
         sprintf(log_str, "flag: \"-%c\", dir: \"%s\"", flag, dir);
     else
         sprintf(log_str, "flag: \"\", dir: \"%s\"", dir);
+    mx_log_t("cd arguments: ", log_str);
 }
 
 void mx_cd_parse_arguments(const char *line, char *flag, char **dir) {

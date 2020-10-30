@@ -3,6 +3,7 @@
 //
 
 #include <ush.h>
+#include <mx_log.h>
 
 static int exit_code() {
     char *code_s = mx_getenv("GLOBAL_EXIT_CODE");
@@ -10,6 +11,7 @@ static int exit_code() {
 }
 
 int main(int argc, const char *argv[]) {
+    mx_log_t("Entering ULS", "");
     mx_check_input(argc, argv);
 
     mx_core_init();
@@ -17,6 +19,13 @@ int main(int argc, const char *argv[]) {
     mx_run_algorithm();
     int code = exit_code();
     mx_core_clean();
+
+    check_leaks();
+
+    mx_log_t("Exiting ULS", "");
+
+    argc++;
+    argv++;
 
     return code;
 }

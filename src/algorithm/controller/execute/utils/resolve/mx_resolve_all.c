@@ -53,6 +53,14 @@ static void resolve_do(char **arr) {
         private_envvar(&(arr[i]));
     }
 }
+static void resolve_do_echo(char **arr) {
+    int size = mx_arr_size(arr);
+
+    for (int i = 0; i < size; i++) {
+        // resolve ${}
+        private_envvar(&(arr[i]));
+    }
+}
 
 static char **split_arguments(char *line) {
     char *escaped = mx_str_replace(line, "\\ ", MX_SPACE_SUBSTITUTION);
@@ -72,7 +80,10 @@ void mx_resolve_all(t_command *command) {
     if (mx_streq("cd", command->name) || mx_streq("echo", command->name)) {
         char **arr = split_arguments(command->arguments);
 
-        resolve_do(arr);
+        if (mx_streq("echo", command->name))
+            resolve_do_echo(arr);
+        else
+            resolve_do(arr);
 
         mx_strdel(&(command->arguments));
         command->arguments = mx_str_joined_by(arr, " ");

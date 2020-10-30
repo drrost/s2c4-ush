@@ -53,22 +53,6 @@ bool print_env_var(char *s) {
     return done;
 }
 
-// static bool check_env_var(char *s) {
-//     bool done = false;
-//     char *str = 0;
-
-//     if (mx_strstr(s, "$") != 0) {
-//         char *env = mx_clear_str_of_symbols(s);
-//         if (mx_getenv(env) != NULL) {
-//             done = true;
-//             mx_strdel(&str);
-//             mx_strdel(&env);
-//         }
-//     }
-//     return done;
-// }
-
-
 static void print_e(int i, char *flags, char **arr) {
     int err = 1;
     int j = 0;

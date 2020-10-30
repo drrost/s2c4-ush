@@ -6,6 +6,6 @@
 #define INC_04_USH_MX_STDOUT_INTERCEPTION_H
 
 #define MX_ACCESS -5
-#define MX_STDOUT_STORE "stdout.log"
+#define MX_STDOUT_STORE "/tmp/stdout.log"
 
 #endif //INC_04_USH_MX_STDOUT_INTERCEPTION_H

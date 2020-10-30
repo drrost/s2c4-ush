@@ -19,20 +19,9 @@ static void update_shlvl() {
 }
 
 static void force_pwd() {
-    char *pwd = mx_getenv("PWD");
-
-    if (pwd != 0) {
-        t_path *path = mx_path_new(pwd);
-        if (path->exists(path) == false)
-            pwd = 0;
-        mx_path_del(&path);
-    }
-
-    if (pwd == 0) {
-        pwd = getcwd(NULL, MX_MAX_PATH);
-        if (pwd)
-            mx_setenv("PWD", pwd);
-    }
+    char *pwd = getcwd(NULL, MX_MAX_PATH);
+    if (pwd)
+        mx_setenv("PWD", pwd);
 }
 
 static void force_logname() {

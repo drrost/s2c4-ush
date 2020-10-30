@@ -51,5 +51,8 @@ char *mx_end_stdout_interception() {
     mx_strdel(&old);
     unlink(MX_STDOUT_STORE);
 
+    if (result == 0)
+        result = mx_strdup("");
+
     return result;
 }

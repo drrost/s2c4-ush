@@ -85,10 +85,10 @@ int mx_execute(t_input *input) {
         t_command *command = (t_command *)list->data;
 
         mx_resolve_all(command);
+        log_command_execution(command);
         if (mx_strstr(command->arguments, "~") != NULL)
             mx_expand_tilda(command);
 
-        log_command_execution(command);
         run_command(command);
         exit_code = command->exit_code;
 

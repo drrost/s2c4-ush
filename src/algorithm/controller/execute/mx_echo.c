@@ -53,6 +53,21 @@ bool print_env_var(char *s) {
     return done;
 }
 
+// static bool check_env_var(char *s) {
+//     bool done = false;
+//     char *str = 0;
+
+//     if (mx_strstr(s, "$") != 0) {
+//         char *env = mx_clear_str_of_symbols(s);
+//         if (mx_getenv(env) != NULL) {
+//             done = true;
+//             mx_strdel(&str);
+//             mx_strdel(&env);
+//         }
+//     }
+//     return done;
+// }
+
 
 static void print_e(int i, char *flags, char **arr) {
     int err = 1;
@@ -75,11 +90,13 @@ static void print_no_args(char **arr) {
     int err = 1;
 
     for (int i = 0; arr[i]; i++) {
-        if(!print_env_var(arr[i]) && !mx_print_exit_code(arr[i]))
+        if(!print_env_var(arr[i]) && !mx_print_exit_code(arr[i])) {
             err = print_echo_e(arr[i]);
+        }
         if (arr[i + 1]) {
-            if (err)
+            if (err) {
                 write(1, " ", 1);
+            }
         }   
         else {
             write(1, "\n", 1);

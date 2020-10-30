@@ -69,7 +69,7 @@ static char **split_arguments(char *line) {
 }
 
 void mx_resolve_all(t_command *command) {
-    if (mx_streq("cd", command->name)) {
+    if (mx_streq("cd", command->name) || mx_streq("echo", command->name)) {
         char **arr = split_arguments(command->arguments);
 
         resolve_do(arr);

@@ -3,8 +3,6 @@
 //
 
 #include <ush.h>
-#include <mx_log.h>
-#include <private/mx_run_exec_private.h>
 
 static void log_command_execution(t_command *command) {
     char *s = 0;
@@ -18,7 +16,6 @@ static void log_command_execution(t_command *command) {
         mx_str_append(&s, "\"");
     }
 
-    mx_log_d("Executing command", s);
     mx_strdel(&s);
 }
 

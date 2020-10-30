@@ -19,8 +19,6 @@
 #include <regex.h>
 #include <errno.h>
 
-void check_leaks();
-
 // Algorithm
 
 void mx_run_algorithm();

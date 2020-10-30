@@ -3,9 +3,7 @@
 //
 
 #include <ush.h>
-#include <mx_log.h>
 
 void mx_printerr(const char *str) {
-    mx_log_e("", str);
     write(STDERR_FILENO, str, mx_strlen(str));
 }

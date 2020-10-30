@@ -3,24 +3,6 @@
 //
 
 #include <ush.h>
-#include <mx_log.h>
-#include <private/mx_run_exec_private.h>
-
-static void log_command_execution(t_command *command) {
-    char *s = 0;
-
-    mx_str_append(&s, "name: \"");
-    mx_str_append(&s, command->name);
-    mx_str_append(&s, "\"");
-    if (mx_strlen(command->arguments)) {
-        mx_str_append(&s, ", arguments: \"");
-        mx_str_append(&s, command->arguments);
-        mx_str_append(&s, "\"");
-    }
-
-    mx_log_d("Executing command", s);
-    mx_strdel(&s);
-}
 
 int mx_run_built_in(char *command, char *arguments) {
     int exit_code = 0;
@@ -91,7 +73,6 @@ int mx_execute(t_input *input) {
         if (mx_strstr(command->arguments, "~") != NULL)
             mx_expand_tilda(command);
 
-        log_command_execution(command);
         run_command(command);
         exit_code = command->exit_code;
 

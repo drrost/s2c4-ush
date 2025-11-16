@@ -1,4 +1,4 @@
-# ush — a tiny Unix shell (C11)
+# ush - a tiny Unix shell (C11)
 
 This project implements a small educational Unix shell called `ush`, written in C (C11). It reads commands from standard input, parses them, and executes built‑ins and external programs. A lightweight support library, `libmx`, is included in the repository and built automatically by the Makefile.
 
@@ -42,10 +42,10 @@ Then type commands at the prompt and press Enter. Use `Ctrl+D` (EOF) to exit, or
 ## Project structure
 Key directories and files in this repository:
 
-- `libmx/` — utility/support library used by `ush` (built automatically by the Makefile).
-- `inc/` — public headers for `ush`.
-- `src/` — source code for parsing, execution, models, and utilities.
-- `Makefile` — build script with common targets (`make`, `make clean`, `make uninstall`, `make reinstall`).
+- `libmx/` - utility/support library used by `ush` (built automatically by the Makefile).
+- `inc/` - public headers for `ush`.
+- `src/` - source code for parsing, execution, models, and utilities.
+- `Makefile` - build script with common targets (`make`, `make clean`, `make uninstall`, `make reinstall`).
 
 ## Development notes
 - C standard: C11

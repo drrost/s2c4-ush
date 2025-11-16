@@ -6,10 +6,6 @@ CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -Wno-strict-prototypes
 INCS = -I./inc -I./libmx/inc
 LIBS = -L./libmx/ -lmx
 
-# Folders
-SRC=src
-OBJ=obj
-
 BINARY = ush
 
 CFILES = $(wildcard src/*.c) $(wildcard src/*/*.c) $(wildcard src/*/*/*.c) \
@@ -20,7 +16,9 @@ OBJ_DIR = obj
 
 ###############################################################################
 
-all: uninstall ${BINARY}
+.PHONY: all clean uninstall reinstall
+
+all: ${BINARY}
 
 ${BINARY}:
 	@make -sC libmx
@@ -35,6 +33,6 @@ clean:
 	@rm -rf ${OBJ_DIR}
 	@make clean -sC libmx
 
-reinstall: all
+reinstall: uninstall all
 
 ###############################################################################

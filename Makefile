@@ -2,7 +2,7 @@
 #                             Editable options                                #
 ###############################################################################
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -Wno-strict-prototypes
 INCS = -I./inc -I./libmx/inc
 LIBS = -L./libmx/ -lmx
 

@@ -4,7 +4,7 @@
 
 #include <ush.h>
 
-static int err_helper(char *buf, int status, int err, char *command) {
+static int err_helper(char *buf, int status, int err, const char *command) {
     errno = err;
 
     switch (status) {
@@ -28,7 +28,7 @@ static int err_helper(char *buf, int status, int err, char *command) {
     return 0;
 }
 
-static int mx_exec_err_out(char *command, char *arguments, int err) {
+static int mx_exec_err_out(const char *command, const char *arguments, int err) {
     char *buf = mx_strdup("ush: ");
     errno = err;
     DIR *dp;
@@ -71,12 +71,12 @@ char *create_str_for_exec(char *command, char *arguments) {
 }
 
 void sighandler(int num) {
-    num++;
+    (void)num; // suppress unused parameter warning
 }
 
 void sighandler_c(int num) {
+    (void)num; // suppress unused parameter warning
     mx_printline("");
-    num++;
 }
 
 static char **prepare_array(char *command, char *arguments) {
@@ -91,7 +91,6 @@ static char **prepare_array(char *command, char *arguments) {
 
 int mx_run_exec(char *command, char *arguments) {
     pid_t pid;
-    pid_t wpid;
     int status;
     int exit_status;
     char **arr = prepare_array(command, arguments);
@@ -120,7 +119,7 @@ int mx_run_exec(char *command, char *arguments) {
     signal(SIGINT, sighandler_c); // CTRL+C
     signal(SIGTSTP, sighandler); // CTRL+Z
 
-    wpid = waitpid(pid, &status, WUNTRACED);
+    waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
     exit_status = mx_find_status(status, command, arguments);
 

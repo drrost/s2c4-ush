@@ -27,7 +27,8 @@ static char *search(char **pathes, char *external_name) {
     }
     return NULL;
 }
-char *mx_find_external_storage_path(char *external_name, char *path) {
+
+char *mx_find_external_storage_path(char *external_name, const char *path) {
     char **pathes;
     char *found_path;
     if (path == NULL)
@@ -42,7 +43,7 @@ char *mx_find_external_storage_path(char *external_name, char *path) {
     return found_path;
 }
 
-static int err_helper(char *buf, int status, int err) {
+static int err_helper(char *buf, const int status, const int err) {
     errno = err;
 
     switch (status) {
@@ -64,7 +65,7 @@ static int err_helper(char *buf, int status, int err) {
     return 0;
 }
 
-static int mx_exec_err_out(char *command, char *arguments, int err) {
+static int mx_exec_err_out(const char *command, const char *arguments, int err) {
     char *buf = mx_strjoin("env: ", command);
     errno = err;
     DIR *dp;
@@ -102,11 +103,11 @@ static char *create_str_for_exec(char *command, char *arguments) {
 }
 
 static void sighandler(int num) {
-    num++;
+    (void)num; // suppress unused parameter warning
 }
 
 static void sighandler_c(int num) {
-    num++;
+    (void)num; // suppress unused parameter warning
 }
 
 static char **prepare_array(char *command, char *arguments) {
@@ -121,7 +122,6 @@ static char **prepare_array(char *command, char *arguments) {
 
 int mx_env_exec(char *command, char *arguments, char *path) {
     pid_t pid;
-    pid_t wpid;
     int status;
     int exit_status;
     char **arr = prepare_array(command, arguments);
@@ -143,7 +143,7 @@ int mx_env_exec(char *command, char *arguments, char *path) {
     signal(SIGINT, sighandler_c);
     signal(SIGTSTP, sighandler); 
 
-    wpid = waitpid(pid, &status, WUNTRACED);
+    waitpid(pid, &status, WUNTRACED);
     tcsetpgrp(0, getpid());
     exit_status = mx_find_status(status, command, arguments);
     mx_del_strarr(&arr);

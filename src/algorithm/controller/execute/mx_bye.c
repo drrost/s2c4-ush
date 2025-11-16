@@ -5,6 +5,6 @@
 #include <ush.h>
 
 int mx_bye(char *line) {
-    line++;
+    (*line)++;
     return MX_SHOULD_EXIT;
 }

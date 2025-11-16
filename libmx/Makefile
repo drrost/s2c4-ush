@@ -2,7 +2,7 @@
 #                             Editable options                                #
 ###############################################################################
 CC = clang
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -I./inc -I./inc/private
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -Wno-strict-prototypes -I./inc -I./inc/private
 
 # Folders
 SRC=src
